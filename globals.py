@@ -187,4 +187,3 @@ MONSTER_TABLE = {
     WEAK: monster_info(30, 40, 2, 10, 100, 5000, 5000),
     MEDIUM: monster_info(50, 60, 3, 12, 250, 7000, 5000),
     ULTIMATE: monster_info(80, 80, 4, 13, 500, 10000, 5000)}
-

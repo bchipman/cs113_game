@@ -66,7 +66,7 @@ SKILLS_TABLE = {}
 #   whether player pressed up or down.
 #   Melee particles do not care about up or down.
 
-#   "on_hit_f(current_particle, target)": Is the additional effects it will do on the
+#   "on_hit_f(current_particle, target, time)": Is the additional effects it will do on the
 #   player instantly. All particle hits already deal damage
 #   and place debuffs without 'on_hit_f'. Should be used for
 #   instantaneous effects such as knock-back. Keep as 'None'
@@ -116,8 +116,8 @@ def initialize_skill_table():
     # Fire and Ice
     ADD_FIRE_AND_ICE(109)
     # Machine Gun
-    SKILLS_TABLE[110] = _auto_range(10, 10, 7, 0.2, 50, 2000, BLACK, 2, 1)
-
+    SKILLS_TABLE[110] = _auto_range(10, 10, 7, 0.2, 20, 2000, BLACK, 2, 0)
+    
     #-----------------------------------------------------------------------------------------
     # ULTIMATES 1000+
     #-----------------------------------------------------------------------------------------
@@ -161,7 +161,6 @@ def teleport_start(sid, player, up, down):
 
 def shield_start(sid, player, up, down):
     sh = classes.Shield(10000, 10)
-
     return None
 
 # Example of a special function
@@ -182,7 +181,6 @@ def lob_motion(particle, time):
     y = particle.centery + particle.dy
     return x,y
 
-
 def ADD_BIG_HAMMER(i):
     SKILLS_TABLE[i] = _auto_melee(75, 75, math.pi / 2, 125, 500, 500, DGREY, 20, 5)
     SKILLS_TABLE[i]['on_hit_f'] = knock_back
@@ -193,13 +191,12 @@ def ADD_BIG_HAMMER(i):
 def big_hammer(sid, player, up=False, down=False):
     return [classes.MeleeParticle("bighammer0", player),
             classes.MeleeParticle("bighammer1", player), classes.MeleeParticle(sid, player)]
-def knock_back(target):
+def knock_back(particle,target,time):
     if target.dx >= 0:
         target.x -= 50
     else:
         target.x += 50
     out_of_arena_fix(target)
-
 
 
 def ADD_BOULDER_TOSS(i):
@@ -216,8 +213,6 @@ def boulder_toss_start(sid, player, up=False, down=False):
         obj.dx = -15
     obj.ddy = 1
     return obj
-
-
 
 def ADD_SHRAPNEL_BOMB(i):
     SKILLS_TABLE[i] = {'type': None, 'start': shrapnel_bomb_start, 'cooldown': 200, 'energy':2}
@@ -250,7 +245,6 @@ def shrapnel_bomb_start(sid, player, up=False, down=False):
         player.skill2_id = "shrapnel_trigger"
     elif player.skill3_id == 105:
         player.skill3_id = "shrapnel_trigger"
-
     obj = classes.RangeParticle("shrapnel_base", player, up, down)
     obj.dy = -15
     if player.facing_direction == RIGHT:
@@ -286,11 +280,11 @@ def shrapnel_trigger_start(sid, player, up=False, down=False):
 
         p0.centerx = p1.centerx = p2.centerx = p3.centerx = p4.centerx = p5.centerx = p6.centerx = p7.centerx = x
         p0.centery = p1.centery = p2.centery = p3.centery = p4.centery = p5.centery = p6.centery = p7.centery = y
-
+        
         return [p0,p1,p2,p3,p4,p5,p6,p7]
     else:
         return None
-def shrapnel_on_hit(particle,target):
+def shrapnel_on_hit(particle,target,time):
     p = particle.belongs_to
     if p.skill1_id == "shrapnel_trigger":
         p.skill1_id = 105
@@ -328,10 +322,8 @@ def shield_start(sid, player, up=False, down=False):
     sh = classes.Shield(10000,10)
     sh.begin(-1,player)
     return None
-
-
 def ADD_NAPALM(i):
-    SKILLS_TABLE[i] = {'type': None, 'start': napalm_start, 'cooldown': 200, 'energy':5}
+    SKILLS_TABLE[i] = {'type': None, 'start': napalm_start, 'cooldown': 500, 'energy':5}
     SKILLS_TABLE['napalm_main'] = _auto_range(30, 30, 2, 0, 500, 500, RED, 10, 0)
     SKILLS_TABLE['napalm0'] = _auto_range(20, 20, 2, 0, 500, 3000, RED, 10, 0)
     SKILLS_TABLE['napalm1'] = _auto_range(20, 20, 2, 0, 500, 3000, RED, 10, 0)
@@ -343,6 +335,7 @@ def ADD_NAPALM(i):
     SKILLS_TABLE['napalm1']['special_path'] = lob_motion
     SKILLS_TABLE['napalm0']['special_path'] = lob_motion
     SKILLS_TABLE['napalm1']['special_path'] = lob_motion
+
 def napalm_start(sid,player,up=False,down=False):
     obj = classes.RangeParticle("napalm_main", player, up, down)
     obj.dy = -15
@@ -381,7 +374,6 @@ def napalm_on_expire(p):
     else:
         temp = p.belongs_to.new_particle
         p.belongs_to.new_particle = [temp, obj0, obj1, obj2]
-
 
 def ADD_FIRE_AND_ICE(i):
     SKILLS_TABLE[i] = {'type': None, 'start': fai_start, 'cooldown': 200, 'energy':5}
