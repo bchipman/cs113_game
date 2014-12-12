@@ -14,7 +14,6 @@ from globals import *
 from skills import *
 from main import *
 
-# -------------------------------------------------------------------------
 class HelpPage:
     def __init__(self, start_menu=None):
         def _setup_display():

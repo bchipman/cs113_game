@@ -279,6 +279,44 @@ arena3 = arena_nt(
     max_monsters=5, possible_monsters=ALL,
     background='data/vines-copy2.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
 
+arena4 = arena_nt(
+     left_wall_x=65, right_wall_x=1215, floor_y=458,
+    platforms=[
+        terrain_nt(546, 51, 229, 37, None, -1, False),
+        terrain_nt(0, 114, 110, 37, None, -1, False),
+        terrain_nt(338, 114, 112, 37, None, -1, False),
+        terrain_nt(823, 152, 229, 37, None, -1, False),
+        terrain_nt(594, 164, 18, 194, None, -1, False),
+        terrain_nt(702, 204, 18, 194, None, -1, False),
+        terrain_nt(134, 190, 113, 37, None, -1, False),
+        terrain_nt(268, 286, 229, 37, None, -1, False),
+        terrain_nt(802, 316, 348, 37, None, -1, False),
+        terrain_nt(72, 351, 112, 37, None, -1, False),
+        terrain_nt(150, 450, -5, 5, RED, -1, True),
+        terrain_nt(930, 450, -5, 5, RED, -1, True), ],
+    max_monsters=5,
+    possible_monsters=ALL,
+    background='data/tree.png', p1_spawn=(75,50), p2_spawn=(992, 50))
+
+arena5 = arena_nt(
+     left_wall_x=65, right_wall_x=1215, floor_y=458,
+    platforms=[
+        terrain_nt(59, 87, 40, 298, None, -1, False),
+        terrain_nt(236, 44, 40, 298, None, -1, False),
+        terrain_nt(498, 119, 112, 37, None, -1, False),
+        terrain_nt(953, 47, 112, 37, None, -1, False),
+        terrain_nt(1031, 359, 112, 37, None, -1, False),
+        terrain_nt(673, 241, 229, 37, None, -1, False),
+        terrain_nt(496, 348, 263, 56, None, -1, False),
+        terrain_nt(381, 402, 350, 56, None, -1, False),
+        terrain_nt(150, 450, -5, 5, RED, -1, True),
+        terrain_nt(930, 450, -5, 5, RED, -1, True), ],
+    max_monsters=5,
+    possible_monsters=ALL,
+    background='data/cyborg.png', p1_spawn=(75,50), p2_spawn=(985, 150))
+
+
+
 # Monsters
 monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle')
 MONSTER_TABLE = {

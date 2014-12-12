@@ -145,7 +145,7 @@ class GameLoop:
             self.bottom_grey_fill = Rect2(left=0, top=475, width=1280, height=115)
 
         def _setup_arena():
-            self.arena = Arena(random.choice((arena1, arena2, arena3)))
+            self.arena = Arena(random.choice((arena3, arena4, arena5)))
             GL.arena_in_use = self.arena  # used for out_of_arena_fix within global.py
 
         def _setup_fonts():
