@@ -414,6 +414,7 @@ class Input:
         return self.gamepad_found
 
     def refresh(self):
+        self._reset_all_event_flags()
         if self.player_id == 1:
             self._get_keyboard_pressed()
             self._get_keyboard_events()
@@ -423,6 +424,7 @@ class Input:
             self._handle_mouse_visibility()
 
     def refresh_during_pause(self):
+        self._reset_all_event_flags()
         self.refreshing_during_pause = True
         if self.player_id == 1:
             self._get_keyboard_pressed()
@@ -547,6 +549,10 @@ class Input:
             if name in 'LEFT_PRESS_EVENT, RIGHT_PRESS_EVENT, UP_PRESS_EVENT, DOWN_PRESS_EVENT, START_PRESS_EVENT, SELECT_PRESS_EVENT, A_PRESS_EVENT, B_PRESS_EVENT'.split(', '):  # if one of these
                 self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
             self.__dict__[name] = value  # update like normal
+
+    def _reset_all_event_flags(self):
+        for name in 'LEFT_PRESS_EVENT, RIGHT_PRESS_EVENT, UP_PRESS_EVENT, DOWN_PRESS_EVENT, START_PRESS_EVENT, SELECT_PRESS_EVENT, A_PRESS_EVENT, B_PRESS_EVENT'.split(', '):
+            exec('self.{} = False'.format(name))
 
     def _handle_mouse_visibility(self):
         global NEXT_PAGE

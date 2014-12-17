@@ -227,7 +227,6 @@ class GameLoop:
 
         def _handle_special_input():
             if GL.INPUT1.START_PRESS_EVENT:
-                GL.INPUT1.START_PRESS_EVENT = False
                 self.return_now = True
                 GL.CURR_GAME = self
                 GL.NEXT_PAGE = 'pause'
@@ -862,7 +861,6 @@ class GameLoop:
                     self.return_now = True
                     GL.NEXT_PAGE = 'start'
             if GL.INPUT1.SELECT_PRESS_EVENT:
-                GL.INPUT1.SELECT_PRESS_EVENT = False
                 self.return_now = True
                 GL.CURR_GAME = self
                 GL.NEXT_PAGE = 'pause'
