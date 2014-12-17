@@ -258,13 +258,13 @@ class GameLoop:
                         if isinstance(p, Particle):
                             self.active_particles.append(p)
                         else:
-                            self.arena.rects.append(Rect2(tuple(p)[0:4],color=p.color,hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
+                            self.arena.rects.append(Rect2(tuple(p)[0:4], color=p.color, hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
                 else:
                     if isinstance(self.player1.new_particle, Particle):
                         self.active_particles.append(self.player1.new_particle)
                     else:
                         p = self.player1.new_particle
-                        self.arena.rects.append(Rect2(tuple(p)[0:4],color=p.color,hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
+                        self.arena.rects.append(Rect2(tuple(p)[0:4], color=p.color, hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
                 self.player1.new_particle = None
 
             if self.player2.new_particle:
@@ -273,13 +273,13 @@ class GameLoop:
                         if isinstance(p, Particle):
                             self.active_particles.append(p)
                         else:
-                            self.arena.rects.append(Rect2(tuple(p)[0:4],color=p.color,hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
+                            self.arena.rects.append(Rect2(tuple(p)[0:4], color=p.color, hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
                 else:
                     if isinstance(self.player2.new_particle, Particle):
                         self.active_particles.append(self.player2.new_particle)
                     else:
                         p = self.player2.new_particle
-                        self.arena.rects.append(Rect2(tuple(p)[0:4],color=p.color,hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
+                        self.arena.rects.append(Rect2(tuple(p)[0:4], color=p.color, hits_to_destroy=p.hits_to_destroy, spawn_point=p.spawn_point))
                 self.player2.new_particle = None
 
         def _update_particles():
@@ -367,7 +367,7 @@ class GameLoop:
                 if m.is_dead():
                     dropped_skill_id = get_dropped_skill(m)
                     col = RED
-                    if dropped_skill_id >= 100 and dropped_skill_id < 1000:
+                    if 100 <= dropped_skill_id < 1000:
                         col = BLUE
                     elif dropped_skill_id >= 1000:
                         col = YELLOW
@@ -376,9 +376,10 @@ class GameLoop:
                     self.arena.dropped_skills.append(dropped_skill_rect)
                     if m.kind == ULTIMATE:
                         self.ultimate_monster_active = False
-                    if m.last_hit_by != None:
+                    if m.last_hit_by is not None:
                         m.last_hit_by.handle_exp(m.exp_value,self.game_time.msec)
-                    #Debugging: kill button used
+
+                    # Debugging: kill button used
                     else:
                         self.player1.handle_exp(m.exp_value,self.game_time.msec)
                     self.active_monsters.remove(m)
@@ -387,9 +388,9 @@ class GameLoop:
             for m in self.active_monsters:
                 m(self.game_time.msec, self.arena)
                 if m.colliderect(self.player1):
-                    m.on_hit(self.player1,time)
+                    m.on_hit(self.player1, time)
                 if m.colliderect(self.player2):
-                    m.on_hit(self.player2,time)
+                    m.on_hit(self.player2, time)
 
         _handle_monster_spawning()
         _handle_dead_monsters()
@@ -404,10 +405,6 @@ class GameLoop:
                 GL.SCREEN.blit(self.arena_image, (self.arena.play_area_rect.left, 0))
 
         def _draw_ui2():
-            #pygame.draw.rect(GL.SCREEN, DGREY, self.left_grey_fill)
-            #pygame.draw.rect(GL.SCREEN, DGREY, self.right_grey_fill)
-            #pygame.draw.rect(GL.SCREEN, DGREY, self.bottom_grey_fill)
-
             # font for player's health and energy
             # health_display = self.health_font.render(str(self.player1.hit_points), True, RED)
             # energy_display = self.energy_font.render(str(int(self.player1.energy)), True, YELLOW)
@@ -455,7 +452,7 @@ class GameLoop:
                     skill_text_xy = font_position_center(skill_box, self.debug_font_small_2, skill_text)
                     GL.SCREEN.blit(skill_font, skill_text_xy)
 
-                if i < 5 :
+                if i < 5:
                     if self.player1.energy < SKILLS_TABLE[skill_ids[i]]['energy']:
                         GL.SCREEN.blit(GL.RED_MASK, (skill_box.left, skill_box.top))
                 else:
@@ -472,9 +469,6 @@ class GameLoop:
             for rect in self.arena.non_spawn_points:
                 if rect.color is not None:
                     pygame.draw.rect(GL.SCREEN, rect.color, rect)
-            # for rect in self.arena:
-            #     if rect.color is not None:
-            #         if rect.
 
         def _draw_players():
             def _draw_player(p):
@@ -489,20 +483,19 @@ class GameLoop:
                     # -1 because it will always get incremented at the start of each check
                 flip = False  # value for flipping sprite
 
-
-                if (p.state == DEATH):
+                if p.state == DEATH:
                     if p.facing_direction == LEFT:
                         flip = True
                     if p.wait_frames <= 0:
                         p.wait_frames = 3
                         if p.animation_key < 3:
-                            p.animation_key +=1
+                            p.animation_key += 1
                     if flip:
-                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 70], flip, False), (p.left-17-64,p.top-22))
+                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 70], flip, False), (p.left - 17 - 64, p.top - 22))
                     else:
-                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 70], flip, False), (p.left-17,p.top-22))
+                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 70], flip, False), (p.left - 17, p.top - 22))
 
-               # elif (p.state = WIN):
+                # elif p.state = WIN:
 
                 elif p.state == ATTACK or p.state == RESET:
                     # Starting Indexes and how much sprites for each attack state are as follows
@@ -525,16 +518,17 @@ class GameLoop:
                     if p.attack_state == 'RUN':
                         if p.wait_frames <= 0:
                             p.wait_frames = 2
-                            p.animation_key = (p.animation_key + 1)%16
-                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 8], flip, False), (p.left-17,p.top-22))
+                            p.animation_key = (p.animation_key + 1) % 16
+                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 8], flip, False), (p.left - 17, p.top - 22))
                     elif p.attack_state == 'none':
-                            p.wait_frames = 1
+                        p.wait_frames = 1
                     else:
                         if p.wait_frames <= 0:
                             p.wait_frames = p.attack_frame
-                            if p.animation_key < PL_ATTACK_TABLE[p.attack_state][1]:
-                                p.animation_key +=1
-                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + PL_ATTACK_TABLE[p.attack_state][0]], flip, False), (p.left-17,p.top-22))
+                            if p.animation_key < \
+                                    PL_ATTACK_TABLE[p.attack_state][1]:
+                                p.animation_key += 1
+                        GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + PL_ATTACK_TABLE[p.attack_state][0]], flip, False), (p.left - 17, p.top - 22))
 
                 # JUMP
                 elif p.state == JUMP:
@@ -544,7 +538,8 @@ class GameLoop:
                         p.wait_frames = 5
                         if p.animation_key <= 0:
                             p.animation_key += 1
-                    GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 24], flip, False), (p.left-17,p.top-22))
+                    GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 24], flip, False), (p.left - 17, p.top - 22))
+
                 # FALL
                 elif p.state == FALL:
                     if p.facing_direction == LEFT:
@@ -553,7 +548,8 @@ class GameLoop:
                         p.wait_frames = 5
                         if p.animation_key <= 0:
                             p.animation_key += 1
-                    GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 26], flip, False), (p.left-17,p.top-22))
+                    GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 26], flip, False), (p.left - 17, p.top - 22))
+
                 # WALK
                 elif p.state == RWALK or p.state == LWALK:
                     if p.facing_direction == LEFT:
@@ -568,13 +564,13 @@ class GameLoop:
                         if p.animation_key > 0:
                             p.animation_key %= 16  # Loops the key
                     GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 8], flip, False), (p.left - 17, p.top - 22))
+
                 # STAND (default animation)
                 else:
                     if p.facing_direction == LEFT:
                         flip = True
                     # Currently only have 1 standing sprite
-                    GL.SCREEN.blit(
-                        pygame.transform.flip(p.sprite[p.animation_key + 1], flip, False), (p.left - 17, p.top - 22))
+                    GL.SCREEN.blit(pygame.transform.flip(p.sprite[p.animation_key + 1], flip, False), (p.left - 17, p.top - 22))
                 p.wait_frames += -1
 
             if self.player1.sprite is not None:
@@ -582,21 +578,19 @@ class GameLoop:
             if self.player2.sprite is not None:
                 _draw_player(self.player2)
 
-            #If player is above screen
+            # If player is above screen
             for p in [self.player1, self.player2]:
                 if p.bottom < 0:
-                    text = "P1: " if p.id == 1 else "P2: "
+                    text = 'P1: ' if p.id == 1 else 'P2: '
                     text2 = str(p.bottom)
                     color = BLUE if p.id == 1 else GREEN
                     v1 = (p.centerx, 5)
-                    v2 = (p.centerx-10, 30)
-                    v3 = (p.centerx+10, 30)
-                    vlist = [v1,v2,v3]
+                    v2 = (p.centerx - 10, 30)
+                    v3 = (p.centerx + 10, 30)
+                    vlist = [v1, v2, v3]
 
-                    GL.SCREEN.blit(self.oor_font.render(text, True, color),
-                        (p.centerx-20, 40))
-                    GL.SCREEN.blit(self.st_dmg_font.render(text2, True, color),
-                        (p.centerx+10, 40))
+                    GL.SCREEN.blit(self.oor_font.render(text, True, color), (p.centerx - 20, 40))
+                    GL.SCREEN.blit(self.st_dmg_font.render(text2, True, color), (p.centerx + 10, 40))
                     pygame.draw.polygon(GL.SCREEN, color, vlist)
 
         def _draw_monsters():
@@ -625,95 +619,97 @@ class GameLoop:
                     GL.SCREEN.blit(skill_font, skill_text_xy)
                 else:
                     icon = ICONS_TABLE[skill.id]
-                    icon = pygame.transform.scale(icon, (20,20))
-                    GL.SCREEN.blit(icon, (skill[0]+2.5, skill[1]+2.5))
+                    icon = pygame.transform.scale(icon, (20, 20))
+                    GL.SCREEN.blit(icon, (skill[0] + 2.5, skill[1] + 2.5))
 
         def _draw_particles():
             for p in self.active_particles:
                 if isinstance(p, FieldParticle):
                     pygame.draw.circle(GL.SCREEN, p.color, (p.centerx, p.centery), p.radius, 1)
                 else:
-                    #If icon art exists
+                    # If icon art exists
                     if p.sid in PARTICLES_TABLE.keys():
                         pimg = PARTICLES_TABLE[p.sid]
                         if p.direction == LEFT:
                             pimg = pygame.transform.flip(pimg, True, False)
-                        #melee rotate
+
+                        # melee rotate
                         if isinstance(p, MeleeParticle):
                             if p.direction == LEFT:
-                                pimg = pygame.transform.rotate(pimg, math.degrees(-1*p.progress))
+                                pimg = pygame.transform.rotate(pimg, math.degrees(-1 * p.progress))
                             else:
                                 pimg = pygame.transform.rotate(pimg, math.degrees(p.progress))
-                        #Special rotate cases
-                        elif p.sid in [5,112,123,125,'beehive']:
-                            if "rotator" not in p.__dict__.keys():
+
+                        # Special rotate cases
+                        elif p.sid in [5, 112, 123, 125, 'beehive']:
+                            if 'rotator' not in p.__dict__.keys():
                                 p.rotator = 0
                             else:
                                 p.rotator += 10
                             pimg = pygame.transform.rotate(pimg, p.rotator)
                         GL.SCREEN.blit(pimg, (p.left, p.top))
-                    #else(no particle)
+
+                    # no particle
                     else:
                         pygame.draw.rect(GL.SCREEN, p.color, p)
 
         def _draw_scrolling_text():
             for unit in self.active_monsters + [self.player1, self.player2]:
-                for i,t in enumerate(unit.st_buffer):
+                for i, t in enumerate(unit.st_buffer):
                     if t[2] < 0:
-                        unit.st_buffer.append((t[0],t[1],t[2]+self.game_time.msec + 2000))
+                        unit.st_buffer.append((t[0], t[1], t[2] + self.game_time.msec + 2000))
                         unit.st_buffer.remove(t)
                         continue
-                    #Damage scrolling text:
+                    # Damage scrolling text
                     if t[0] == ST_DMG:
-                        text = "-" + str(int(t[1]))
+                        text = '-' + str(int(t[1]))
                         color = RED
 
                         GL.SCREEN.blit(self.st_dmg_font.render(text, True, color),
-                        (unit.centerx+30, unit.top - (3000 - t[2] + self.game_time.msec)/50))
-                    #Health Gain text
+                                       (unit.centerx + 30, unit.top - (3000 - t[2] + self.game_time.msec) / 50))
+                    # Health Gain text
                     elif t[0] == ST_HP:
-                        text = "+" + str(int(t[1]))
+                        text = '+' + str(int(t[1]))
                         color = GREEN
                         GL.SCREEN.blit(self.st_dmg_font.render(text, True, color),
-                        (unit.centerx+30, unit.top - (3000 - t[2] + self.game_time.msec)/50))
-                    #Level up scrolling text
+                                       (unit.centerx + 30, unit.top - (3000 - t[2] + self.game_time.msec) / 50))
+                    # Level up scrolling text
                     elif t[0] == ST_LEVEL_UP:
                         text = t[1]
                         color = YELLOW
                         GL.SCREEN.blit(self.st_level_up_font.render(text, True, color),
-                        (unit.centerx-50, unit.top - (4000 - t[2] + self.game_time.msec)/50))
-                    #Energy gain text
+                                       (unit.centerx - 50, unit.top - (4000 - t[2] + self.game_time.msec) / 50))
+                    # Energy gain text
                     elif t[0] == ST_ENERGY:
                         text = str(t[1])
                         color = PURPLE
                         GL.SCREEN.blit(self.st_energy_font.render(text, True, color),
-                        (unit.centerx, unit.top - (3000 - t[2] + self.game_time.msec)/50))
+                                       (unit.centerx, unit.top - (3000 - t[2] + self.game_time.msec) / 50))
                     if t[2] <= self.game_time.msec:
                         unit.st_buffer.remove(t)
 
-                #Condition scrolling text
-                #Process list
+                # Condition scrolling text
+                # Process list
                 print_list = []
-                for k,vl in unit.conditions.items():
-                    #ignore dot
+                for k, vl in unit.conditions.items():
+                    # ignore dot
                     if k != DOT:
                         if unit.conditions[k] and k == SHIELD:
                             sum_mag = 0
                             max_duration = 0
                             for sh in unit.conditions[k]:
                                 sum_mag += sh.magnitude
-                                max_duration = max(max_duration, int((sh.duration - self.game_time.msec + sh.start)/1000))
-                            print_list.append((GREEN, SHIELD + "("+str(sum_mag)+"):"+str(max_duration)))
+                                max_duration = max(max_duration, int((sh.duration - self.game_time.msec + sh.start) / 1000))
+                            print_list.append((GREEN, SHIELD + '(' + str(sum_mag) + '):' + str(max_duration)))
                         elif unit.conditions[k]:
                             max_duration = 0
                             for c in unit.conditions[k]:
-                                max_duration = max(max_duration, int((c.duration - self.game_time.msec + c.start)/1000))
+                                max_duration = max(max_duration, int((c.duration - self.game_time.msec + c.start) / 1000))
                             color = GREEN if k in BUFFS else RED
-                            print_list.append((color, k + ":" + str(max_duration)))
-                #Print list
-                for i,v in enumerate(print_list):
-                    GL.SCREEN.blit(self.st_condition_font.render(v[1], True, v[0]),
-                    (unit.centerx-70, unit.top - 20 - (15 * i)))
+                            print_list.append((color, k + ':' + str(max_duration)))
+                # Print list
+                for i, v in enumerate(print_list):
+                    GL.SCREEN.blit(self.st_condition_font.render(v[1], True, v[0]), (unit.centerx - 70, unit.top - 20 - (15 * i)))
 
         def _draw_rain():
             if self.make_rain:
@@ -874,7 +870,6 @@ class GameLoop:
         def _handle_time_tick_event():
             for event in pygame.event.get(TIME_TICK_EVENT):
                 if event.type == TIME_TICK_EVENT:
-
                     self.game_time.inc()
 
                     # for CPU usage debug text
@@ -945,13 +940,12 @@ class GameLoop:
                             self.player2.energy = 10
 
         def _handle_player_lock_events():
+            # player 1 skill lock timer
             for event in pygame.event.get(PLAYER1_LOCK_EVENT):
-                #print('P1 LOCK EVENT')
-                # player 1 skill lock timer
                 if event.type == PLAYER1_LOCK_EVENT:
                     self.player1.attack_cooldown_expired = True
                     pygame.time.set_timer(PLAYER1_LOCK_EVENT, 0)
-                # player 2 skill lock timer
+            # player 2 skill lock timer
             for event in pygame.event.get(PLAYER2_LOCK_EVENT):
                 if event.type == PLAYER2_LOCK_EVENT:
                     self.player2.attack_cooldown_expired = True
@@ -960,7 +954,6 @@ class GameLoop:
         def _handle_player_pickup_skill_events():
             for event in pygame.event.get(PLAYER1_PICKUP_EVENT):
                 if event.type == PLAYER1_PICKUP_EVENT:
-                    print("FOUND")
                     self.player1.pickup_time += 1
                     pygame.time.set_timer(PLAYER1_PICKUP_EVENT, 0)
 
@@ -983,7 +976,6 @@ class GameLoop:
 
         def _handle_quit_event():
             for event in pygame.event.get(QUIT):
-                # QUIT event occurs when click X on window bar
                 if event.type == QUIT:
                     EXIT_GAME()
 
