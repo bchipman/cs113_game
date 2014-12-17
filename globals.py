@@ -536,6 +536,8 @@ class Input:
         self.B_PRESS_EVENT = self.gp_input['GP_B_PRESS_EVENT']
 
     def __setattr__(self, name, value):
+        global NEXT_PAGE
+
         if name == 'refreshing_during_pause':
             self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
 
@@ -543,8 +545,13 @@ class Input:
             self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
 
         if name == 'DEBUG_VIEW':
-            if not self.refreshing_during_pause:
-                self.__dict__[name] = value
+            if 'DEBUG_VIEW' not in self.__dict__:  # then this is the first time it is being set
+                self.__dict__[name] = value  # so just let it be set normally
+
+            elif 'DEBUG_VIEW' in self.__dict__:
+                if not self.refreshing_during_pause:
+                    if NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
+                        self.__dict__[name] = value
 
         elif name != 'DEBUG_VIEW':
             self.__dict__[name] = value
@@ -555,7 +562,7 @@ class Input:
 
     def _handle_mouse_visibility(self):
         global NEXT_PAGE
-        if self.DEBUG_VIEW and NEXT_PAGE not in ('start, options, help'.split(', ')):
+        if self.DEBUG_VIEW and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
             pygame.mouse.set_visible(False)
         else:
             pygame.mouse.set_visible(True)
