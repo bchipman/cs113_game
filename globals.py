@@ -410,9 +410,6 @@ class Input:
 
         self.GP_INPUTS_DICT = di
 
-    def get_gamepad(self):
-        return self.gamepad_found
-
     def refresh(self):
         self._reset_all_event_flags()
         if self.player_id == 1:

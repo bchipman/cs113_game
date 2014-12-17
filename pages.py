@@ -221,7 +221,7 @@ class PlayerSelectPage:
             # if there is a second gamepad, there is a second player
             # set ready to false if second player exists
             # if no second player, set ready to true
-            if not GL.INPUT2.get_gamepad():
+            if not GL.INPUT2.gamepad_found:
                 self.ready2 = True
 
         _setup_display()
