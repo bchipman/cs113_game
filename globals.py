@@ -542,12 +542,12 @@ class Input:
         if 'EVENT' in name:  # if an 'EVENT' attribute
             self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
 
-        if self.refreshing_during_pause:  # if paused
-            if name != 'DEBUG_VIEW':  # do not allow any updates to 'DEBUG_VIEW'
-                self.__dict__[name] = value  # update everything/anything else like normal
+        if name == 'DEBUG_VIEW':
+            if not self.refreshing_during_pause:
+                self.__dict__[name] = value
 
-        elif not self.refreshing_during_pause:  # if not paused
-            self.__dict__[name] = value  # update everything/anything like normal
+        elif name != 'DEBUG_VIEW':
+            self.__dict__[name] = value
 
     def _reset_all_event_flags(self):
         for name in 'LEFT_PRESS_EVENT, RIGHT_PRESS_EVENT, UP_PRESS_EVENT, DOWN_PRESS_EVENT, START_PRESS_EVENT, SELECT_PRESS_EVENT, A_PRESS_EVENT, B_PRESS_EVENT'.split(', '):
