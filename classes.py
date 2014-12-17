@@ -15,6 +15,8 @@ from skills import *
 class Rect2(pygame.Rect):
     def __init__(self, *args, **kargs):
         if args != tuple():
+            if isinstance(args[0], pygame.Rect):
+                super().__init__(tuple(args[0]))
             if all_isinstance(args, tuple) and len(args) is 2:
                 super().__init__(args[0], args[1])
             if all_isinstance(args, tuple) and len(args) is 1:
