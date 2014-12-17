@@ -539,15 +539,14 @@ class Input:
         if name == 'refreshing_during_pause':
             self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
 
+        if 'EVENT' in name:  # and if one of these
+            self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
+
         if self.refreshing_during_pause:  # if paused
             if name not in 'LEFT, RIGHT, UP, DOWN, JUMP, ATTACK, SKILL1, SKILL2, SKILL3, ULT, DROP_SKILL, RESPAWN, KILLALL, DEBUG_VIEW'.split(', '):  # and NOT one of these
-                if 'EVENT' in name:  # and if one of these
-                    self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
                 self.__dict__[name] = value  # update like normal
 
         elif not self.refreshing_during_pause:
-            if 'EVENT' in name:  # and if one of these
-                self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
             self.__dict__[name] = value  # update like normal
 
     def _reset_all_event_flags(self):
