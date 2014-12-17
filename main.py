@@ -46,7 +46,7 @@ class GameLoop:
             self.game_time = GameTime()
 
         def _setup_ui():
-            self.bkg_image = pygame.image.load('data/options.png')
+            self.bkg_image = pygame.image.load('data/background3_menus.png')
             self.return_button = pygbutton.PygButton((490, 550, 300, 50), 'Main Menu')
             self.window_border = Rect2(left=0, top=0, width=1280, height=600)
             self.play_area_border = Rect2(left=60, top=0, width=1160, height=485)
