@@ -3,6 +3,7 @@ import os
 import sys
 import textwrap
 import pygbutton
+from collections import deque
 
 # pygame
 import pygame
@@ -15,6 +16,7 @@ from pygbutton import *
 from classes import *
 
 SELECTION_BOX_WIDTH = 4
+SELECTION_BOX_COLOR = BLUE
 
 class StartMenu:
     def __init__(self):
@@ -27,8 +29,7 @@ class StartMenu:
         title_font = pygame.font.Font('data/Kremlin.ttf', 50)
         self.title_font1 = title_font.render('Famished', True, DKRED)
         self.title_font2 = title_font.render('Tournament', True, DKRED)
-        self.selection_box_properties = [(325, 395, 140, 40), (485, 395, 110, 40), (615, 395, 175, 40), (810, 395, 105, 40)]
-        self.selection_box_i = 0
+        self.selection_box = deque([self.start_button, self.help_button, self.options_button, self.exit_button])
 
     def __call__(self):
         self.return_now = False
@@ -46,8 +47,7 @@ class StartMenu:
         self.exit_button.draw(GL.SCREEN)
         GL.SCREEN.blit(self.title_font1, (495, 120))
         GL.SCREEN.blit(self.title_font2, (450, 175))
-        self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
+        pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box[0].rect, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -71,53 +71,53 @@ class StartMenu:
             if GL.INPUT1.A_PRESS_EVENT:
                 GL.INPUT1.A_PRESS_EVENT = False
 
-            if self.selection_box_i == 0:
+            if self.selection_box[0] == self.start_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'PlayerSelectPage()'
 
-            elif self.selection_box_i == 1:
+            elif self.selection_box[0] == self.help_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'help'
 
-            elif self.selection_box_i == 2:
+            elif self.selection_box[0] == self.options_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'options'
 
-            elif self.selection_box_i == 3:
+            elif self.selection_box[0] == self.exit_button:
                 self.return_now = True
                 EXIT_GAME()
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
-            GL.INPUT1.RIGHT_PRESS_EVENT = False
-            self.selection_box_i += 1
-            if self.selection_box_i > 3:
-                self.selection_box_i = 0
-
         if GL.INPUT1.LEFT_PRESS_EVENT:
             GL.INPUT1.LEFT_PRESS_EVENT = False
-            self.selection_box_i -= 1
-            if self.selection_box_i < 0:
-                self.selection_box_i = 3
+            self.selection_box.rotate()
+
+        if GL.INPUT1.RIGHT_PRESS_EVENT:
+            GL.INPUT1.RIGHT_PRESS_EVENT = False
+            self.selection_box.rotate(-1)
 
     def events(self):
         for event in pygame.event.get():
             if 'click' in self.start_button.handleEvent(event):
-                self.selection_box_i = 0
+                while self.selection_box[0] != self.start_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'PlayerSelectPage()'
 
             if 'click' in self.help_button.handleEvent(event):
-                self.selection_box_i = 1
+                while self.selection_box[0] != self.help_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'help'
 
             if 'click' in self.options_button.handleEvent(event):
-                self.selection_box_i = 2
+                while self.selection_box[0] != self.options_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'options'
 
             if 'click' in self.exit_button.handleEvent(event):
-                self.selection_box_i = 3
+                while self.selection_box[0] != self.exit_button:
+                    self.selection_box.rotate()
                 EXIT_GAME()
 
             if event.type == pygame.QUIT:
@@ -131,22 +131,22 @@ class HelpPage:
         self.font = pygame.font.Font('data/arial_narrow_7.ttf', 20)
         self.bg_image = pygame.image.load('data/help.png')
         self.bg_title = self.section_font.render('Background', True, WHITE)
-        self.bg_text = textwrap.wrap('Under the tyranny of the dark overlord, the world' +
-                                     'is in chaos and all the resources are nearly depleted. ' +
+        self.bg_text = textwrap.wrap('Under the tyranny of the dark overlord, the world ' +
+                                     'is in chaos and all the resources are nearly depleted.  ' +
                                      'Entire populations have been subjugated to life in labor ' +
-                                     'camps, brutally policed by the overlord\'s military forces. ' +
+                                     'camps, brutally policed by the overlord\'s military forces.  ' +
                                      'As your people\'s champion, you must fight to the death in the ' +
                                      'battle arena to win much needed resources.', width=50)
         self.goals_title = self.section_font.render('Goals', True, WHITE)
-        self.goals_text = textwrap.wrap('Ultimately, you want to slay your opponent. ' +
+        self.goals_text = textwrap.wrap('Ultimately, you want to slay your opponent.  ' +
                                         'To become a better fighter, kill the monsters, gain ' +
-                                        'experience, and pick up skills. The player to land ' +
+                                        'experience, and pick up skills.  The player to land ' +
                                         'the last hit on the monster will receives the experience ' +
-                                        'points. An ultimate boss will spawn every few ' +
-                                        'minutes. These bosses drop ultimate skills which ' +
-                                        'will help you humiliate and destroy your opponent.', width=50)
-        self.selection_box_properties = [(0, 550, 300, 50)]
-        self.selection_box_i = 0
+                                        'points.  An ultimate boss will spawn every few ' +
+                                        'minutes.  These bosses drop ultimate skills which ' +
+                                        'will help you humiliate and destroy your opponent.  ' +
+                                        'Muah Hah Hah!!', width=50)
+        self.selection_box = deque([self.return_button])
 
     def __call__(self):
         self.return_now = False
@@ -171,8 +171,7 @@ class HelpPage:
             GL.SCREEN.blit(line, (800, 300 + (num * 20)))
 
         self.return_button.draw(GL.SCREEN)
-        self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
+        pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box[0].rect, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -527,27 +526,26 @@ class OptionsPage:
         self.active_colors = BLACK, DKRED
         self.inactive_colors = DKRED, BLACK
 
-        main_menu = (0, 550, 300, 50)
-        music_on = (650, 200, 60, 50)
-        sound_on = (650, 260, 60, 50)
-        music_off = (730, 200, 80, 50)
-        sound_off = (730, 260, 80, 50)
-        self.music_on_button = pygbutton.PygButton(music_on, 'ON')
-        self.sound_on_button = pygbutton.PygButton(sound_on, 'ON')
-        self.music_off_button = pygbutton.PygButton(music_off, 'OFF')
-        self.sound_off_button = pygbutton.PygButton(sound_off, 'OFF')
-        self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
+        self.main_menu_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
+        self.music_on_button = pygbutton.PygButton((650, 200, 60, 50), 'ON')
+        self.sound_on_button = pygbutton.PygButton((650, 260, 60, 50), 'ON')
+        self.music_off_button = pygbutton.PygButton((730, 200, 80, 50), 'OFF')
+        self.sound_off_button = pygbutton.PygButton((730, 260, 80, 50), 'OFF')
+
         font = pygame.font.Font('data/Kremlin.ttf', 40)
         self.bg_font = font.render('Music:', True, DKRED)
         self.se_font = font.render('Sound:', True, DKRED)
 
-        self.selection_box_row_properties = [[main_menu, sound_on, music_on], [main_menu, sound_off, music_off]]
+        self.selection_box = deque([
+            deque([self.main_menu_button]),
+            deque([self.sound_on_button, self.sound_off_button]),
+            deque([self.music_on_button, self.music_off_button]),
+        ])
 
-        row1_initial = 0 if AUDIO.sound_on else 1
-        row2_initial = 0 if AUDIO.music_on else 1
-
-        self.selection_box_col_indices = [0, row1_initial, row2_initial]
-        self.selection_box_row = 0
+        if not AUDIO.music_on:
+            self.selection_box[0].rotate()
+        if not AUDIO.sound_on:
+            self.selection_box[1].rotate()
 
     def __call__(self):
         self.return_now = False
@@ -579,19 +577,20 @@ class OptionsPage:
         self.music_off_button.draw(GL.SCREEN)
         self.sound_on_button.draw(GL.SCREEN)
         self.sound_off_button.draw(GL.SCREEN)
+        self.main_menu_button.draw(GL.SCREEN)
 
-        self.return_button.draw(GL.SCREEN)
-        row = self.selection_box_row
-        col = self.selection_box_col_indices[row]
-        selection_box = Rect2(self.selection_box_row_properties[col][row], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, selection_box.color, selection_box, SELECTION_BOX_WIDTH)
+        pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box[0][0].rect, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
         GL.INPUT1.refresh()
-        if GL.INPUT1.START_PRESS_EVENT:
-            GL.INPUT1.START_PRESS_EVENT = False
-            if self.selection_box_row == 0:
+
+        if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.A_PRESS_EVENT:
+            if GL.INPUT1.START_PRESS_EVENT:
+                GL.INPUT1.START_PRESS_EVENT = False
+            if GL.INPUT1.A_PRESS_EVENT:
+                GL.INPUT1.A_PRESS_EVENT = False
+            if self.selection_box[0][0] == self.main_menu_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
@@ -599,53 +598,31 @@ class OptionsPage:
             GL.INPUT1.B_PRESS_EVENT = False
             self.return_now = True
             GL.NEXT_PAGE = 'start'
-
-        if GL.INPUT1.B_PRESS_EVENT:
-            GL.INPUT1.B_PRESS_EVENT = False
-            self.return_now = True
-            GL.NEXT_PAGE = 'start'
-
-        if GL.INPUT1.A_PRESS_EVENT:
-            GL.INPUT1.A_PRESS_EVENT = False
-            if self.selection_box_row == 0:
-                self.return_now = True
-                GL.NEXT_PAGE = 'start'
 
         if GL.INPUT1.UP_PRESS_EVENT:
             GL.INPUT1.UP_PRESS_EVENT = False
-            self.selection_box_row += 1
-            if self.selection_box_row > 2:
-                self.selection_box_row = 0
+            self.selection_box.rotate(-1)
 
         if GL.INPUT1.DOWN_PRESS_EVENT:
             GL.INPUT1.DOWN_PRESS_EVENT = False
-            self.selection_box_row -= 1
-            if self.selection_box_row < 0:
-                self.selection_box_row = 2
+            self.selection_box.rotate()
 
         if GL.INPUT1.LEFT_PRESS_EVENT or GL.INPUT1.RIGHT_PRESS_EVENT:
-
             if GL.INPUT1.LEFT_PRESS_EVENT:
                 GL.INPUT1.LEFT_PRESS_EVENT = False
-
+                self.selection_box[0].rotate()
             if GL.INPUT1.RIGHT_PRESS_EVENT:
                 GL.INPUT1.RIGHT_PRESS_EVENT = False
+                self.selection_box[0].rotate(-1)
 
-            curr_col = self.selection_box_col_indices[self.selection_box_row]
-            new_col = 1 if curr_col == 0 else 0
-            self.selection_box_col_indices[self.selection_box_row] = new_col
-
-            if self.selection_box_row == 1:
-                if new_col == 0:
-                    AUDIO.turn_on_effects()
-                elif new_col == 1:
-                    AUDIO.turn_off_effects()
-
-            elif self.selection_box_row == 2:
-                if new_col == 0:
-                    AUDIO.turn_on_music()
-                elif new_col == 1:
-                    AUDIO.turn_off_music()
+            if self.selection_box[0][0] == self.sound_on_button:
+                AUDIO.turn_on_effects()
+            elif self.selection_box[0][0] == self.sound_off_button:
+                AUDIO.turn_off_effects()
+            elif self.selection_box[0][0] == self.music_on_button:
+                AUDIO.turn_on_music()
+            elif self.selection_box[0][0] == self.music_off_button:
+                AUDIO.turn_off_music()
 
     def events(self):
         for event in pygame.event.get():
@@ -653,27 +630,36 @@ class OptionsPage:
                 EXIT_GAME()
 
             if 'click' in self.music_on_button.handleEvent(event):
-                self.selection_box_row = 2
-                self.selection_box_col_indices[self.selection_box_row] = 0
+                while self.selection_box[0][0] not in (self.music_on_button, self.music_off_button):
+                    self.selection_box.rotate()
+                while self.selection_box[0][0] != self.music_on_button:
+                    self.selection_box[0].rotate()
                 AUDIO.turn_on_music()
 
             if 'click' in self.music_off_button.handleEvent(event):
-                self.selection_box_row = 2
-                self.selection_box_col_indices[self.selection_box_row] = 1
+                while self.selection_box[0][0] not in (self.music_on_button, self.music_off_button):
+                    self.selection_box.rotate()
+                while self.selection_box[0][0] != self.music_off_button:
+                    self.selection_box[0].rotate()
                 AUDIO.turn_off_music()
 
             if 'click' in self.sound_on_button.handleEvent(event):
-                self.selection_box_row = 1
-                self.selection_box_col_indices[self.selection_box_row] = 0
+                while self.selection_box[0][0] not in (self.sound_on_button, self.sound_off_button):
+                    self.selection_box.rotate()
+                while self.selection_box[0][0] != self.sound_on_button:
+                    self.selection_box[0].rotate()
                 AUDIO.turn_on_effects()
 
             if 'click' in self.sound_off_button.handleEvent(event):
-                self.selection_box_row = 1
-                self.selection_box_col_indices[self.selection_box_row] = 1
+                while self.selection_box[0][0] not in (self.sound_on_button, self.sound_off_button):
+                    self.selection_box.rotate()
+                while self.selection_box[0][0] != self.sound_off_button:
+                    self.selection_box[0].rotate()
                 AUDIO.turn_off_effects()
 
-            if 'click' in self.return_button.handleEvent(event):
-                self.selection_box_row = 0
+            if 'click' in self.main_menu_button.handleEvent(event):
+                while self.selection_box[0][0] != self.main_menu_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
@@ -685,14 +671,9 @@ class PauseMenu:
         pause_font = pygame.font.Font(main_font, 100)
         self.pause_font_xy = font_position_center(self.menu_box, pause_font, '-PAUSE-')
         self.pause_font_rendered = pause_font.render('-PAUSE-', True, RED)
-
-        self.continue_button_properties = (395, 270, 200, 50)
-        self.quit_button_properties = (730, 270, 100, 50)
-
-        self.continue_button = pygbutton.PygButton(self.continue_button_properties, 'Continue')
-        self.quit_button = pygbutton.PygButton(self.quit_button_properties, 'Quit')
-        self.selection_box_properties = [self.continue_button_properties, self.quit_button_properties]
-        self.selection_box_i = 0
+        self.continue_button = pygbutton.PygButton((395, 270, 200, 50), 'Continue')
+        self.quit_button = pygbutton.PygButton((730, 270, 100, 50), 'Quit')
+        self.selection_box = deque([self.continue_button, self.quit_button])
 
     def __call__(self):
         self.return_now = False
@@ -708,39 +689,34 @@ class PauseMenu:
         GL.SCREEN.blit(self.pause_font_rendered, (self.pause_font_xy[0], self.menu_box.top))
         self.continue_button.draw(GL.SCREEN)
         self.quit_button.draw(GL.SCREEN)
-        self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
+        pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box[0].rect, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
         GL.INPUT1.refresh_during_pause()
-        if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.A_PRESS_EVENT:
 
+        if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.A_PRESS_EVENT:
             if GL.INPUT1.START_PRESS_EVENT:
                 GL.INPUT1.START_PRESS_EVENT = False
 
             if GL.INPUT1.A_PRESS_EVENT:
                 GL.INPUT1.A_PRESS_EVENT = False
 
-            if self.selection_box_i == 0:
+            if self.selection_box[0] == self.continue_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'GL.CURR_GAME'
 
-            if self.selection_box_i == 1:
+            if self.selection_box[0] == self.quit_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
-            GL.INPUT1.RIGHT_PRESS_EVENT = False
-            self.selection_box_i += 1
-            if self.selection_box_i > 1:
-                self.selection_box_i = 0
-
         if GL.INPUT1.LEFT_PRESS_EVENT:
             GL.INPUT1.LEFT_PRESS_EVENT = False
-            self.selection_box_i -= 1
-            if self.selection_box_i < 0:
-                self.selection_box_i = 1
+            self.selection_box.rotate()
+
+        if GL.INPUT1.RIGHT_PRESS_EVENT:
+            GL.INPUT1.RIGHT_PRESS_EVENT = False
+            self.selection_box.rotate(-1)
 
     def events(self):
         for event in pygame.event.get():
@@ -748,10 +724,14 @@ class PauseMenu:
                 EXIT_GAME()
 
             if 'click' in self.continue_button.handleEvent(event):
+                while self.selection_box[0] != self.continue_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'GL.CURR_GAME'
 
             if 'click' in self.quit_button.handleEvent(event):
+                while self.selection_box[0] != self.quit_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
@@ -760,17 +740,12 @@ class GameOverMenu:
     def __init__(self):
         self.menu_box = Rect2(topleft=(290, 120), size=(670, 240), color=BLACK)
         main_font = 'data/Kremlin.ttf'
-        game_over_font = pygame.font.Font(main_font, 100)
+        game_over_font = pygame.font.Font(main_font, 95)
         self.game_over_xy = font_position_center(self.menu_box, game_over_font, '-Game Over-')
         self.game_over_rendered = game_over_font.render('-Game Over-', True, RED)
-
-        self.main_menu_properties = (395, 270, 200, 50)
-        self.exit_button_properties = (730, 270, 100, 50)
-
-        self.main_menu_button = pygbutton.PygButton(self.main_menu_properties, 'Main Menu')
-        self.exit_button = pygbutton.PygButton(self.exit_button_properties, 'Exit')
-        self.selection_box_properties = [self.main_menu_properties, self.exit_button_properties]
-        self.selection_box_i = 0
+        self.main_menu_button = pygbutton.PygButton((395, 270, 200, 50), 'Main Menu')
+        self.exit_button = pygbutton.PygButton((730, 270, 100, 50), 'Exit')
+        self.selection_box = deque([self.main_menu_button, self.exit_button])
 
     def __call__(self):
         self.return_now = False
@@ -786,8 +761,7 @@ class GameOverMenu:
         GL.SCREEN.blit(self.game_over_rendered, (self.game_over_xy[0], self.menu_box.top))
         self.main_menu_button.draw(GL.SCREEN)
         self.exit_button.draw(GL.SCREEN)
-        self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
+        pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box[0].rect, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -801,25 +775,21 @@ class GameOverMenu:
         if GL.INPUT1.START_PRESS_EVENT:
             GL.INPUT1.START_PRESS_EVENT = False
 
-            if self.selection_box_i == 0:
+            if self.selection_box[0] == self.main_menu_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
-            if self.selection_box_i == 1:
+            elif self.selection_box[0] == self.exit_button:
                 self.return_now = True
                 EXIT_GAME()
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
-            GL.INPUT1.RIGHT_PRESS_EVENT = False
-            self.selection_box_i += 1
-            if self.selection_box_i > 1:
-                self.selection_box_i = 0
-
         if GL.INPUT1.LEFT_PRESS_EVENT:
             GL.INPUT1.LEFT_PRESS_EVENT = False
-            self.selection_box_i -= 1
-            if self.selection_box_i < 0:
-                self.selection_box_i = 1
+            self.selection_box.rotate()
+
+        if GL.INPUT1.RIGHT_PRESS_EVENT:
+            GL.INPUT1.RIGHT_PRESS_EVENT = False
+            self.selection_box.rotate(-1)
 
     def events(self):
         for event in pygame.event.get():
@@ -827,8 +797,12 @@ class GameOverMenu:
                 EXIT_GAME()
 
             if 'click' in self.main_menu_button.handleEvent(event):
+                while self.selection_box[0] != self.main_menu_button:
+                    self.selection_box.rotate()
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
             if 'click' in self.exit_button.handleEvent(event):
+                while self.selection_box[0] != self.exit_button:
+                    self.selection_box.rotate()
                 EXIT_GAME()
