@@ -431,7 +431,6 @@ class Input:
             self._get_gamepad_pressed2()
             self._combine_all_pressed()
             self._handle_mouse_visibility()
-        self.refreshing_during_pause = False
 
     def _get_keyboard_pressed(self):
         sucky_kb_input = pygame.key.get_pressed()
@@ -554,6 +553,7 @@ class Input:
             self.__dict__[name] = value
 
     def _reset_all_event_flags(self):
+        self.refreshing_during_pause = False
         for name in 'LEFT_PRESS_EVENT, RIGHT_PRESS_EVENT, UP_PRESS_EVENT, DOWN_PRESS_EVENT, START_PRESS_EVENT, SELECT_PRESS_EVENT, A_PRESS_EVENT, B_PRESS_EVENT'.split(', '):
             exec('self.{} = False'.format(name))
 
