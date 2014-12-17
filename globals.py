@@ -539,15 +539,15 @@ class Input:
         if name == 'refreshing_during_pause':
             self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
 
-        if 'EVENT' in name:  # and if one of these
+        if 'EVENT' in name:  # if an 'EVENT' attribute
             self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_PRESS_EVENT with self.gp_input[GP_[X]_PRESS_EVENT]
 
         if self.refreshing_during_pause:  # if paused
-            if name not in 'LEFT, RIGHT, UP, DOWN, JUMP, ATTACK, SKILL1, SKILL2, SKILL3, ULT, DROP_SKILL, RESPAWN, KILLALL, DEBUG_VIEW'.split(', '):  # and NOT one of these
-                self.__dict__[name] = value  # update like normal
+            if name != 'DEBUG_VIEW':  # do not allow any updates to 'DEBUG_VIEW'
+                self.__dict__[name] = value  # update everything/anything else like normal
 
-        elif not self.refreshing_during_pause:
-            self.__dict__[name] = value  # update like normal
+        elif not self.refreshing_during_pause:  # if not paused
+            self.__dict__[name] = value  # update everything/anything like normal
 
     def _reset_all_event_flags(self):
         for name in 'LEFT_PRESS_EVENT, RIGHT_PRESS_EVENT, UP_PRESS_EVENT, DOWN_PRESS_EVENT, START_PRESS_EVENT, SELECT_PRESS_EVENT, A_PRESS_EVENT, B_PRESS_EVENT'.split(', '):
