@@ -666,7 +666,8 @@ class OptionsPage:
 # ----------------------------------------------------------------------------
 class PauseMenu:
     def __init__(self):
-        self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), color=BLACK)
+        self.bg_image = pygame.image.load('data/background3_menus_dim.png')
+        self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
         main_font = 'data/Kremlin.ttf'
         pause_font = pygame.font.Font(main_font, 100)
         self.pause_font_xy = font_position_center(self.menu_box, pause_font, '-PAUSE-')
@@ -684,8 +685,9 @@ class PauseMenu:
             GL.CLOCK.tick(GL.FPS)
 
     def draw(self):
-        pygame.draw.rect(GL.SCREEN, DGREY, self.menu_box)
-        pygame.draw.rect(GL.SCREEN, self.menu_box.color, self.menu_box, 4)
+        scaled_bg = pygame.transform.scale(self.bg_image, self.menu_box.size)
+        GL.SCREEN.blit(scaled_bg, self.menu_box.topleft)
+        pygame.draw.rect(GL.SCREEN, self.menu_box.border_color, self.menu_box, 4)
         GL.SCREEN.blit(self.pause_font_rendered, (self.pause_font_xy[0], self.menu_box.top))
         self.continue_button.draw(GL.SCREEN)
         self.quit_button.draw(GL.SCREEN)
@@ -738,7 +740,8 @@ class PauseMenu:
 # ----------------------------------------------------------------------------
 class GameOverMenu:
     def __init__(self):
-        self.menu_box = Rect2(topleft=(290, 120), size=(670, 240), color=BLACK)
+        self.bg_image = pygame.image.load('data/background3_menus_dim.png')
+        self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
         main_font = 'data/Kremlin.ttf'
         game_over_font = pygame.font.Font(main_font, 95)
         self.game_over_xy = font_position_center(self.menu_box, game_over_font, '-Game Over-')
@@ -756,8 +759,9 @@ class GameOverMenu:
             GL.CLOCK.tick(GL.FPS)
 
     def draw(self):
-        pygame.draw.rect(GL.SCREEN, DGREY, self.menu_box)
-        pygame.draw.rect(GL.SCREEN, self.menu_box.color, self.menu_box, 4)
+        scaled_bg = pygame.transform.scale(self.bg_image, self.menu_box.size)
+        GL.SCREEN.blit(scaled_bg, self.menu_box.topleft)
+        pygame.draw.rect(GL.SCREEN, self.menu_box.border_color, self.menu_box, 4)
         GL.SCREEN.blit(self.game_over_rendered, (self.game_over_xy[0], self.menu_box.top))
         self.main_menu_button.draw(GL.SCREEN)
         self.exit_button.draw(GL.SCREEN)
