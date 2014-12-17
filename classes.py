@@ -582,10 +582,6 @@ class Arena:
         return filter(lambda x: x.spawn_point, self)
 
     @property
-    def non_spawn_points(self):
-        return filter(lambda x: not x.spawn_point, self)
-
-    @property
     def destructible_terrain(self):
         return filter(lambda x: x.hits_to_destroy > 0, self)
 

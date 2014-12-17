@@ -466,7 +466,7 @@ class GameLoop:
             GL.SCREEN.blit(time_display, self.timer_font_xy)
 
         def _draw_arena():
-            for rect in self.arena.non_spawn_points:
+            for rect in self.arena:
                 if rect.color is not None:
                     pygame.draw.rect(GL.SCREEN, rect.color, rect)
 

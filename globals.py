@@ -626,8 +626,8 @@ arena4 = arena_nt(
         terrain_nt(268, 286, 229, 37, None, -1, False),
         terrain_nt(802, 316, 348, 37, None, -1, False),
         terrain_nt(72, 351, 112, 37, None, -1, False),
-        terrain_nt(150, 450, -5, 5, RED, -1, True),
-        terrain_nt(930, 450, -5, 5, RED, -1, True), ],
+        terrain_nt(150, 450, -5, 5, None, -1, True),
+        terrain_nt(930, 450, -5, 5, None, -1, True), ],
     max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
     background='data/humanLevel.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
 
@@ -642,8 +642,8 @@ arena5 = arena_nt(
         terrain_nt(673, 208, 229, 37, None, -1, False),
         terrain_nt(496, 348, 263, 56, None, -1, False),
         terrain_nt(381, 402, 350, 56, None, -1, False),
-        terrain_nt(150, 450, -5, 5, RED, -1, True),
-        terrain_nt(930, 450, -5, 5, RED, -1, True), ],
+        terrain_nt(150, 450, -5, 5, None, -1, True),
+        terrain_nt(930, 450, -5, 5, None, -1, True), ],
     max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
     background='data/androidLevel.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
 
@@ -651,8 +651,8 @@ arena5 = arena_nt(
 monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle, exp_value, dmg')
 MONSTER_TABLE = {
     WEAK: monster_info_nt(WEAK, 30, 40, 2, 10, 50, 5000, 5000, WEAK_EXP_VALUE, 3),
-    MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000,MEDIUM_EXP_VALUE, 5),
-    ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000,ULTIMATE_EXP_VALUE, 8)}
+    MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000, MEDIUM_EXP_VALUE, 5),
+    ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
 
 # ------------Spritesheet and Arena Globals with Default Values---------------
 P1_SPRITESHEET = 'data/p1_human_8bit.png'
