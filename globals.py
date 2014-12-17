@@ -342,6 +342,8 @@ class Input:
         self.gp_input = defaultdict(bool)
         self.kb_input = defaultdict(bool)
         self.player_id = player_id
+        self.refreshing_during_pause = False
+        self.DEBUG_VIEW = False
         try:
             self.gamepad = pygame.joystick.Joystick(player_id - 1)
             self.gamepad.init()
@@ -349,7 +351,7 @@ class Input:
             print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
             self.__setup_gamepad_buttons__()
         except pygame.error:
-            pass
+            self.gamepad_found = False
 
     def __setup_gamepad_buttons__(self):
         input_nt = namedtuple('input_nt', 'kind, number, value1, value2')
@@ -561,10 +563,6 @@ class Input:
         else:
             pygame.mouse.set_visible(True)
 
-    def __getattr__(self, name):
-        # initializes any missing variables to False
-        exec('self.{} = False'.format(name))
-        return eval('self.{}'.format(name))
 INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 
