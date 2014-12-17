@@ -14,7 +14,7 @@ from globals import *
 from pygbutton import *
 from classes import *
 
-selection_box_width = 4
+SELECTION_BOX_WIDTH = 4
 
 class StartMenu:
     def __init__(self):
@@ -47,7 +47,7 @@ class StartMenu:
         GL.SCREEN.blit(self.title_font1, (495, 120))
         GL.SCREEN.blit(self.title_font2, (450, 175))
         self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, selection_box_width)
+        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -172,7 +172,7 @@ class HelpPage:
 
         self.return_button.draw(GL.SCREEN)
         self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, selection_box_width)
+        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -352,7 +352,7 @@ class PlayerSelectPage:
             # if player presses back when previously stated they were ready
             # allow them to reselect player
             # keyboard equivalent of select is 's' key
-            if self.ready1 and GL.INPUT1.B_PRESS_EVENT:
+            if self.ready1 and GL.INPUT1.B_PRESS_EVENT:  # add keyboard 'S' key
                 GL.INPUT1.B_PRESS_EVENT = False
                 print('player 1 not ready anymore')
                 self.ready1 = False
@@ -374,47 +374,14 @@ class PlayerSelectPage:
                 self.return_now = True
                 print('player 2 requested to go back to start')
 
-
-            # elif GL.INPUT1.SELECT_PRESS_EVENT or GL.INPUT1.kb_input['K_s']:
-            #     GL.INPUT1.SELECT_PRESS_EVENT = False
-            #     GL.INPUT1.kb_input['K_s'] = False
-            #     print('player 1 not ready anymore')
-            #     self.ready1 = False
-            #
-            # elif GL.INPUT2.SELECT_PRESS_EVENT:
-            #     GL.INPUT2.SELECT_PRESS_EVENT = False
-            #     print('player 2 not ready anymore')
-            #     self.ready2 = False
-
-            # if player presses back when they were not ready
-            # go back to start screen
-            # if GL.INPUT1.SELECT_PRESS_EVENT and not self.ready1:
-            #     GL.INPUT1.SELECT_PRESS_EVENT = False
-            #     GL.NEXT_PAGE = 'start'
-            #     self.return_now = True
-
-            # elif (GL.INPUT1.SELECT_PRESS_EVENT and not self.ready1 or GL.INPUT1.kb_input['K_s']):
-            #     GL.INPUT1.SELECT_PRESS_EVENT = False
-            #     GL.INPUT1.kb_input['K_s'] = False
-            #     GL.NEXT_PAGE = 'start'
-            #
-            # if GL.INPUT2.SELECT_PRESS_EVENT and not self.ready2:
-            #     GL.INPUT2.SELECT_PRESS_EVENT = False
-            #     GL.NEXT_PAGE = 'start'
-            #     self.return_now = True
-
-            # elif (GL.INPUT2.SELECT_PRESS_EVENT and not self.ready2):
-            #     GL.INPUT2.SELECT_PRESS_EVENT = False
-            #     GL.NEXT_PAGE = 'start'
-
         def ready_for_start():
             if self.ready1 and self.ready2:
 
                 # if player 1 or player 2 presses start when both players are ready
-                # enter game loop
+                # go to level select
                 # if using a keyboard - only one player
                 # if keyboard user presses 'A' when he is ready
-                # enter game loop
+                # go to level select
                 if (GL.INPUT1.START_PRESS_EVENT or GL.INPUT2.START_PRESS_EVENT) or (GL.INPUT1.kb_input['K_a']):
                     if GL.INPUT1.START_PRESS_EVENT:
                         GL.INPUT1.START_PRESS_EVENT = False
@@ -435,14 +402,14 @@ class PlayerSelectPage:
             # set spritesheet for player1
             if self.index == 0:  # human
                 self.player1_spritesheet = 'data/p1_human.png'
-            # elif self.index == 1: #elf
-            else:
+            elif self.index == 1:  # elf
                 self.player1_spritesheet = 'data/p1_elf.png'
 
+            # set spritesheet for player2
             if self.index2 == 0:  # human
                 self.player2_spritesheet = 'data/p2_human.png'
             elif self.index2 == 1:  # elf
-                self.player2_spritesheet = 'data/p2_elf.png'  # Elf spritesheet 2 if available
+                self.player2_spritesheet = 'data/p2_elf.png'
 
             GL.set_player1_spritesheet(self.player1_spritesheet)
             GL.set_player2_spritesheet(self.player2_spritesheet)
@@ -462,7 +429,6 @@ class PlayerSelectPage:
 
 # ----------------------------------------------------------------------------
 class LevelSelectPage:
-
     def __init__(self):
         def _setup_display():
             self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
@@ -500,9 +466,8 @@ class LevelSelectPage:
         self.return_button.draw(GL.SCREEN)
         pygame.display.update()
 
-    # only player 1 can select level
     def input(self):
-        GL.INPUT1.refresh()
+        GL.INPUT1.refresh()  # only player 1 can select level
 
         if GL.INPUT1.LEFT_PRESS_EVENT:
             GL.INPUT1.LEFT_PRESS_EVENT = False
@@ -521,11 +486,12 @@ class LevelSelectPage:
             GL.NEXT_PAGE = 'PlayerSelectPage()'
             self.return_now = True
 
-
         def ready_check():
             if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.kb_input['K_a']:
-                GL.INPUT1.START_PRESS_EVENT = False
-                GL.INPUT1.kb_input['K_a'] = False
+                if GL.INPUT1.START_PRESS_EVENT:
+                    GL.INPUT1.START_PRESS_EVENT = False
+                if GL.INPUT1.kb_input['K_a']:
+                    GL.INPUT1.kb_input['K_a'] = False
                 print('ready to load')
                 self.ready = True
                 set_level()
@@ -560,20 +526,20 @@ class OptionsPage:
         self.bg_image = pygame.image.load('data/background2.png')
         self.active_colors = BLACK, DKRED
         self.inactive_colors = DKRED, BLACK
-        self.music_on_button = pygbutton.PygButton((650, 200, 60, 50), 'ON')
-        self.music_off_button = pygbutton.PygButton((730, 200, 80, 50), 'OFF')
-        self.effects_on_button = pygbutton.PygButton((650, 260, 60, 50), 'ON')
-        self.effects_off_button = pygbutton.PygButton((730, 260, 80, 50), 'OFF')
+
+        main_menu = (0, 550, 300, 50)
+        music_on = (650, 200, 60, 50)
+        sound_on = (650, 260, 60, 50)
+        music_off = (730, 200, 80, 50)
+        sound_off = (730, 260, 80, 50)
+        self.music_on_button = pygbutton.PygButton(music_on, 'ON')
+        self.sound_on_button = pygbutton.PygButton(sound_on, 'ON')
+        self.music_off_button = pygbutton.PygButton(music_off, 'OFF')
+        self.sound_off_button = pygbutton.PygButton(sound_off, 'OFF')
         self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
         font = pygame.font.Font('data/Kremlin.ttf', 40)
         self.bg_font = font.render('Music:', True, DKRED)
         self.se_font = font.render('Sound:', True, DKRED)
-
-        main_menu = (0, 550, 300, 50)
-        sound_on = (650, 260, 60, 50)
-        music_on = (650, 200, 60, 50)
-        music_off = (730, 200, 80, 50)
-        sound_off = (730, 260, 80, 50)
 
         self.selection_box_row_properties = [[main_menu, sound_on, music_on], [main_menu, sound_off, music_off]]
 
@@ -600,25 +566,25 @@ class OptionsPage:
             self.music_off_button.fgcolor, self.music_off_button.bgcolor = self.active_colors
 
         if AUDIO.sound_on:
-            self.effects_on_button.fgcolor, self.effects_on_button.bgcolor = self.active_colors
-            self.effects_off_button.fgcolor, self.effects_off_button.bgcolor = self.inactive_colors
+            self.sound_on_button.fgcolor, self.sound_on_button.bgcolor = self.active_colors
+            self.sound_off_button.fgcolor, self.sound_off_button.bgcolor = self.inactive_colors
         else:
-            self.effects_on_button.fgcolor, self.effects_on_button.bgcolor = self.inactive_colors
-            self.effects_off_button.fgcolor, self.effects_off_button.bgcolor = self.active_colors
+            self.sound_on_button.fgcolor, self.sound_on_button.bgcolor = self.inactive_colors
+            self.sound_off_button.fgcolor, self.sound_off_button.bgcolor = self.active_colors
 
         GL.SCREEN.blit(self.bg_image, (0, 0))
         GL.SCREEN.blit(self.bg_font, (450, 200))
         GL.SCREEN.blit(self.se_font, (450, 260))
         self.music_on_button.draw(GL.SCREEN)
         self.music_off_button.draw(GL.SCREEN)
-        self.effects_on_button.draw(GL.SCREEN)
-        self.effects_off_button.draw(GL.SCREEN)
+        self.sound_on_button.draw(GL.SCREEN)
+        self.sound_off_button.draw(GL.SCREEN)
 
         self.return_button.draw(GL.SCREEN)
         row = self.selection_box_row
         col = self.selection_box_col_indices[row]
-        self.selection_box = Rect2(self.selection_box_row_properties[col][row], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, selection_box_width)
+        selection_box = Rect2(self.selection_box_row_properties[col][row], color=BLUE)
+        pygame.draw.rect(GL.SCREEN, selection_box.color, selection_box, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -696,12 +662,12 @@ class OptionsPage:
                 self.selection_box_col_indices[self.selection_box_row] = 1
                 AUDIO.turn_off_music()
 
-            if 'click' in self.effects_on_button.handleEvent(event):
+            if 'click' in self.sound_on_button.handleEvent(event):
                 self.selection_box_row = 1
                 self.selection_box_col_indices[self.selection_box_row] = 0
                 AUDIO.turn_on_effects()
 
-            if 'click' in self.effects_off_button.handleEvent(event):
+            if 'click' in self.sound_off_button.handleEvent(event):
                 self.selection_box_row = 1
                 self.selection_box_col_indices[self.selection_box_row] = 1
                 AUDIO.turn_off_effects()
@@ -743,7 +709,7 @@ class PauseMenu:
         self.continue_button.draw(GL.SCREEN)
         self.quit_button.draw(GL.SCREEN)
         self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, selection_box_width)
+        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
@@ -789,6 +755,7 @@ class PauseMenu:
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
+# ----------------------------------------------------------------------------
 class GameOverMenu:
     def __init__(self):
         self.menu_box = Rect2(topleft=(290, 120), size=(670, 240), color=BLACK)
@@ -820,15 +787,11 @@ class GameOverMenu:
         self.main_menu_button.draw(GL.SCREEN)
         self.exit_button.draw(GL.SCREEN)
         self.selection_box = Rect2(self.selection_box_properties[self.selection_box_i], color=BLUE)
-        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, selection_box_width)
+        pygame.draw.rect(GL.SCREEN, self.selection_box.color, self.selection_box, SELECTION_BOX_WIDTH)
         pygame.display.update()
 
     def input(self):
         GL.INPUT1.refresh_during_pause()
-        # if GL.INPUT1.START_PRESS_EVENT:
-        #     GL.INPUT1.START_PRESS_EVENT = False
-        #     self.return_now = True
-        #     GL.NEXT_PAGE = 'GL.CURR_GAME'
 
         if GL.INPUT1.SELECT_PRESS_EVENT:
             GL.INPUT1.SELECT_PRESS_EVENT = False
