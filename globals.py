@@ -536,8 +536,6 @@ class Input:
         self.B_PRESS_EVENT = self.gp_input['GP_B_PRESS_EVENT']
 
     def __setattr__(self, name, value):
-        global NEXT_PAGE
-
         if name == 'refreshing_during_pause':
             self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
 
@@ -561,7 +559,6 @@ class Input:
             exec('self.{} = False'.format(name))
 
     def _handle_mouse_visibility(self):
-        global NEXT_PAGE
         if self.DEBUG_VIEW and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
             pygame.mouse.set_visible(False)
         else:
