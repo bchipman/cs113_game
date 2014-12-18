@@ -235,7 +235,7 @@ def condition_string(cond, value):
     st += str(right)
     return st
 
-def force_add_particle_to_player(particle,player):
+def force_add_particle_to_player(particle, player):
     if isinstance(particle,list):
         if player.new_particle is None:
             player.new_particle = particle
@@ -252,6 +252,7 @@ def force_add_particle_to_player(particle,player):
         else:
             player.new_particle = [player.new_particle, particle]
 
+# noinspection PyPep8Naming
 def EXIT_GAME():
     pygame.quit()
     sys.exit()
@@ -520,7 +521,6 @@ class Input:
         self.B_EVENT = self.gp_input['GP_B_EVENT']
         self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_START_EVENT']
         self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_SELECT_EVENT']
-
 
     def __setattr__(self, name, value):
         if name == 'refreshing_during_pause':
