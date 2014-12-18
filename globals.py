@@ -50,9 +50,9 @@ DKORANGE = Color(153, 92, 0)
 TRANSPARENT = Color(235, 0, 255)
 
 # Music
-SONGS = ['data/pneumatic_driller.mp3', 'data/euglena_zielona.mp3',
-         'data/drilldance.mp3', 'data/running_emu.mp3', 'data/wooboodoo.mp3',
-         'data/accident.mp3']
+SONGS = ['data/songs/pneumatic_driller.mp3', 'data/songs/euglena_zielona.mp3',
+         'data/songs/drilldance.mp3', 'data/songs/running_emu.mp3', 'data/songs/wooboodoo.mp3',
+         'data/songs/accident.mp3']
 
 SOUNDS = {}
 
@@ -290,7 +290,7 @@ class Audio:
             self.audio_device_found = True
         except pygame.error:
             self.audio_device_found = False
-        self.menu_song = self.curr_song = 'data/404error.mp3'
+        self.menu_song = self.curr_song = 'data/songs/404error.mp3'
         self.music_on = self.sound_on = True
 
     def restart_music(self):
@@ -333,7 +333,7 @@ class Audio:
 
     def __str__(self):
         t = datetime.datetime.now().strftime('%H:%M:%S')
-        return 'new song: "{}"    started at: {}'.format(self.curr_song.replace('data/', '').replace('.mp3', ''), t)
+        return 'new song: "{}"    started at: {}'.format(self.curr_song.replace('data/songs/', '').replace('.mp3', ''), t)
 AUDIO = Audio()
 
 # ----------------------------------Input-------------------------------------
@@ -615,7 +615,7 @@ arena3 = arena_nt(
         terrain_nt(150, 465, -5, 5, None, -1, True),
         terrain_nt(930, 465, -5, 5, None, -1, True), ],
     max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background='data/vinesLevel.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
+    background='data/backgrounds/arena_vines.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
 
 arena4 = arena_nt(
     left_wall_x=65, right_wall_x=1215, floor_y=458,
@@ -633,7 +633,7 @@ arena4 = arena_nt(
         terrain_nt(150, 450, -5, 5, None, -1, True),
         terrain_nt(930, 450, -5, 5, None, -1, True), ],
     max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background='data/humanLevel.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
+    background='data/backgrounds/arena_human.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
 
 arena5 = arena_nt(
     left_wall_x=65, right_wall_x=1215, floor_y=458,
@@ -649,7 +649,7 @@ arena5 = arena_nt(
         terrain_nt(150, 450, -5, 5, None, -1, True),
         terrain_nt(930, 450, -5, 5, None, -1, True), ],
     max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background='data/androidLevel.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
+    background='data/backgrounds/arena_android.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
 
 # ---------------------------------Monsters-----------------------------------
 monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle, exp_value, dmg')

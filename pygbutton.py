@@ -33,7 +33,7 @@ from pygame.locals import *
 from globals import *
 
 pygame.font.init()
-PYGBUTTON_FONT = pygame.font.Font('data/Kremlin.ttf', 30)
+PYGBUTTON_FONT = pygame.font.Font('data/fonts/Kremlin.ttf', 30)
 
 
 

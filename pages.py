@@ -20,13 +20,13 @@ SELECTION_BOX_COLOR = BLUE
 
 class StartMenu:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/background2.png')
+        self.bg_image = pygame.image.load('data/backgrounds/bkg_start_page.png')
         self.start_button = PygButton((325, 395, 140, 40), 'Start')
         self.help_button = PygButton((485, 395, 110, 40), 'Help')
         self.options_button = PygButton((615, 395, 175, 40), 'Options')
         self.exit_button = PygButton((810, 395, 105, 40), 'Exit')
         AUDIO.turn_on_music()
-        title_font = pygame.font.Font('data/Kremlin.ttf', 50)
+        title_font = pygame.font.Font('data/fonts/Kremlin.ttf', 50)
         self.title_font1 = title_font.render('Famished', True, DKRED)
         self.title_font2 = title_font.render('Tournament', True, DKRED)
         self.selection_box = deque([self.start_button, self.help_button, self.options_button, self.exit_button])
@@ -52,8 +52,19 @@ class StartMenu:
 
     def input(self):
         GL.INPUT1.refresh()
-
         if GL.INPUT1.kb_pressed['K_F12']:
+            all_sprites = ['data/sprites+portraits/human_p1.png',
+                           'data/sprites+portraits/elf_p1.png',
+                           'data/sprites+portraits/human_p2.png',
+                           'data/sprites+portraits/elf_p2.png']
+            p1_sprite = random.choice(all_sprites)
+            p2_sprite = random.choice([s for s in all_sprites if s != p1_sprite])
+            GL.set_player1_spritesheet(p1_sprite)
+            GL.set_player2_spritesheet(p2_sprite)
+
+            arena = random.choice([GL.arena3, GL.arena4, GL.arena5])
+            GL.set_level(arena)
+
             self.return_now = True
             GL.NEXT_PAGE = 'GameLoop()'
 
@@ -113,9 +124,9 @@ class StartMenu:
 class HelpPage:
     def __init__(self):
         self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
-        self.section_font = pygame.font.Font('data/Kremlin.ttf', 40)
-        self.font = pygame.font.Font('data/arial_narrow_7.ttf', 20)
-        self.bg_image = pygame.image.load('data/help.png')
+        self.section_font = pygame.font.Font('data/fonts/Kremlin.ttf', 40)
+        self.font = pygame.font.Font('data/fonts/arial_narrow_7.ttf', 20)
+        self.bg_image = pygame.image.load('data/backgrounds/bkg_help.png')
         self.bg_title = self.section_font.render('Background', True, WHITE)
         self.bg_text = textwrap.wrap('Under the tyranny of the dark overlord, the world ' +
                                      'is in chaos and all the resources are nearly depleted.  ' +
@@ -197,9 +208,9 @@ class PlayerSelectPage:
             self.player2_spritesheet = None
 
         def _load_images():
-            self.bg_image = pygame.image.load('data/player_select_bkg.png')
-            self.humanPortrait = pygame.image.load('data/portrait_human.png')
-            self.elfPortrait = pygame.image.load('data/portrait_elf.png')
+            self.bg_image = pygame.image.load('data/backgrounds/bkg_player_select.png')
+            self.humanPortrait = pygame.image.load('data/sprites+portraits/human_portrait.png')
+            self.elfPortrait = pygame.image.load('data/sprites+portraits/elf_portrait.png')
 
             self.portraits = [self.humanPortrait, self.elfPortrait]
             self.portraits2 = [self.humanPortrait, self.elfPortrait]
@@ -209,7 +220,7 @@ class PlayerSelectPage:
             self.index2 = 0
 
         def _setup_fonts():
-            self.start_font = pygame.font.Font('data/Kremlin.ttf', 50)
+            self.start_font = pygame.font.Font('data/fonts/Kremlin.ttf', 50)
             self.start_font_xy = font_position_center(GL.SCREEN.get_rect(), self.start_font, '---------------Press Start when ready---------------')
             self.start_font_rendered = self.start_font.render('---------------Press Start when ready---------------', True, YELLOW)
 
@@ -368,15 +379,15 @@ class PlayerSelectPage:
         def set_sprites():
             # set spritesheet for player1
             if self.index == 0:  # human
-                self.player1_spritesheet = 'data/p1_human.png'
+                self.player1_spritesheet = 'data/sprites+portraits/human_p1.png'
             elif self.index == 1:  # elf
-                self.player1_spritesheet = 'data/p1_elf.png'
+                self.player1_spritesheet = 'data/sprites+portraits/elf_p1.png'
 
             # set spritesheet for player2
             if self.index2 == 0:  # human
-                self.player2_spritesheet = 'data/p2_human.png'
+                self.player2_spritesheet = 'data/sprites+portraits/human_p2.png'
             elif self.index2 == 1:  # elf
-                self.player2_spritesheet = 'data/p2_elf.png'
+                self.player2_spritesheet = 'data/sprites+portraits/elf_p2.png'
 
             GL.set_player1_spritesheet(self.player1_spritesheet)
             GL.set_player2_spritesheet(self.player2_spritesheet)
@@ -402,11 +413,11 @@ class LevelSelectPage:
             self.ready = False
 
         def _load_images():
-            self.bg_image = pygame.image.load('data/level_select_bkg.png')
-            self.bg_image2 = pygame.image.load('data/level_select_bkg2.png')
-            self.humanLevel = pygame.image.load('data/humanLevel.png')
-            self.elfLevel = pygame.image.load('data/vinesLevel.png')
-            self.androidLevel = pygame.image.load('data/androidLevel.png')
+            self.bg_image = pygame.image.load('data/backgrounds/bkg_level_select.png')
+            self.bg_image2 = pygame.image.load('data/backgrounds/bkg_level_select2.png')
+            self.humanLevel = pygame.image.load('data/backgrounds/arena_human.png')
+            self.elfLevel = pygame.image.load('data/backgrounds/arena_vines.png')
+            self.androidLevel = pygame.image.load('data/backgrounds/arena_android.png')
             self.levels = [self.humanLevel, self.elfLevel, self.androidLevel]
             self.outerX = [19, 444, 874]
             self.innerX = [24, 450, 878]
@@ -485,7 +496,7 @@ class LevelSelectPage:
 # ----------------------------------------------------------------------------
 class OptionsPage:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/background2.png')
+        self.bg_image = pygame.image.load('data/backgrounds/bkg_start_page.png')
         self.active_colors = BLACK, DKRED
         self.inactive_colors = DKRED, BLACK
 
@@ -495,7 +506,7 @@ class OptionsPage:
         self.music_off_button = pygbutton.PygButton((730, 200, 80, 50), 'OFF')
         self.sound_off_button = pygbutton.PygButton((730, 260, 80, 50), 'OFF')
 
-        font = pygame.font.Font('data/Kremlin.ttf', 40)
+        font = pygame.font.Font('data/fonts/Kremlin.ttf', 40)
         self.bg_font = font.render('Music:', True, DKRED)
         self.se_font = font.render('Sound:', True, DKRED)
 
@@ -620,9 +631,9 @@ class OptionsPage:
 # ----------------------------------------------------------------------------
 class PauseMenu:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/background3_menus_dim.png')
+        self.bg_image = pygame.image.load('data/backgrounds/bkg_menus_dim.png')
         self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
-        main_font = 'data/Kremlin.ttf'
+        main_font = 'data/fonts/Kremlin.ttf'
         pause_font = pygame.font.Font(main_font, 100)
         self.pause_font_xy = font_position_center(self.menu_box, pause_font, '-PAUSE-')
         self.pause_font_rendered = pause_font.render('-PAUSE-', True, RED)
@@ -686,9 +697,9 @@ class PauseMenu:
 # ----------------------------------------------------------------------------
 class GameOverMenu:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/background3_menus_dim.png')
+        self.bg_image = pygame.image.load('data/backgrounds/bkg_menus_dim.png')
         self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
-        main_font = 'data/Kremlin.ttf'
+        main_font = 'data/fonts/Kremlin.ttf'
         game_over_font = pygame.font.Font(main_font, 95)
         self.game_over_xy = font_position_center(self.menu_box, game_over_font, '-Game Over-')
         self.game_over_rendered = game_over_font.render('-Game Over-', True, RED)

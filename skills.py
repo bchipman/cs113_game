@@ -581,7 +581,7 @@ def napalm_on_expire(p):
         p.belongs_to.new_particle = [temp, obj0, obj1, obj2]
 
 def ADD_FIRE_AND_ICE(i):
-    SKILLS_TABLE[i] = {'name':'Icy-Hot', 'type': None, 'start': fai_start, 'cooldown': 200, 'energy':5, 'state': CAST1, 'frame': 1, 'sound':'data/sounds/fireIce.wav'}
+    SKILLS_TABLE[i] = {'name':'Icy-Hot', 'type': None, 'start': fai_start, 'cooldown': 200, 'energy':5, 'state': CAST1, 'frame': 1, 'sound':'data/sounds/fireice.wav'}
     #SKILLS_TABLE[i] = {'name':'Icy-Hot', 'type': None, 'start': fai_start, 'cooldown': 200, 'energy':5, 'sound':'data/sounds/fireIce.wav'}
     SKILLS_TABLE['fai_fire'] = _auto_range('',20, 20, 5, 2, 500, 10000, RED, 10, 2)
     SKILLS_TABLE['fai_fire']['special_path'] = fai_fire_path

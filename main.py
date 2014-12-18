@@ -46,7 +46,7 @@ class GameLoop:
             self.game_time = GameTime()
 
         def _setup_ui():
-            self.bkg_image = pygame.image.load('data/background3_menus.png')
+            self.bkg_image = pygame.image.load('data/backgrounds/bkg_menus.png')
             self.return_button = pygbutton.PygButton((490, 550, 300, 50), 'Main Menu')
             self.window_border = Rect2(left=0, top=0, width=1280, height=600)
             self.play_area_border = Rect2(left=60, top=0, width=1160, height=485)
@@ -66,10 +66,10 @@ class GameLoop:
                 Rect2(topleft=(1050, 500), size=(40, 40), color=BLACK),
                 Rect2(topleft=(1100, 500), size=(40, 40), color=BLACK),
                 Rect2(topleft=(1150, 500), size=(40, 40), color=BLACK), ]
-            self.health_bar_outline = pygame.image.load('data/health_bar_outline.png')
-            self.health_bar_outline2 = pygame.image.load('data/health_bar_outline2.png')
-            self.energy_bar_outline = pygame.image.load('data/energy_bar_outline.png')
-            self.energy_bar_outline2 = pygame.image.load('data/energy_bar_outline2.png')
+            self.health_bar_outline = pygame.image.load('data/backgrounds/health_bar_outline.png')
+            self.health_bar_outline2 = pygame.image.load('data/backgrounds/health_bar_outline2.png')
+            self.energy_bar_outline = pygame.image.load('data/backgrounds/energy_bar_outline.png')
+            self.energy_bar_outline2 = pygame.image.load('data/backgrounds/energy_bar_outline2.png')
 
         def _setup_arena():
             self.arena = Arena(GL.get_selected_level())#random.choice(( arena3, arena4, arena5)))
@@ -78,7 +78,7 @@ class GameLoop:
 
         def _setup_fonts():
             # main_font = 'data/viner-hand-itc.ttf'
-            main_font = 'data/Kremlin.ttf'
+            main_font = 'data/fonts/Kremlin.ttf'
             self.timer_font = pygame.font.Font(main_font, 36)
             self.timer_font_xy = 605, 500
             self.health_font = pygame.font.Font(main_font, 55)
@@ -120,9 +120,9 @@ class GameLoop:
             self.spawn_monsters = False
             pygame.event.post(pygame.event.Event(MONSTER_SPAWN_EVENT))
 
-            self.weak_monster_image = pygame.image.load('data/wMonster.png')
-            self.medium_monster_image = pygame.image.load('data/mMonster.png')
-            self.ultimate_monster_image = pygame.image.load('data/uMonster.png')
+            self.weak_monster_image = pygame.image.load('data/sprites+portraits/monster_weak.png')
+            self.medium_monster_image = pygame.image.load('data/sprites+portraits/monster_medium.png')
+            self.ultimate_monster_image = pygame.image.load('data/sprites+portraits/monster_ultimate.png')
 
         def _setup_music():
             if AUDIO.music_on:
