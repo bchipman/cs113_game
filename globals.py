@@ -460,28 +460,28 @@ class Input:
         keydown_events = [e for e in pygame.event.get(KEYDOWN)]
         for e in keydown_events:
             if e.key == K_RETURN:
-                self.START_EVENT = True
+                self.kb_input['KB_START_EVENT'] = True
 
             if e.key == K_ESCAPE:
-                self.SELECT_EVENT = True
+                self.kb_input['KB_SELECT_EVENT'] = True
 
             if e.key == K_BACKQUOTE:
-                self.DEBUG_VIEW = True
+                self.kb_input['KB_DEBUG_VIEW'] = True
 
             if e.key == K_F12:
-                self.F12DEBUG_VIEW = True
+                self.kb_input['KB_F12DEBUG_VIEW'] = True
 
             if e.key == K_LEFT:
-                self.LEFT_EVENT = True
+                self.kb_input['KB_LEFT_EVENT'] = True
 
             if e.key == K_RIGHT:
-                self.RIGHT_EVENT = True
+                self.kb_input['KB_RIGHT_EVENT'] = True
 
             if e.key == K_UP:
-                self.UP_EVENT = True
+                self.kb_input['KB_UP_EVENT'] = True
 
             if e.key == K_DOWN:
-                self.DOWN_EVENT = True
+                self.kb_input['KB_DOWN_EVENT'] = True
 
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
@@ -498,19 +498,19 @@ class Input:
                 if info.kind == 'button':
                     self.gp_input[name] = self.gamepad.get_button(info.number)
                     if info.number in [e.button for e in joy_button_events]:
-                        self.gp_input[name + '_EVENT'] = not self.gp_input[name + '_EVENT']
+                        self.gp_input[name + '_EVENT'] = True
                         # print('button', name + '_EVENT', self.gp_input[name + '_EVENT'])
 
                 elif info.kind == 'axis':
                     self.gp_input[name] = round(self.gamepad.get_axis(info.number)) == info.value1
                     if (info.number, info.value1) in [(e.axis, e.value) for e in joy_axis_events]:
-                        self.gp_input[name + '_EVENT'] = not self.gp_input[name + '_EVENT']
+                        self.gp_input[name + '_EVENT'] = True
                         # print('axis  ', name + '_EVENT', self.gp_input[name + '_EVENT'])
 
                 elif info.kind == 'hat':
                     self.gp_input[name] = self.gamepad.get_hat(info.number)[info.value2] == info.value1  # ITS FUCKING BACKWARDS??? THE TWO WAYS TO LOOK UP HAT DATA DONT RETURN THE SAME DATA IN THE SAME FUCKING WAY?  WHAT THE FUCK FUCK YOU PYGAME.
                     if (info.number, info.value1, info.value2) in [(e.hat, e.value[0], e.value[1]) for e in joy_hat_events]:
-                        self.gp_input[name + '_EVENT'] = not self.gp_input[name + '_EVENT']
+                        self.gp_input[name + '_EVENT'] = True
                         # print('hat   ', name + '_EVENT', self.gp_input[name + '_EVENT'])
 
     def _combine_all_pressed(self):
@@ -518,7 +518,6 @@ class Input:
         self.RIGHT = self.kb_input['KB_RIGHT'] or self.gp_input['GP_RIGHT']
         self.UP = self.kb_input['KB_UP'] or self.gp_input['GP_UP']
         self.DOWN = self.kb_input['KB_DOWN'] or self.gp_input['GP_DOWN']
-
         self.JUMP = self.kb_input['KB_SPACE'] or self.gp_input['GP_A']
         self.ATTACK = self.kb_input['KB_a'] or self.gp_input['GP_X']
         self.SKILL1 = self.kb_input['KB_s'] or self.gp_input['GP_B']
@@ -526,29 +525,23 @@ class Input:
         self.SKILL3 = self.kb_input['KB_f'] or self.gp_input['GP_R1']
         self.ULT = self.kb_input['KB_g'] or self.gp_input['GP_R2']
         self.DROP_SKILL = self.kb_input['KB_q'] or self.gp_input['GP_L1']
-
         self.RESPAWN = self.kb_input['KB_r']
         self.KILLALL = self.kb_input['KB_k']
 
     def _combine_all_events(self):
-        self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT']
-        self.RIGHT_EVENT = self.gp_input['GP_RIGHT_EVENT']
-        self.UP_EVENT = self.gp_input['GP_UP_EVENT']
-        self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT']
-
+        self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT'] or self.kb_input['KB_LEFT_EVENT']
+        self.RIGHT_EVENT = self.gp_input['GP_RIGHT_EVENT'] or self.kb_input['KB_RIGHT_EVENT']
+        self.UP_EVENT = self.gp_input['GP_UP_EVENT'] or self.kb_input['KB_UP_EVENT']
+        self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT'] or self.kb_input['KB_DOWN_EVENT']
         self.A_EVENT = self.gp_input['GP_A_EVENT']
         self.B_EVENT = self.gp_input['GP_B_EVENT']
-
-        self.START_EVENT = self.gp_input['GP_START_EVENT']
-        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT']
+        self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_START_EVENT']
+        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_SELECT_EVENT']
 
 
     def __setattr__(self, name, value):
         if name == 'refreshing_during_pause':
             self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
-
-        if 'EVENT' in name:  # if an 'EVENT' attribute
-            self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_EVENT with self.gp_input[GP_[X]_EVENT]
 
         if name == 'DEBUG_VIEW':
             if 'DEBUG_VIEW' not in self.__dict__:  # then this is the first time it is being set
@@ -564,6 +557,12 @@ class Input:
 
     def _reset_all_event_flags(self):
         self.refreshing_during_pause = False
+        for k in self.kb_input.keys():
+            self.kb_input[k] = False
+
+        for k in self.gp_input.keys():
+            self.gp_input[k] = False
+
         for name in 'LEFT_EVENT, RIGHT_EVENT, UP_EVENT, DOWN_EVENT, START_EVENT, SELECT_EVENT, A_EVENT, B_EVENT'.split(', '):
             exec('self.{} = False'.format(name))
 
