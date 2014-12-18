@@ -436,23 +436,25 @@ class Input:
 
     def _get_keyboard_pressed(self):
         sucky_kb_input = pygame.key.get_pressed()
-        self.kb_input['K_LEFT'] = sucky_kb_input[K_LEFT]
-        self.kb_input['K_RIGHT'] = sucky_kb_input[K_RIGHT]
-        self.kb_input['K_UP'] = sucky_kb_input[K_UP]
-        self.kb_input['K_DOWN'] = sucky_kb_input[K_DOWN]
-        self.kb_input['K_SPACE'] = sucky_kb_input[K_SPACE]
-        self.kb_input['K_s'] = sucky_kb_input[K_s]
-        self.kb_input['K_a'] = sucky_kb_input[K_a]
-        self.kb_input['K_d'] = sucky_kb_input[K_d]
-        self.kb_input['K_f'] = sucky_kb_input[K_f]
-        self.kb_input['K_g'] = sucky_kb_input[K_g]
-        self.kb_input['K_q'] = sucky_kb_input[K_q]
-        self.kb_input['K_RETURN'] = sucky_kb_input[K_RETURN]
-        self.kb_input['K_ESCAPE'] = sucky_kb_input[K_ESCAPE]
-        self.kb_input['K_r'] = sucky_kb_input[K_r]
-        self.kb_input['K_k'] = sucky_kb_input[K_k]
-        self.kb_input['K_BACKQUOTE'] = sucky_kb_input[K_BACKQUOTE]
-        self.kb_input['K_F12'] = sucky_kb_input[K_F12]
+        self.kb_input['KB_LEFT'] = sucky_kb_input[K_LEFT]
+        self.kb_input['KB_RIGHT'] = sucky_kb_input[K_RIGHT]
+        self.kb_input['KB_UP'] = sucky_kb_input[K_UP]
+        self.kb_input['KB_DOWN'] = sucky_kb_input[K_DOWN]
+        self.kb_input['KB_SPACE'] = sucky_kb_input[K_SPACE]
+
+        self.kb_input['KB_s'] = sucky_kb_input[K_s]
+        self.kb_input['KB_a'] = sucky_kb_input[K_a]
+        self.kb_input['KB_d'] = sucky_kb_input[K_d]
+        self.kb_input['KB_f'] = sucky_kb_input[K_f]
+        self.kb_input['KB_g'] = sucky_kb_input[K_g]
+        self.kb_input['KB_q'] = sucky_kb_input[K_q]
+
+        self.kb_input['KB_RETURN'] = sucky_kb_input[K_RETURN]
+        self.kb_input['KB_ESCAPE'] = sucky_kb_input[K_ESCAPE]
+        self.kb_input['KB_r'] = sucky_kb_input[K_r]
+        self.kb_input['KB_k'] = sucky_kb_input[K_k]
+        self.kb_input['KB_BACKQUOTE'] = sucky_kb_input[K_BACKQUOTE]
+        self.kb_input['KB_F12'] = sucky_kb_input[K_F12]
 
     def _get_keyboard_events(self):
         keydown_events = [e for e in pygame.event.get(KEYDOWN)]
@@ -512,21 +514,21 @@ class Input:
                         # print('hat   ', name + '_EVENT', self.gp_input[name + '_EVENT'])
 
     def _combine_all_pressed(self):
-        self.LEFT = self.kb_input['K_LEFT'] or self.gp_input['GP_LEFT']
-        self.RIGHT = self.kb_input['K_RIGHT'] or self.gp_input['GP_RIGHT']
-        self.UP = self.kb_input['K_UP'] or self.gp_input['GP_UP']
-        self.DOWN = self.kb_input['K_DOWN'] or self.gp_input['GP_DOWN']
+        self.LEFT = self.kb_input['KB_LEFT'] or self.gp_input['GP_LEFT']
+        self.RIGHT = self.kb_input['KB_RIGHT'] or self.gp_input['GP_RIGHT']
+        self.UP = self.kb_input['KB_UP'] or self.gp_input['GP_UP']
+        self.DOWN = self.kb_input['KB_DOWN'] or self.gp_input['GP_DOWN']
 
-        self.JUMP = self.kb_input['K_SPACE'] or self.gp_input['GP_A']
-        self.ATTACK = self.kb_input['K_a'] or self.gp_input['GP_X']
-        self.SKILL1 = self.kb_input['K_s'] or self.gp_input['GP_B']
-        self.SKILL2 = self.kb_input['K_d'] or self.gp_input['GP_Y']
-        self.SKILL3 = self.kb_input['K_f'] or self.gp_input['GP_R1']
-        self.ULT = self.kb_input['K_g'] or self.gp_input['GP_R2']
-        self.DROP_SKILL = self.kb_input['K_q'] or self.gp_input['GP_L1']
+        self.JUMP = self.kb_input['KB_SPACE'] or self.gp_input['GP_A']
+        self.ATTACK = self.kb_input['KB_a'] or self.gp_input['GP_X']
+        self.SKILL1 = self.kb_input['KB_s'] or self.gp_input['GP_B']
+        self.SKILL2 = self.kb_input['KB_d'] or self.gp_input['GP_Y']
+        self.SKILL3 = self.kb_input['KB_f'] or self.gp_input['GP_R1']
+        self.ULT = self.kb_input['KB_g'] or self.gp_input['GP_R2']
+        self.DROP_SKILL = self.kb_input['KB_q'] or self.gp_input['GP_L1']
 
-        self.RESPAWN = self.kb_input['K_r']
-        self.KILLALL = self.kb_input['K_k']
+        self.RESPAWN = self.kb_input['KB_r']
+        self.KILLALL = self.kb_input['KB_k']
 
     def _combine_all_events(self):
         self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT']
