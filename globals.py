@@ -460,28 +460,28 @@ class Input:
         keydown_events = [e for e in pygame.event.get(KEYDOWN)]
         for e in keydown_events:
             if e.key == K_RETURN:
-                self.START_EVENT = not self.START_EVENT
+                self.START_EVENT = True
 
             if e.key == K_ESCAPE:
-                self.SELECT_EVENT = not self.SELECT_EVENT
+                self.SELECT_EVENT = True
 
             if e.key == K_BACKQUOTE:
-                self.DEBUG_VIEW = not self.DEBUG_VIEW
+                self.DEBUG_VIEW = True
 
             if e.key == K_F12:
-                self.F12DEBUG_VIEW = not self.DEBUG_VIEW
+                self.F12DEBUG_VIEW = True
 
             if e.key == K_LEFT:
-                self.LEFT_EVENT = not self.LEFT_EVENT
+                self.LEFT_EVENT = True
 
             if e.key == K_RIGHT:
-                self.RIGHT_EVENT = not self.RIGHT_EVENT
+                self.RIGHT_EVENT = True
 
             if e.key == K_UP:
-                self.UP_EVENT = not self.UP_EVENT
+                self.UP_EVENT = True
 
             if e.key == K_DOWN:
-                self.DOWN_EVENT = not self.DOWN_EVENT
+                self.DOWN_EVENT = True
 
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
