@@ -53,11 +53,11 @@ class StartMenu:
     def input(self):
         GL.INPUT1.refresh()
 
-        if GL.INPUT1.kb_input['K_F12']:
+        if GL.INPUT1.kb_pressed['K_F12']:
             self.return_now = True
             GL.NEXT_PAGE = 'GameLoop()'
 
-        if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.A_PRESS_EVENT:
+        if GL.INPUT1.START_EVENT or GL.INPUT1.A_EVENT:
 
             if self.selection_box[0] == self.start_button:
                 self.return_now = True
@@ -75,10 +75,10 @@ class StartMenu:
                 self.return_now = True
                 EXIT_GAME()
 
-        if GL.INPUT1.LEFT_PRESS_EVENT:
+        if GL.INPUT1.LEFT_EVENT:
             self.selection_box.rotate()
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
+        if GL.INPUT1.RIGHT_EVENT:
             self.selection_box.rotate(-1)
 
     def events(self):
@@ -163,19 +163,19 @@ class HelpPage:
     def input(self):
         GL.INPUT1.refresh()
 
-        if GL.INPUT1.START_PRESS_EVENT:
+        if GL.INPUT1.START_EVENT:
             self.return_now = True
             GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.SELECT_PRESS_EVENT:
+        if GL.INPUT1.SELECT_EVENT:
             self.return_now = True
             GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.B_PRESS_EVENT:
+        if GL.INPUT1.B_EVENT:
             self.return_now = True
             GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.A_PRESS_EVENT:
+        if GL.INPUT1.A_EVENT:
             self.return_now = True
             GL.NEXT_PAGE = 'start'
 
@@ -256,14 +256,14 @@ class PlayerSelectPage:
 
             def check_left_right(player):
                 if player == 'player1':
-                    if GL.INPUT1.LEFT_PRESS_EVENT:
+                    if GL.INPUT1.LEFT_EVENT:
                         self.index -= 1
                         if self.index < 0:
                             self.index = len(self.portraits) - 1
 
                         check_other_player('player1')
 
-                    elif GL.INPUT1.RIGHT_PRESS_EVENT:
+                    elif GL.INPUT1.RIGHT_EVENT:
                         self.index += 1
                         if self.index >= len(self.portraits):
                             self.index = 0
@@ -271,14 +271,14 @@ class PlayerSelectPage:
                         check_other_player('player1')
 
                 elif player == 'player2':
-                    if GL.INPUT2.LEFT_PRESS_EVENT:
+                    if GL.INPUT2.LEFT_EVENT:
                         self.index2 -= 1
                         if self.index2 < 0:
                             self.index2 = len(self.portraits2) - 1
 
                         check_other_player('player2')
 
-                    elif GL.INPUT2.RIGHT_PRESS_EVENT:
+                    elif GL.INPUT2.RIGHT_EVENT:
                         self.index2 += 1
                         if self.index2 >= len(self.portraits2):
                             self.index2 = 0
@@ -309,15 +309,15 @@ class PlayerSelectPage:
             # set sprite to player
             # if they pressed select
             # they want to select a different sprite or return to start screen
-            if GL.INPUT1.A_PRESS_EVENT or GL.INPUT1.kb_input['K_SPACE']:
-                GL.INPUT1.kb_input['K_SPACE'] = False  # press space on keyboard to select
+            if GL.INPUT1.A_EVENT or GL.INPUT1.kb_pressed['K_SPACE']:
+                GL.INPUT1.kb_pressed['K_SPACE'] = False  # press space on keyboard to select
                 if self.ready2 and self.index2 == self.index:
                     print('Player 2 is using this character. Select a different one.')
                 else:
                     print('player 1 ready')
                     self.ready1 = True
 
-            if GL.INPUT2.A_PRESS_EVENT:
+            if GL.INPUT2.A_EVENT:
                 if self.ready1 and self.index2 == self.index:
                     print('Player 1 is using this character. Select a different one.')
                 else:
@@ -327,20 +327,20 @@ class PlayerSelectPage:
             # if player presses back when previously stated they were ready
             # allow them to reselect player
             # keyboard equivalent of select is 's' key
-            if self.ready1 and GL.INPUT1.B_PRESS_EVENT:  # add keyboard 'S' key
+            if self.ready1 and GL.INPUT1.B_EVENT:  # add keyboard 'S' key
                 print('player 1 not ready anymore')
                 self.ready1 = False
 
-            elif not self.ready1 and GL.INPUT1.B_PRESS_EVENT:
+            elif not self.ready1 and GL.INPUT1.B_EVENT:
                 GL.NEXT_PAGE = 'start'
                 self.return_now = True
                 print('player 1 requested to go back to start')
 
-            if self.ready2 and GL.INPUT2.B_PRESS_EVENT:
+            if self.ready2 and GL.INPUT2.B_EVENT:
                 print('player 2 not ready anymore')
                 self.ready2 = False
 
-            elif not self.ready2 and GL.INPUT2.B_PRESS_EVENT:
+            elif not self.ready2 and GL.INPUT2.B_EVENT:
                 GL.NEXT_PAGE = 'start'
                 self.return_now = True
                 print('player 2 requested to go back to start')
@@ -353,9 +353,9 @@ class PlayerSelectPage:
                 # if using a keyboard - only one player
                 # if keyboard user presses 'A' when he is ready
                 # go to level select
-                if (GL.INPUT1.START_PRESS_EVENT or GL.INPUT2.START_PRESS_EVENT) or (GL.INPUT1.kb_input['K_a']):
-                    if GL.INPUT1.kb_input['K_a']:
-                        GL.INPUT1.kb_input['K_a'] = False
+                if (GL.INPUT1.START_EVENT or GL.INPUT2.START_EVENT) or (GL.INPUT1.kb_pressed['K_a']):
+                    if GL.INPUT1.kb_pressed['K_a']:
+                        GL.INPUT1.kb_pressed['K_a'] = False
 
                     self.start = True
                     print('setting sprites')
@@ -436,24 +436,24 @@ class LevelSelectPage:
     def input(self):
         GL.INPUT1.refresh()  # only player 1 can select level
 
-        if GL.INPUT1.LEFT_PRESS_EVENT:
+        if GL.INPUT1.LEFT_EVENT:
             self.index -= 1
             if self.index < 0:
                 self.index = len(self.levels) - 1
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
+        if GL.INPUT1.RIGHT_EVENT:
             self.index += 1
             if self.index >= len(self.levels):
                 self.index = 0
 
-        if GL.INPUT1.B_PRESS_EVENT:
+        if GL.INPUT1.B_EVENT:
             GL.NEXT_PAGE = 'PlayerSelectPage()'
             self.return_now = True
 
         def ready_check():
-            if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.kb_input['K_a']:
-                if GL.INPUT1.kb_input['K_a']:
-                    GL.INPUT1.kb_input['K_a'] = False
+            if GL.INPUT1.START_EVENT or GL.INPUT1.kb_pressed['K_a']:
+                if GL.INPUT1.kb_pressed['K_a']:
+                    GL.INPUT1.kb_pressed['K_a'] = False
                 print('ready to load')
                 self.ready = True
                 set_level()
@@ -548,25 +548,25 @@ class OptionsPage:
     def input(self):
         GL.INPUT1.refresh()
 
-        if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.A_PRESS_EVENT:
+        if GL.INPUT1.START_EVENT or GL.INPUT1.A_EVENT:
             if self.selection_box[0][0] == self.main_menu_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.B_PRESS_EVENT:
+        if GL.INPUT1.B_EVENT:
             self.return_now = True
             GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.UP_PRESS_EVENT:
+        if GL.INPUT1.UP_EVENT:
             self.selection_box.rotate(-1)
 
-        if GL.INPUT1.DOWN_PRESS_EVENT:
+        if GL.INPUT1.DOWN_EVENT:
             self.selection_box.rotate()
 
-        if GL.INPUT1.LEFT_PRESS_EVENT or GL.INPUT1.RIGHT_PRESS_EVENT:
-            if GL.INPUT1.LEFT_PRESS_EVENT:
+        if GL.INPUT1.LEFT_EVENT or GL.INPUT1.RIGHT_EVENT:
+            if GL.INPUT1.LEFT_EVENT:
                 self.selection_box[0].rotate()
-            if GL.INPUT1.RIGHT_PRESS_EVENT:
+            if GL.INPUT1.RIGHT_EVENT:
                 self.selection_box[0].rotate(-1)
 
             if self.selection_box[0][0] == self.sound_on_button:
@@ -651,7 +651,7 @@ class PauseMenu:
     def input(self):
         GL.INPUT1.refresh_during_pause()
 
-        if GL.INPUT1.START_PRESS_EVENT or GL.INPUT1.A_PRESS_EVENT:
+        if GL.INPUT1.START_EVENT or GL.INPUT1.A_EVENT:
             if self.selection_box[0] == self.continue_button:
                 self.return_now = True
                 GL.NEXT_PAGE = 'GL.CURR_GAME'
@@ -660,10 +660,10 @@ class PauseMenu:
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.LEFT_PRESS_EVENT:
+        if GL.INPUT1.LEFT_EVENT:
             self.selection_box.rotate()
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
+        if GL.INPUT1.RIGHT_EVENT:
             self.selection_box.rotate(-1)
 
     def events(self):
@@ -717,11 +717,11 @@ class GameOverMenu:
     def input(self):
         GL.INPUT1.refresh_during_pause()
 
-        if GL.INPUT1.SELECT_PRESS_EVENT:
+        if GL.INPUT1.SELECT_EVENT:
             self.return_now = True
             GL.NEXT_PAGE = 'start'
 
-        if GL.INPUT1.START_PRESS_EVENT:
+        if GL.INPUT1.START_EVENT:
 
             if self.selection_box[0] == self.main_menu_button:
                 self.return_now = True
@@ -731,10 +731,10 @@ class GameOverMenu:
                 self.return_now = True
                 EXIT_GAME()
 
-        if GL.INPUT1.LEFT_PRESS_EVENT:
+        if GL.INPUT1.LEFT_EVENT:
             self.selection_box.rotate()
 
-        if GL.INPUT1.RIGHT_PRESS_EVENT:
+        if GL.INPUT1.RIGHT_EVENT:
             self.selection_box.rotate(-1)
 
     def events(self):

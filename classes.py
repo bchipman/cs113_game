@@ -346,7 +346,7 @@ class Player(Rect2):
 
                     self.play_sound(SKILLS_TABLE[i]['sound'], i)
 
-                    self.new_particle = SKILLS_TABLE[i]['start'](i, self, self.input.UP_PRESS_EVENT, self.input.DOWN_PRESS_EVENT)
+                    self.new_particle = SKILLS_TABLE[i]['start'](i, self, self.input.UP_EVENT, self.input.DOWN_EVENT)
                     if SKILLS_TABLE[i]['cooldown']:
                         self.attack_cooldown_expired = False
                         pygame.time.set_timer(TIME_TICK_EVENT + self.id, SKILLS_TABLE[i]['cooldown'])
