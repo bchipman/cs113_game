@@ -417,7 +417,7 @@ class Input:
         if self.player_id == 1:
             self._get_keyboard_pressed()
             self._get_keyboard_events()
-        self._get_gamepad_pressed2()
+        self._get_gamepad_pressed_and_events()
         self._combine_all_pressed()
         if self.player_id == 1:
             self._handle_mouse_visibility()
@@ -428,7 +428,7 @@ class Input:
         if self.player_id == 1:
             self._get_keyboard_pressed()
             self._get_keyboard_events()
-            self._get_gamepad_pressed2()
+            self._get_gamepad_pressed_and_events()
             self._combine_all_pressed()
             self._handle_mouse_visibility()
 
@@ -478,7 +478,7 @@ class Input:
             if event.key == K_DOWN:
                 self.DOWN_EVENT = not self.DOWN_EVENT
 
-    def _get_gamepad_pressed2(self):
+    def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
             if self.player_id == 1:
                 Input.joy_button_events = [e for e in pygame.event.get(JOYBUTTONDOWN)]
