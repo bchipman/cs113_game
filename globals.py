@@ -419,6 +419,7 @@ class Input:
             self._get_keyboard_events()
         self._get_gamepad_pressed_and_events()
         self._combine_all_pressed()
+        self._combine_all_events()
         if self.player_id == 1:
             self._handle_mouse_visibility()
 
@@ -430,6 +431,7 @@ class Input:
             self._get_keyboard_events()
             self._get_gamepad_pressed_and_events()
             self._combine_all_pressed()
+            self._combine_all_events()
             self._handle_mouse_visibility()
 
     def _get_keyboard_pressed(self):
@@ -453,29 +455,30 @@ class Input:
         self.kb_input['K_F12'] = sucky_kb_input[K_F12]
 
     def _get_keyboard_events(self):
-        for event in pygame.event.get(KEYDOWN):
-            if event.key == K_RETURN:
+        keydown_events = [e for e in pygame.event.get(KEYDOWN)]
+        for e in keydown_events:
+            if e.key == K_RETURN:
                 self.START_EVENT = not self.START_EVENT
 
-            if event.key == K_ESCAPE:
+            if e.key == K_ESCAPE:
                 self.SELECT_EVENT = not self.SELECT_EVENT
 
-            if event.key == K_BACKQUOTE:
+            if e.key == K_BACKQUOTE:
                 self.DEBUG_VIEW = not self.DEBUG_VIEW
 
-            if event.key == K_F12:
+            if e.key == K_F12:
                 self.F12DEBUG_VIEW = not self.DEBUG_VIEW
 
-            if event.key == K_LEFT:
+            if e.key == K_LEFT:
                 self.LEFT_EVENT = not self.LEFT_EVENT
 
-            if event.key == K_RIGHT:
+            if e.key == K_RIGHT:
                 self.RIGHT_EVENT = not self.RIGHT_EVENT
 
-            if event.key == K_UP:
+            if e.key == K_UP:
                 self.UP_EVENT = not self.UP_EVENT
 
-            if event.key == K_DOWN:
+            if e.key == K_DOWN:
                 self.DOWN_EVENT = not self.DOWN_EVENT
 
     def _get_gamepad_pressed_and_events(self):
@@ -513,6 +516,7 @@ class Input:
         self.RIGHT = self.kb_input['K_RIGHT'] or self.gp_input['GP_RIGHT']
         self.UP = self.kb_input['K_UP'] or self.gp_input['GP_UP']
         self.DOWN = self.kb_input['K_DOWN'] or self.gp_input['GP_DOWN']
+
         self.JUMP = self.kb_input['K_SPACE'] or self.gp_input['GP_A']
         self.ATTACK = self.kb_input['K_a'] or self.gp_input['GP_X']
         self.SKILL1 = self.kb_input['K_s'] or self.gp_input['GP_B']
@@ -520,18 +524,22 @@ class Input:
         self.SKILL3 = self.kb_input['K_f'] or self.gp_input['GP_R1']
         self.ULT = self.kb_input['K_g'] or self.gp_input['GP_R2']
         self.DROP_SKILL = self.kb_input['K_q'] or self.gp_input['GP_L1']
+
         self.RESPAWN = self.kb_input['K_r']
         self.KILLALL = self.kb_input['K_k']
 
+    def _combine_all_events(self):
         self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT']
         self.RIGHT_EVENT = self.gp_input['GP_RIGHT_EVENT']
         self.UP_EVENT = self.gp_input['GP_UP_EVENT']
         self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT']
-        self.START_EVENT = self.gp_input['GP_START_EVENT']
-        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT']
 
         self.A_EVENT = self.gp_input['GP_A_EVENT']
         self.B_EVENT = self.gp_input['GP_B_EVENT']
+
+        self.START_EVENT = self.gp_input['GP_START_EVENT']
+        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT']
+
 
     def __setattr__(self, name, value):
         if name == 'refreshing_during_pause':
