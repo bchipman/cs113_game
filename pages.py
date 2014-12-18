@@ -52,7 +52,7 @@ class StartMenu:
 
     def input(self):
         GL.INPUT1.refresh()
-        if GL.INPUT1.kb_pressed['K_F12']:
+        if GL.INPUT1.kb_input['K_F12']:
             all_sprites = ['data/sprites+portraits/human_p1.png',
                            'data/sprites+portraits/elf_p1.png',
                            'data/sprites+portraits/human_p2.png',
@@ -320,8 +320,8 @@ class PlayerSelectPage:
             # set sprite to player
             # if they pressed select
             # they want to select a different sprite or return to start screen
-            if GL.INPUT1.A_EVENT or GL.INPUT1.kb_pressed['K_SPACE']:
-                GL.INPUT1.kb_pressed['K_SPACE'] = False  # press space on keyboard to select
+            if GL.INPUT1.A_EVENT or GL.INPUT1.kb_input['K_SPACE']:
+                GL.INPUT1.kb_input['K_SPACE'] = False  # press space on keyboard to select
                 if self.ready2 and self.index2 == self.index:
                     print('Player 2 is using this character. Select a different one.')
                 else:
@@ -370,9 +370,9 @@ class PlayerSelectPage:
                 # if using a keyboard - only one player
                 # if keyboard user presses 'A' when he is ready
                 # go to level select
-                if (GL.INPUT1.START_EVENT or GL.INPUT2.START_EVENT) or (GL.INPUT1.kb_pressed['K_a']):
-                    if GL.INPUT1.kb_pressed['K_a']:
-                        GL.INPUT1.kb_pressed['K_a'] = False
+                if (GL.INPUT1.START_EVENT or GL.INPUT2.START_EVENT) or (GL.INPUT1.kb_input['K_a']):
+                    if GL.INPUT1.kb_input['K_a']:
+                        GL.INPUT1.kb_input['K_a'] = False
 
                     self.start = True
                     print('setting sprites')
@@ -472,9 +472,9 @@ class LevelSelectPage:
             GL.NEXT_PAGE = 'PlayerSelectPage()'
 
         def ready_check():
-            if GL.INPUT1.START_EVENT or GL.INPUT1.kb_pressed['K_a']:
-                if GL.INPUT1.kb_pressed['K_a']:
-                    GL.INPUT1.kb_pressed['K_a'] = False
+            if GL.INPUT1.START_EVENT or GL.INPUT1.kb_input['K_a']:
+                if GL.INPUT1.kb_input['K_a']:
+                    GL.INPUT1.kb_input['K_a'] = False
                 print('ready to load')
                 self.ready = True
                 set_level()
