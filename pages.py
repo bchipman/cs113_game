@@ -254,18 +254,6 @@ class PlayerSelectPage:
 
         def player_select_inputs():
 
-            def check_other_player(player):
-                if player == 'player1':
-                    if self.index == self.index2 and self.ready2:  # player 2 is using character, skip index
-                        self.index += 1
-                        if self.index >= len(self.portraits):
-                            self.index = 0
-                else:
-                    if self.index == self.index2 and self.ready1:  # player 2 is using character, skip index
-                        self.index2 += 1
-                        if self.index2 >= len(self.portraits2):
-                            self.index2 = 0
-
             def check_left_right(player):
                 if player == 'player1':
                     if GL.INPUT1.LEFT_PRESS_EVENT:
@@ -296,6 +284,18 @@ class PlayerSelectPage:
                             self.index2 = 0
 
                         check_other_player('player2')
+
+            def check_other_player(player):
+                if player == 'player1':
+                    if self.index == self.index2 and self.ready2:  # player 2 is using character, skip index
+                        self.index += 1
+                        if self.index >= len(self.portraits):
+                            self.index = 0
+                else:
+                    if self.index == self.index2 and self.ready1:  # player 2 is using character, skip index
+                        self.index2 += 1
+                        if self.index2 >= len(self.portraits2):
+                            self.index2 = 0
 
             # if player 1/2 is not ready, let them select character
             if not self.ready1:
