@@ -83,7 +83,6 @@ class StartMenu:
                 GL.NEXT_PAGE = 'options'
 
             elif self.selection_box[0] == self.exit_button:
-                self.return_now = True
                 EXIT_GAME()
 
         if GL.INPUT1.LEFT_EVENT:
@@ -91,6 +90,9 @@ class StartMenu:
 
         if GL.INPUT1.RIGHT_EVENT:
             self.selection_box.rotate(-1)
+
+        if GL.INPUT1.SELECT_EVENT:
+            EXIT_GAME()
 
     def events(self):
         for event in pygame.event.get():
@@ -757,7 +759,6 @@ class GameOverMenu:
                 GL.NEXT_PAGE = 'start'
 
             elif self.selection_box[0] == self.exit_button:
-                self.return_now = True
                 EXIT_GAME()
 
         if GL.INPUT1.LEFT_EVENT:

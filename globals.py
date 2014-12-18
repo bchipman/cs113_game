@@ -470,6 +470,8 @@ class Input:
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
             if self.player_id == 1:
+                # These three lists are placed in the namespace of the Input
+                # class so that both instances of Input may access them
                 Input.joy_button_events = [e for e in pygame.event.get(JOYBUTTONDOWN)]
                 Input.joy_axis_events = [e for e in pygame.event.get(JOYAXISMOTION)]
                 Input.joy_hat_events = [e for e in pygame.event.get(JOYHATMOTION)]
