@@ -356,6 +356,12 @@ class PlayerSelectPage:
                 self.return_now = True
                 print('player 2 requested to go back to start')
 
+            if GL.INPUT1.SELECT_EVENT:
+                self.ready1 = False
+                self.ready2 = False
+                self.return_now = True
+                GL.NEXT_PAGE = 'start'
+
         def ready_for_start():
             if self.ready1 and self.ready2:
 
@@ -461,6 +467,10 @@ class LevelSelectPage:
             GL.NEXT_PAGE = 'PlayerSelectPage()'
             self.return_now = True
 
+        if GL.INPUT1.SELECT_EVENT:
+            self.return_now = True
+            GL.NEXT_PAGE = 'PlayerSelectPage()'
+
         def ready_check():
             if GL.INPUT1.START_EVENT or GL.INPUT1.kb_pressed['K_a']:
                 if GL.INPUT1.kb_pressed['K_a']:
@@ -558,6 +568,10 @@ class OptionsPage:
 
     def input(self):
         GL.INPUT1.refresh()
+
+        if GL.INPUT1.SELECT_EVENT:
+            self.return_now = True
+            GL.NEXT_PAGE = 'start'
 
         if GL.INPUT1.START_EVENT or GL.INPUT1.A_EVENT:
             if self.selection_box[0][0] == self.main_menu_button:
@@ -676,6 +690,10 @@ class PauseMenu:
 
         if GL.INPUT1.RIGHT_EVENT:
             self.selection_box.rotate(-1)
+
+        if GL.INPUT1.SELECT_EVENT:
+            self.return_now = True
+            GL.NEXT_PAGE = 'GL.CURR_GAME'
 
     def events(self):
         for event in pygame.event.get():
