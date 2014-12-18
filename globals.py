@@ -367,48 +367,48 @@ class Input:
                   'GP_RIGHT': input_nt(kind='hat', number=0, value1=1, value2=0),
                   'GP_UP': input_nt(kind='hat', number=0, value1=1, value2=-1),
                   'GP_DOWN': input_nt(kind='hat', number=0, value1=-1, value2=+1),
-                  'GP_Y': input_nt(kind='button', number=0, value1=None, value2=None),
-                  'GP_X': input_nt(kind='button', number=3, value1=None, value2=None),
-                  'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
                   'GP_A': input_nt(kind='button', number=2, value1=None, value2=None),
-                  'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None),
-                  'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
-                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
+                  'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
+                  'GP_X': input_nt(kind='button', number=3, value1=None, value2=None),
+                  'GP_Y': input_nt(kind='button', number=0, value1=None, value2=None),
                   'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
+                  'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None),
+                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
                   'GP_L2': input_nt(kind='button', number=6, value1=None, value2=None),
-                  'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None)}
+                  'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
+                  'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
 
         elif self.gamepad.get_name() == 'Logitech Cordless RumblePad 2 USB':  # Brian's gamepad if switched to "D"
             di = {'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
                   'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
                   'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
                   'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
-                  'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
-                  'GP_X': input_nt(kind='button', number=0, value1=None, value2=None),
-                  'GP_B': input_nt(kind='button', number=2, value1=None, value2=None),
                   'GP_A': input_nt(kind='button', number=1, value1=None, value2=None),
-                  'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None),
-                  'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
-                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
+                  'GP_B': input_nt(kind='button', number=2, value1=None, value2=None),
+                  'GP_X': input_nt(kind='button', number=0, value1=None, value2=None),
+                  'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
                   'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
+                  'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None),
+                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
                   'GP_L2': input_nt(kind='button', number=6, value1=None, value2=None),
-                  'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None)}
+                  'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
+                  'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
 
         elif self.gamepad.get_name() in ('Wireless Gamepad F710 (Controller)', 'Controller (XBOX 360 For Windows)'):  # Brian's gamepad if switched to "X"
             di = {'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
                   'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
                   'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
                   'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
-                  'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
-                  'GP_X': input_nt(kind='button', number=2, value1=None, value2=None),
-                  'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
                   'GP_A': input_nt(kind='button', number=0, value1=None, value2=None),
-                  'GP_SELECT': input_nt(kind='button', number=6, value1=None, value2=None),
-                  'GP_START': input_nt(kind='button', number=7, value1=None, value2=None),
-                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
+                  'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
+                  'GP_X': input_nt(kind='button', number=2, value1=None, value2=None),
+                  'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
                   'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
+                  'GP_R2': input_nt(kind='axis', number=2, value1=-1, value2=None),
+                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
                   'GP_L2': input_nt(kind='axis', number=2, value1=+1, value2=None),
-                  'GP_R2': input_nt(kind='axis', number=2, value1=-1, value2=None)}
+                  'GP_START': input_nt(kind='button', number=7, value1=None, value2=None),
+                  'GP_SELECT': input_nt(kind='button', number=6, value1=None, value2=None)}
 
         self.GP_INPUTS_DICT = di
 
@@ -434,23 +434,23 @@ class Input:
 
     def _get_keyboard_pressed(self):
         sucky_kb_input = pygame.key.get_pressed()
-        self.kb_input['K_RETURN'] = sucky_kb_input[K_RETURN]
-        self.kb_input['K_ESCAPE'] = sucky_kb_input[K_ESCAPE]
-        self.kb_input['K_BACKQUOTE'] = sucky_kb_input[K_BACKQUOTE]
-        self.kb_input['K_F12'] = sucky_kb_input[K_F12]
         self.kb_input['K_LEFT'] = sucky_kb_input[K_LEFT]
         self.kb_input['K_RIGHT'] = sucky_kb_input[K_RIGHT]
         self.kb_input['K_UP'] = sucky_kb_input[K_UP]
         self.kb_input['K_DOWN'] = sucky_kb_input[K_DOWN]
         self.kb_input['K_SPACE'] = sucky_kb_input[K_SPACE]
-        self.kb_input['K_a'] = sucky_kb_input[K_a]
         self.kb_input['K_s'] = sucky_kb_input[K_s]
+        self.kb_input['K_a'] = sucky_kb_input[K_a]
         self.kb_input['K_d'] = sucky_kb_input[K_d]
         self.kb_input['K_f'] = sucky_kb_input[K_f]
         self.kb_input['K_g'] = sucky_kb_input[K_g]
         self.kb_input['K_q'] = sucky_kb_input[K_q]
+        self.kb_input['K_RETURN'] = sucky_kb_input[K_RETURN]
+        self.kb_input['K_ESCAPE'] = sucky_kb_input[K_ESCAPE]
         self.kb_input['K_r'] = sucky_kb_input[K_r]
         self.kb_input['K_k'] = sucky_kb_input[K_k]
+        self.kb_input['K_BACKQUOTE'] = sucky_kb_input[K_BACKQUOTE]
+        self.kb_input['K_F12'] = sucky_kb_input[K_F12]
 
     def _get_keyboard_events(self):
         for event in pygame.event.get(KEYDOWN):
