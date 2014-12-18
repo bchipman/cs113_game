@@ -339,7 +339,7 @@ AUDIO = Audio()
 # ----------------------------------Input-------------------------------------
 class Input:
     def __init__(self, player_id=1):
-        self.gp_input = defaultdict(bool)
+        self.gp_pressed = defaultdict(bool)
         self.kb_pressed = defaultdict(bool)
         self.player_id = player_id
         self.refreshing_during_pause = False
@@ -491,54 +491,54 @@ class Input:
 
             for name, info in self.GP_INPUTS_DICT.items():  # these are all the inputs that we care about
                 if info.kind == 'button':
-                    self.gp_input[name] = self.gamepad.get_button(info.number)
+                    self.gp_pressed[name] = self.gamepad.get_button(info.number)
                     if info.number in [e.button for e in joy_button_events]:
-                        self.gp_input[name + '_EVENT'] = not self.gp_input[name + '_EVENT']
-                        # print('button', name + '_EVENT', self.gp_input[name + '_EVENT'])
+                        self.gp_pressed[name + '_EVENT'] = not self.gp_pressed[name + '_EVENT']
+                        # print('button', name + '_EVENT', self.gp_pressed[name + '_EVENT'])
 
                 elif info.kind == 'axis':
-                    self.gp_input[name] = round(self.gamepad.get_axis(info.number)) == info.value1
+                    self.gp_pressed[name] = round(self.gamepad.get_axis(info.number)) == info.value1
                     if (info.number, info.value1) in [(e.axis, e.value) for e in joy_axis_events]:
-                        self.gp_input[name + '_EVENT'] = not self.gp_input[name + '_EVENT']
-                        # print('axis  ', name + '_EVENT', self.gp_input[name + '_EVENT'])
+                        self.gp_pressed[name + '_EVENT'] = not self.gp_pressed[name + '_EVENT']
+                        # print('axis  ', name + '_EVENT', self.gp_pressed[name + '_EVENT'])
 
                 elif info.kind == 'hat':
-                    self.gp_input[name] = self.gamepad.get_hat(info.number)[info.value2] == info.value1  # ITS FUCKING BACKWARDS??? THE TWO WAYS TO LOOK UP HAT DATA DONT RETURN THE SAME DATA IN THE SAME FUCKING WAY?  WHAT THE FUCK FUCK YOU PYGAME.
+                    self.gp_pressed[name] = self.gamepad.get_hat(info.number)[info.value2] == info.value1  # ITS FUCKING BACKWARDS??? THE TWO WAYS TO LOOK UP HAT DATA DONT RETURN THE SAME DATA IN THE SAME FUCKING WAY?  WHAT THE FUCK FUCK YOU PYGAME.
                     if (info.number, info.value1, info.value2) in [(e.hat, e.value[0], e.value[1]) for e in joy_hat_events]:
-                        self.gp_input[name + '_EVENT'] = not self.gp_input[name + '_EVENT']
-                        # print('hat   ', name + '_EVENT', self.gp_input[name + '_EVENT'])
+                        self.gp_pressed[name + '_EVENT'] = not self.gp_pressed[name + '_EVENT']
+                        # print('hat   ', name + '_EVENT', self.gp_pressed[name + '_EVENT'])
 
     def _combine_all_pressed(self):
-        self.LEFT = self.kb_pressed['K_LEFT'] or self.gp_input['GP_LEFT']
-        self.RIGHT = self.kb_pressed['K_RIGHT'] or self.gp_input['GP_RIGHT']
-        self.UP = self.kb_pressed['K_UP'] or self.gp_input['GP_UP']
-        self.DOWN = self.kb_pressed['K_DOWN'] or self.gp_input['GP_DOWN']
-        self.JUMP = self.kb_pressed['K_SPACE'] or self.gp_input['GP_A']
-        self.ATTACK = self.kb_pressed['K_a'] or self.gp_input['GP_X']
-        self.SKILL1 = self.kb_pressed['K_s'] or self.gp_input['GP_B']
-        self.SKILL2 = self.kb_pressed['K_d'] or self.gp_input['GP_Y']
-        self.SKILL3 = self.kb_pressed['K_f'] or self.gp_input['GP_R1']
-        self.ULT = self.kb_pressed['K_g'] or self.gp_input['GP_R2']
-        self.DROP_SKILL = self.kb_pressed['K_q'] or self.gp_input['GP_L1']
+        self.LEFT = self.kb_pressed['K_LEFT'] or self.gp_pressed['GP_LEFT']
+        self.RIGHT = self.kb_pressed['K_RIGHT'] or self.gp_pressed['GP_RIGHT']
+        self.UP = self.kb_pressed['K_UP'] or self.gp_pressed['GP_UP']
+        self.DOWN = self.kb_pressed['K_DOWN'] or self.gp_pressed['GP_DOWN']
+        self.JUMP = self.kb_pressed['K_SPACE'] or self.gp_pressed['GP_A']
+        self.ATTACK = self.kb_pressed['K_a'] or self.gp_pressed['GP_X']
+        self.SKILL1 = self.kb_pressed['K_s'] or self.gp_pressed['GP_B']
+        self.SKILL2 = self.kb_pressed['K_d'] or self.gp_pressed['GP_Y']
+        self.SKILL3 = self.kb_pressed['K_f'] or self.gp_pressed['GP_R1']
+        self.ULT = self.kb_pressed['K_g'] or self.gp_pressed['GP_R2']
+        self.DROP_SKILL = self.kb_pressed['K_q'] or self.gp_pressed['GP_L1']
         self.RESPAWN = self.kb_pressed['K_r']
         self.KILLALL = self.kb_pressed['K_k']
 
-        self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT']
-        self.RIGHT_EVENT = self.gp_input['GP_RIGHT_EVENT']
-        self.UP_EVENT = self.gp_input['GP_UP_EVENT']
-        self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT']
-        self.START_EVENT = self.gp_input['GP_START_EVENT']
-        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT']
+        self.LEFT_EVENT = self.gp_pressed['GP_LEFT_EVENT']
+        self.RIGHT_EVENT = self.gp_pressed['GP_RIGHT_EVENT']
+        self.UP_EVENT = self.gp_pressed['GP_UP_EVENT']
+        self.DOWN_EVENT = self.gp_pressed['GP_DOWN_EVENT']
+        self.START_EVENT = self.gp_pressed['GP_START_EVENT']
+        self.SELECT_EVENT = self.gp_pressed['GP_SELECT_EVENT']
 
-        self.A_EVENT = self.gp_input['GP_A_EVENT']
-        self.B_EVENT = self.gp_input['GP_B_EVENT']
+        self.A_EVENT = self.gp_pressed['GP_A_EVENT']
+        self.B_EVENT = self.gp_pressed['GP_B_EVENT']
 
     def __setattr__(self, name, value):
         if name == 'refreshing_during_pause':
             self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
 
         if 'EVENT' in name:  # if an 'EVENT' attribute
-            self.__dict__['gp_input']['GP_' + name] = value  # sync [X]_EVENT with self.gp_input[GP_[X]_EVENT]
+            self.__dict__['gp_pressed']['GP_' + name] = value  # sync [X]_EVENT with self.gp_pressed[GP_[X]_EVENT]
 
         if name == 'DEBUG_VIEW':
             if 'DEBUG_VIEW' not in self.__dict__:  # then this is the first time it is being set
