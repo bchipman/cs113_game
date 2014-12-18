@@ -441,14 +441,12 @@ class Input:
         self.kb_input['KB_UP'] = sucky_kb_input[K_UP]
         self.kb_input['KB_DOWN'] = sucky_kb_input[K_DOWN]
         self.kb_input['KB_SPACE'] = sucky_kb_input[K_SPACE]
-
         self.kb_input['KB_s'] = sucky_kb_input[K_s]
         self.kb_input['KB_a'] = sucky_kb_input[K_a]
         self.kb_input['KB_d'] = sucky_kb_input[K_d]
         self.kb_input['KB_f'] = sucky_kb_input[K_f]
         self.kb_input['KB_g'] = sucky_kb_input[K_g]
         self.kb_input['KB_q'] = sucky_kb_input[K_q]
-
         self.kb_input['KB_RETURN'] = sucky_kb_input[K_RETURN]
         self.kb_input['KB_ESCAPE'] = sucky_kb_input[K_ESCAPE]
         self.kb_input['KB_r'] = sucky_kb_input[K_r]
@@ -459,29 +457,14 @@ class Input:
     def _get_keyboard_events(self):
         keydown_events = [e for e in pygame.event.get(KEYDOWN)]
         for e in keydown_events:
-            if e.key == K_RETURN:
-                self.kb_input['KB_START_EVENT'] = True
-
-            if e.key == K_ESCAPE:
-                self.kb_input['KB_SELECT_EVENT'] = True
-
-            if e.key == K_BACKQUOTE:
-                self.kb_input['KB_DEBUG_VIEW'] = True
-
-            if e.key == K_F12:
-                self.kb_input['KB_F12DEBUG_VIEW'] = True
-
-            if e.key == K_LEFT:
-                self.kb_input['KB_LEFT_EVENT'] = True
-
-            if e.key == K_RIGHT:
-                self.kb_input['KB_RIGHT_EVENT'] = True
-
-            if e.key == K_UP:
-                self.kb_input['KB_UP_EVENT'] = True
-
-            if e.key == K_DOWN:
-                self.kb_input['KB_DOWN_EVENT'] = True
+            if e.key == K_LEFT:         self.kb_input['KB_LEFT_EVENT'] = True
+            if e.key == K_RIGHT:        self.kb_input['KB_RIGHT_EVENT'] = True
+            if e.key == K_UP:           self.kb_input['KB_UP_EVENT'] = True
+            if e.key == K_DOWN:         self.kb_input['KB_DOWN_EVENT'] = True
+            if e.key == K_RETURN:       self.kb_input['KB_START_EVENT'] = True
+            if e.key == K_ESCAPE:       self.kb_input['KB_SELECT_EVENT'] = True
+            if e.key == K_BACKQUOTE:    self.kb_input['KB_DEBUG_VIEW'] = True
+            if e.key == K_F12:          self.kb_input['KB_F12DEBUG_VIEW'] = True
 
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
