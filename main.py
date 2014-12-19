@@ -25,6 +25,7 @@ from skills import *
 from pygbutton import PygButton
 
 # ----------------------------------------------------------------------------
+# noinspection PyUnusedLocal
 class Application:
     def __init__(self):
         start = StartMenu()
@@ -72,7 +73,8 @@ class GameLoop:
             self.energy_bar_outline2 = pygame.image.load('data/backgrounds/energy_bar_outline2.png')
 
         def _setup_arena():
-            self.arena = Arena(GL.get_selected_level())#random.choice(( arena3, arena4, arena5)))
+            # self.arena = random.choice(( arena3, arena4, arena5)))
+            self.arena = Arena(GL.get_selected_level())
             GL.arena_in_use = self.arena  # used for out_of_arena_fix within global.py
             self.arena_image = pygame.image.load(self.arena.background)
 

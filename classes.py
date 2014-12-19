@@ -7,6 +7,7 @@ from collections import namedtuple
 import pygame
 from pygame.locals import *
 
+# noinspection PyPep8Naming
 import globals as GL
 from globals import *
 from skills import *
@@ -37,14 +38,16 @@ class Rect2(pygame.Rect):
             exec('self.{} = {}'.format(k, repr(v)))
 
     def p_collidelist(self, li):
-        # follows same logic as pygame.Rect.collidelist, but customized to look at center coords
+        """follows same logic as pygame.Rect.collidelist, but customized to
+        look at center coords"""
         for i in range(len(li)):
             if li[i].left < self.centerx < li[i].right and li[i].top < self.centery < li[i].bottom:
                 return i
         return -1
 
     def p_collidelistall(self, li):
-        # follows same logic as pygame.Rect.collidelistall, but customized to look at center coords
+        """follows same logic as pygame.Rect.collidelistall, but customized
+        to look at center coords"""
         hit_indices = []
         for i, r in enumerate(li):
             # if self.collidepoint(r.center): #Using this is causing particles to pass through terrain
@@ -112,10 +115,10 @@ class Player(Rect2):
         # self.ult_id = random.randint(1000,1003)
 
         # specific testing:
-        #self.attack_id = 10
-        #self.skill1_id = 111
-        #self.skill2_id = 102
-        #self.skill3_id = 123
+        # self.attack_id = 10
+        # self.skill1_id = 111
+        # self.skill2_id = 102
+        # self.skill3_id = 123
         # self.ult_id = 1007
 
         # attacking
@@ -140,13 +143,13 @@ class Player(Rect2):
     def input(self):
         return GL.INPUT1 if self.id == 1 else GL.INPUT2 if self.id == 2 else None
 
-    #play the skill's sound
     def play_sound(self, path, i):
+        """play the skill's sound"""
         print(SKILLS_TABLE[i]['sound'])
         if SKILLS_TABLE[i]['sound'] is not 'none' and AUDIO.sound_on:
             global SOUNDS
             sound = SOUNDS.get(path)
-            if sound == None:
+            if sound is None:
                 sound = pygame.mixer.Sound(path)
                 SOUNDS[path] = sound
             sound.play()
@@ -171,12 +174,12 @@ class Player(Rect2):
     def is_dead(self):
         return self.hit_points <= 0
 
-    def handle_exp(self,exp_gain,time):
+    def handle_exp(self, exp_gain, time):
         if self.level < 10:
             self.current_exp += exp_gain
             if self.current_exp >= LEVEL_THRESHOLDS[self.level]:
                 self.level += 1
-                self.st_buffer.append((ST_LEVEL_UP,"LEVEL " + str(self.level)+ "!",time+1000 ))
+                self.st_buffer.append((ST_LEVEL_UP, "LEVEL " + str(self.level) + "!", time + 1000))
 
     def move_ip(self, dxdy):
         super().move_ip(dxdy)
@@ -225,10 +228,8 @@ class Player(Rect2):
                             else -self.dx_wall_jump if self.hit_wall_from == RIGHT \
                             else 0
                 else:
-                    if self.touching_ground:
-                        self.dy -= self.dy_jump
-                    #self.dy -= self.dy_jump if self.touching_ground \
-                    #    else 0
+                    self.dy -= self.dy_jump if self.touching_ground \
+                        else 0
 
         def _apply_gravity():
             if -5 < self.dy < 8:  # This helps make the jump arc smoother at the top
@@ -290,14 +291,14 @@ class Player(Rect2):
                             self.hit_wall_from = LEFT
                             self.dx = 0
                             # Sliding
-                            if self.dy > 0 and not isinstance(self,Monster):
+                            if self.dy > 0 and not isinstance(self, Monster):
                                 self.dy = 0
                         elif self.left < terrain.left < self.right and self.dx >= 0:
                             self.right = terrain.left
                             self.hit_wall_from = RIGHT
                             self.dx = 0
                             # Sliding
-                            if self.dy > 0 and not isinstance(self,Monster):
+                            if self.dy > 0 and not isinstance(self, Monster):
                                 self.dy = 0
 
         def _check_for_skill_pick_ups(arena):
@@ -321,18 +322,19 @@ class Player(Rect2):
         _check_for_skill_pick_ups(arena)
         out_of_arena_fix(self)  # otherwise, player can jump up and over arena
 
-    # Handles attacks, skill buttons, and meditate
-    # If multiple pushed, priority is:
-    #   ultimate > skill3 > skill2 > skill1 > attack > meditate
-    # Dropping skills and picking up skills can be handled here later on
     def _handle_inputs(self, arena):
+        """ Handles attacks, skill buttons, and meditate
+            If multiple pushed, priority is:
+            ultimate > skill3 > skill2 > skill1 > attack > meditate
+            Dropping/picking up skills also handled here"""
+
         i, button = self._priority_inputs()
         if self.input.DROP_SKILL and i != -1:  # Drop skill pressed
             self.__dict__[button] = 0 if button != ATTACKBUTTON else 1
 
         elif not self.input.DROP_SKILL:  # Drop skill not pressed
             # If a valid skill is pressed
-            if (isinstance(i,str) or i > 0) and self.attack_cooldown_expired:
+            if (isinstance(i, str) or i > 0) and self.attack_cooldown_expired:
                 self.pickup_time = -1
                 if self.energy >= SKILLS_TABLE[i]['energy']:
                     self.attack_state = SKILLS_TABLE[i]['state']
@@ -355,7 +357,7 @@ class Player(Rect2):
                     if self.overlapping_skill in arena.dropped_skills:
                         self.__dict__[ATTACKBUTTON] = self.overlapping_skill.id
                         arena.dropped_skills.remove(self.overlapping_skill)
-                elif button in (SKILL1BUTTON,SKILL2BUTTON, SKILL3BUTTON) and (100 <= self.overlapping_skill.id <= 999):
+                elif button in (SKILL1BUTTON, SKILL2BUTTON, SKILL3BUTTON) and (100 <= self.overlapping_skill.id <= 999):
                     if self.overlapping_skill in arena.dropped_skills:
                         self.__dict__[button] = self.overlapping_skill.id
                         arena.dropped_skills.remove(self.overlapping_skill)
@@ -530,6 +532,7 @@ class Monster(Player):
                 handle_damage(target, self.dmg, time)
 
 # -------------------------------------------------------------------------
+# noinspection PyPep8Naming
 class AI_Input():
     def __init__(self):
         self.RIGHT = False
@@ -628,32 +631,31 @@ class MeleeParticle(Particle):
         self.radius = SKILLS_TABLE[sid]['start_radius']
         self.max_radius = SKILLS_TABLE[sid]['max_radius']
         self.has_hit = []  # Need this to keep track of what it has hit;
-                           # melee particles are not delete upon hitting
-                           # a target, so we need to know who it has hit
-                           # to prevent the same target being hit multiple
-                           # times
+        # melee particles are not deleted upon hitting a target, so we need
+        # to know who it has hit to prevent the same target being hit
+        # multiple times
         self.has_hit_time = []
         self.extend = SKILLS_TABLE[sid]['extend']
         self.dradius = (self.max_radius - self.radius)*35/self.duration
         self.direction = player.facing_direction
 
     # def update(self, time, player):
-    # Let the particle know how it belongs to so it can
-    # rotate around that player and also in collision
-    # detection, will not hit the player who made particle
     def update(self, time):
+        """Let the particle know how it belongs to so it can rotate around
+        that player and also in collision detection, will not hit the player
+        who made particle"""
         if self.spawn_time == 0:
             self.spawn_time = time
 
-        for i,v in enumerate(self.has_hit_time):
-            if (v+1000) <= time:
+        for i, v in enumerate(self.has_hit_time):
+            if (v + 1000) <= time:
                 del self.has_hit[i]
                 del self.has_hit_time[i]
 
         elapsed_time = time - self.spawn_time
         self.expired = (elapsed_time >= self.duration)
         r = (elapsed_time / self.duration)
-        self.progress = (1-r)*self.arc
+        self.progress = (1 - r) * self.arc
 
         if self.special_f:
             self.centerx, self.centery = self.special_f(self,time)
@@ -672,7 +674,7 @@ class MeleeParticle(Particle):
             self.centery = self.belongs_to.centery - 10 - self.radius * math.sin((1 - r) * self.arc)
 
         if self.persistent_f:
-            self.persistent_f(self,time)
+            self.persistent_f(self, time)
 
     def on_hit(self, target, time):  # DON'T delete time; will use later
         if target != self.belongs_to and target not in self.has_hit:
@@ -693,12 +695,12 @@ class MeleeParticle(Particle):
                 target.last_hit_by = self.belongs_to
 
             if self.on_hit_f:
-                self.on_hit_f(self,target,time)
+                self.on_hit_f(self, target, time)
 
 # -------------------------------------------------------------------------
 class RangeParticle(Particle):
     def __init__(self, sid, player, up, down):
-        super().__init__(sid,player)
+        super().__init__(sid, player)
         self.has_special = False
         self.direction = player.facing_direction
         self.originx = player.centerx  # Where the particle started
@@ -740,7 +742,7 @@ class RangeParticle(Particle):
         self.expired = (elapsed_time >= self.duration)
 
         if self.special_f:
-            self.centerx,self.centery = self.special_f(self,time)
+            self.centerx, self.centery = self.special_f(self, time)
         else:
             self.dx += self.ddx
             self.dy += self.ddy
@@ -748,7 +750,7 @@ class RangeParticle(Particle):
             self.centery += self.dy
 
         if self.persistent_f:
-            self.persistent_f(self,time)
+            self.persistent_f(self, time)
 
     def on_hit(self, target, time):  # DONT delete time; will use later
         if target != self.belongs_to:
@@ -775,16 +777,15 @@ class FieldParticle(Particle):
         super().__init__(sid, player)
         self.radius = SKILLS_TABLE[sid]['radius']
         self.frequency = None
-        self.persistent_pulse_f = None    #(particle, time, target)
+        self.persistent_pulse_f = None  # (particle, time, target)
 
         self.originx = self.centerx = player.centerx
         self.originy = self.centery = player.centery
 
         self.has_hit = []  # Need this to keep track of what it has hit;
-                           # melee particles are not delete upon hitting
-                           # a target, so we need to know who it has hit
-                           # to prevent the same target being hit multiple
-                           # times
+        # melee particles are not deleted upon hitting a target, so we need
+        # to know who it has hit to prevent the same target being hit
+        # multiple times
         self.has_hit_time = []
 
         if 'persistent_pulse_f' in SKILLS_TABLE[sid].keys():
@@ -797,8 +798,8 @@ class FieldParticle(Particle):
         if self.spawn_time == 0:
             self.spawn_time = time
 
-        for i,v in enumerate(self.has_hit_time):
-            if (v+200) <= time:
+        for i, v in enumerate(self.has_hit_time):
+            if (v + 200) <= time:
                 del self.has_hit[i]
                 del self.has_hit_time[i]
 
@@ -806,7 +807,7 @@ class FieldParticle(Particle):
         self.expired = (elapsed_time >= self.duration)
 
         if self.persistent_f:
-            self.persistent_f(self,time)
+            self.persistent_f(self, time)
 
     def is_in_field(self, target):
         return target.distance_from(self) <= self.radius
@@ -817,7 +818,7 @@ class FieldParticle(Particle):
             self.has_hit.append(target)
             self.has_hit_time.append(time)
             # On pulse
-            if (time - self.spawn_time)%self.frequency == 0:
+            if (time - self.spawn_time) % self.frequency == 0:
                 handle_damage(target, self.dmg, time)
                 for c in self.conditions:
                     c.begin(time, target)
@@ -833,7 +834,7 @@ class FieldParticle(Particle):
 
         # If persistent pulse function exists
         if target != self.belongs_to and self.persistent_pulse_f:
-            self.peristent_pulse_f(self,target,time)
+            self.peristent_pulse_f(self, target, time)
 
 # -------------------------------------------------------------------------
 class GameTime:
@@ -880,7 +881,7 @@ class Condition:
             self.start = time
         return self.duration <= (time - self.start)
 
-# ---Debuffs-----------------------------------------------------------------
+# ---------------------------------Debuffs------------------------------------
 class Stun(Condition):
     def __init__(self, duration):
         super().__init__(duration)
@@ -899,9 +900,9 @@ class Snare(Condition):
         self.type = SNARE
 
 class Dot(Condition):
-    # Magnitude = Dot flat dmg value
-    # Frequency = Every x seconds; make frequency a factor of 250 ms
     def __init__(self, magnitude, ticks, frequency):
+        """Magnitude = Dot flat dmg value
+        Frequency = Every x seconds; make frequency a factor of 250 ms"""
         super().__init__(ticks * frequency)
         self.magnitude = magnitude
         self.frequency = frequency
@@ -915,7 +916,6 @@ class Dot(Condition):
         c.target = target
         c.last_tick = time
         target.conditions[c.type].append(c)
-
 
     def is_expired(self, time):
         t = time - self.last_tick
@@ -942,7 +942,7 @@ class Weakened(Condition):
         super().__init__(duration)
         self.type = WEAKENED
 
-# ---Buffs-------------------------------------------------------------------
+# ----------------------------------Buffs-------------------------------------
 class Speed(Condition):
     def __init__(self, duration, magnitude):
         super().__init__(duration)
@@ -956,7 +956,7 @@ class Shield(Condition):
         self.type = SHIELD
         self.remaining = self.duration  # used for sorting
 
-    def is_expired(self,time):
+    def is_expired(self, time):
         if self.start == -1:
             self.start = time
         self.remaining = self.duration - time - self.start
@@ -966,7 +966,7 @@ class Shield(Condition):
             return True
         return False
 
-    def exchange(self,damage_taken):
+    def exchange(self, damage_taken):
         if self.magnitude > 0:
             if self.magnitude > damage_taken:
                 self.target.hit_points += damage_taken
