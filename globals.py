@@ -345,7 +345,6 @@ class Input:
         self.gp_input = defaultdict(bool)
         self.kb_input = defaultdict(bool)
         self.player_id = player_id
-        self.refreshing_during_pause = False
         self.DEBUG_MODE_ON = False
         self.PAUSE_MODE_ON = False
         try:
@@ -429,7 +428,6 @@ class Input:
 
     def refresh_during_pause(self):
         self._reset_all_event_flags()
-        self.refreshing_during_pause = True
         if self.player_id == 1:
             self._get_keyboard_pressed()
             self._get_keyboard_events()
@@ -549,7 +547,6 @@ class Input:
             self.DEBUG_MODE_ON = not self.DEBUG_MODE_ON
 
     def _reset_all_event_flags(self):
-        self.refreshing_during_pause = False
         for k in self.kb_input.keys():
             self.kb_input[k] = False
         for k in self.gp_input.keys():

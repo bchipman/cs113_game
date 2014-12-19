@@ -120,6 +120,7 @@ class Player(Rect2):
         # self.skill2_id = 102
         # self.skill3_id = 123
         # self.ult_id = 1007
+        # self.hit_points = 0
 
         # attacking
         self.facing_direction = RIGHT if self.id == 1 else LEFT
