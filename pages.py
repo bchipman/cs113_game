@@ -311,14 +311,14 @@ class PlayerSelectPage:
             # set sprite to player
             # if they pressed select
             # they want to select a different sprite or return to start screen
-            if GL.INPUT1.A_EVENT:
+            if GL.INPUT1.A_EVENT or GL.INPUT1.START_EVENT:
                 if self.ready2 and self.index2 == self.index:
                     print('Player 2 is using this character. Select a different one.')
                 else:
                     print('player 1 ready')
                     self.ready1 = True
 
-            if GL.INPUT2.A_EVENT:
+            if GL.INPUT2.A_EVENT or GL.INPUT2.START_EVENT:
                 if self.ready1 and self.index2 == self.index:
                     print('Player 1 is using this character. Select a different one.')
                 else:
@@ -327,28 +327,21 @@ class PlayerSelectPage:
 
             # if player presses back when previously stated they were ready
             # allow them to reselect player
-            # keyboard equivalent of select is 's' key
-            if self.ready1 and GL.INPUT1.B_EVENT:  # add keyboard 'S' key
+            if self.ready1 and (GL.INPUT1.B_EVENT or GL.INPUT1.SELECT_EVENT):
                 print('player 1 not ready anymore')
                 self.ready1 = False
 
-            elif not self.ready1 and GL.INPUT1.B_EVENT:
-                GL.NEXT_PAGE = 'start'
-                self.return_now = True
+            elif not self.ready1 and (GL.INPUT1.B_EVENT or GL.INPUT1.SELECT_EVENT):
                 print('player 1 requested to go back to start')
+                self.return_now = True
+                GL.NEXT_PAGE = 'start'
 
-            if self.ready2 and GL.INPUT2.B_EVENT:
+            if self.ready2 and (GL.INPUT2.B_EVENT or GL.INPUT2.SELECT_EVENT):
                 print('player 2 not ready anymore')
                 self.ready2 = False
 
-            elif not self.ready2 and GL.INPUT2.B_EVENT:
-                GL.NEXT_PAGE = 'start'
-                self.return_now = True
+            elif not self.ready2 and (GL.INPUT2.B_EVENT or GL.INPUT2.SELECT_EVENT):
                 print('player 2 requested to go back to start')
-
-            if GL.INPUT1.SELECT_EVENT:
-                self.ready1 = False
-                self.ready2 = False
                 self.return_now = True
                 GL.NEXT_PAGE = 'start'
 
@@ -557,8 +550,12 @@ class OptionsPage:
                 GL.NEXT_PAGE = 'start'
 
         if GL.INPUT1.SELECT_EVENT or GL.INPUT1.B_EVENT:
-            self.return_now = True
-            GL.NEXT_PAGE = 'start'
+            if self.selection_box[0][0] == self.main_menu_button:  # if already on main menu button when hit select / b ..
+                self.return_now = True  # .. then return
+                GL.NEXT_PAGE = 'start'
+            else:  # if not on main menu button when hit select / b ..
+                while self.selection_box[0] != self.main_menu_button:  # .. then go to return button
+                    self.selection_box.rotate()
 
         if GL.INPUT1.UP_EVENT:
             self.selection_box.rotate(-1)

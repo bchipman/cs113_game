@@ -527,7 +527,7 @@ class Input:
         self.UP_EVENT = self.gp_input['GP_UP_EVENT'] or self.kb_input['KB_UP_EVENT']
         self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT'] or self.kb_input['KB_DOWN_EVENT']
 
-        self.A_EVENT = self.gp_input['GP_A_EVENT'] or self.kb_input['KB_SPACE_EVENT']
+        self.A_EVENT = self.gp_input['GP_A_EVENT']
         self.B_EVENT = self.gp_input['GP_B_EVENT']
 
         self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
