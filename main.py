@@ -231,7 +231,7 @@ class GameLoop:
                 GL.CURR_GAME = self
                 GL.NEXT_PAGE = 'pause'
 
-            if GL.INPUT1.RESPAWN and not GL.INPUT1.START_EVENT:
+            if GL.INPUT1.RESPAWN:
                 self.player1.topleft = self.player1.topleft_initial
                 self.player1.dx = self.player1.dx_initial
                 self.player1.facing_direction = self.player1.facing_direction_initial
@@ -239,7 +239,7 @@ class GameLoop:
                 self.player2.dx = self.player2.dx_initial
                 self.player2.facing_direction = self.player2.facing_direction_initial
 
-            if GL.INPUT1.KILLALL and not GL.INPUT1.START_EVENT:
+            if GL.INPUT1.KILLALL:
                 for m in self.active_monsters:
                     m.hit_points = 0
 
