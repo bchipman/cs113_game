@@ -441,6 +441,7 @@ class Input:
         self.kb_input['KB_RIGHT'] = sucky_kb_input[K_RIGHT]
         self.kb_input['KB_UP'] = sucky_kb_input[K_UP]
         self.kb_input['KB_DOWN'] = sucky_kb_input[K_DOWN]
+
         self.kb_input['KB_SPACE'] = sucky_kb_input[K_SPACE]
         self.kb_input['KB_s'] = sucky_kb_input[K_s]
         self.kb_input['KB_a'] = sucky_kb_input[K_a]
@@ -448,6 +449,7 @@ class Input:
         self.kb_input['KB_f'] = sucky_kb_input[K_f]
         self.kb_input['KB_g'] = sucky_kb_input[K_g]
         self.kb_input['KB_q'] = sucky_kb_input[K_q]
+
         self.kb_input['KB_RETURN'] = sucky_kb_input[K_RETURN]
         self.kb_input['KB_ESCAPE'] = sucky_kb_input[K_ESCAPE]
         self.kb_input['KB_r'] = sucky_kb_input[K_r]
@@ -462,10 +464,16 @@ class Input:
             if e.key == K_RIGHT:        self.kb_input['KB_RIGHT_EVENT'] = True
             if e.key == K_UP:           self.kb_input['KB_UP_EVENT'] = True
             if e.key == K_DOWN:         self.kb_input['KB_DOWN_EVENT'] = True
-            if e.key == K_RETURN:       self.kb_input['KB_START_EVENT'] = True
-            if e.key == K_ESCAPE:       self.kb_input['KB_SELECT_EVENT'] = True
-            if e.key == K_BACKQUOTE:    self.kb_input['KB_DEBUG_VIEW'] = True
-            if e.key == K_F12:          self.kb_input['KB_F12DEBUG_VIEW'] = True
+
+            if e.key == K_SPACE:        self.kb_input['KB_SPACE_EVENT'] = True
+
+            if e.key == K_RETURN:       self.kb_input['KB_RETURN_EVENT'] = True
+            if e.key == K_ESCAPE:       self.kb_input['KB_ESCAPE_EVENT'] = True
+
+            if e.key == K_r:            self.kb_input['KB_r_EVENT'] = True
+            if e.key == K_k:            self.kb_input['KB_k_EVENT'] = True
+            if e.key == K_F12:          self.kb_input['KB_F12_EVENT'] = True
+            if e.key == K_BACKQUOTE:    self.kb_input['KB_BACKQUOTE_EVENT'] = True
 
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
@@ -519,26 +527,40 @@ class Input:
         self.RIGHT_EVENT = self.gp_input['GP_RIGHT_EVENT'] or self.kb_input['KB_RIGHT_EVENT']
         self.UP_EVENT = self.gp_input['GP_UP_EVENT'] or self.kb_input['KB_UP_EVENT']
         self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT'] or self.kb_input['KB_DOWN_EVENT']
-        self.A_EVENT = self.gp_input['GP_A_EVENT']
+
+        self.A_EVENT = self.gp_input['GP_A_EVENT'] or self.kb_input['KB_SPACE_EVENT']
         self.B_EVENT = self.gp_input['GP_B_EVENT']
-        self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_START_EVENT']
-        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_SELECT_EVENT']
 
-    def __setattr__(self, name, value):
-        if name == 'refreshing_during_pause':
-            self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
+        self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
+        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
 
-        if name == 'DEBUG_VIEW':
-            if 'DEBUG_VIEW' not in self.__dict__:  # then this is the first time it is being set
-                self.__dict__[name] = value  # so just let it be set normally
+        self.RESPAWN_EVENT = self.kb_input['KB_r_EVENT']
+        self.KILLALL_EVENT = self.kb_input['KB_k_EVENT']
+        self.QUICK_START = self.kb_input['KB_F12_EVENT']
 
-            elif 'DEBUG_VIEW' in self.__dict__:
-                if not self.refreshing_during_pause:
-                    if NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
-                        self.__dict__[name] = value
+        self.DEBUG_VIEW_TOGGLED = self.kb_input['KB_BACKQUOTE_EVENT']
+        if self.DEBUG_VIEW_TOGGLED:  # need to save whether this was on or off for the next call to refresh
+            self.DEBUG_VIEW = not self.DEBUG_VIEW
 
-        elif name != 'DEBUG_VIEW':
-            self.__dict__[name] = value
+
+    # def __setattr__(self, name, value):
+    #     if name == 'refreshing_during_pause':
+    #         self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
+    #
+    #     if name == 'DEBUG_VIEW':
+    #         if 'DEBUG_VIEW' not in self.__dict__:  # then this is the first time it is being set
+    #             self.__dict__[name] = value  # so just let it be set normally
+    #
+    #         elif 'DEBUG_VIEW' in self.__dict__:
+    #             if not self.refreshing_during_pause:
+    #                 if NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
+    #                     self.__dict__[name] = value
+    #
+    #     elif name != 'DEBUG_VIEW':
+    #         self.__dict__[name] = value
+
+
+
 
     def _reset_all_event_flags(self):
         self.refreshing_during_pause = False
@@ -548,8 +570,8 @@ class Input:
         for k in self.gp_input.keys():
             self.gp_input[k] = False
 
-        for name in 'LEFT_EVENT, RIGHT_EVENT, UP_EVENT, DOWN_EVENT, START_EVENT, SELECT_EVENT, A_EVENT, B_EVENT'.split(', '):
-            exec('self.{} = False'.format(name))
+        # for name in 'LEFT_EVENT, RIGHT_EVENT, UP_EVENT, DOWN_EVENT, START_EVENT, SELECT_EVENT, A_EVENT, B_EVENT'.split(', '):
+        #     exec('self.{} = False'.format(name))
 
     def _handle_mouse_visibility(self):
         if self.DEBUG_VIEW and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
