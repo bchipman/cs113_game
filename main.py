@@ -964,20 +964,15 @@ class GameLoop:
                 if event.type == QUIT:
                     EXIT_GAME()
 
-        if not GL.INPUT1.START_EVENT:
-            _handle_song_end_event()
-            _handle_time_tick_event()
-            _handle_regeneration_event()
-            _handle_player_lock_events()
-            _handle_player_pickup_skill_events()
-            _handle_rain_event()
-            _handle_monster_spawn_event()
-            _handle_quit_event()
-            _handle_return_to_main_menu_from_click()
-        else:
-            _handle_quit_event()
-            GL.INPUT1.refresh_during_pause()
-            pygame.event.clear()
+        _handle_song_end_event()
+        _handle_time_tick_event()
+        _handle_regeneration_event()
+        _handle_player_lock_events()
+        _handle_player_pickup_skill_events()
+        _handle_rain_event()
+        _handle_monster_spawn_event()
+        _handle_quit_event()
+        _handle_return_to_main_menu_from_click()
 
     # ----------------------------------------------------------------------------
     def check_if_game_over(self):
