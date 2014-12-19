@@ -13,8 +13,8 @@ if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
 if os.environ['COMPUTERNAME'] in ('MAX-LT', 'BRIAN-LAPTOP'):
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(50, 30)
-if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
-    os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(100, 900)
+# if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
+#     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(100, 900)
 
 pygame.init()
 pygame.display.set_caption('Famished Tournament')
@@ -519,7 +519,7 @@ class Input:
         self.SKILL2 = self.kb_input['KB_d'] or self.gp_input['GP_Y']
         self.SKILL3 = self.kb_input['KB_f'] or self.gp_input['GP_R1']
         self.ULT = self.kb_input['KB_g'] or self.gp_input['GP_R2']
-        self.DROP_SKILL = self.kb_input['KB_q'] or self.gp_input['GP_L1']
+        self.DROP_SKILL = self.kb_input['KB_q'] or self.gp_input['GP_L1'] or self.gp_input['GP_L2']
 
     def _combine_all_events(self):
         self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT'] or self.kb_input['KB_LEFT_EVENT']
