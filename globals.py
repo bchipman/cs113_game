@@ -13,6 +13,8 @@ if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
 if os.environ['COMPUTERNAME'] in ('MAX-LT', 'BRIAN-LAPTOP'):
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(50, 30)
+if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
+    os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(100, 900)
 
 pygame.init()
 pygame.display.set_caption('Famished Tournament')
@@ -345,6 +347,7 @@ class Input:
         self.player_id = player_id
         self.refreshing_during_pause = False
         self.DEBUG_MODE_ON = False
+        self.PAUSE_MODE_ON = False
         try:
             self.gamepad = pygame.joystick.Joystick(player_id - 1)
             self.gamepad.init()
@@ -534,10 +537,14 @@ class Input:
         self.KILLALL_EVENT = self.kb_input['KB_k_EVENT']
         self.QUICK_START = self.kb_input['KB_F12_EVENT']
 
-        self.PAUSE_MODE_TOGGLED = self.kb_input
+        # need to save whether this was on or off for the next call to refresh
+        self.PAUSE_MODE_TOGGLED = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
+        if self.PAUSE_MODE_TOGGLED:
+            self.PAUSE_MODE_ON = not self.PAUSE_MODE_ON
 
+        # need to save whether this was on or off for the next call to refresh
         self.DEBUG_MODE_TOGGLED = self.kb_input['KB_BACKQUOTE_EVENT']
-        if self.DEBUG_MODE_TOGGLED:  # need to save whether this was on or off for the next call to refresh
+        if self.DEBUG_MODE_TOGGLED and not self.PAUSE_MODE_ON:  # only "really" toggle debug mode if not paused
             self.DEBUG_MODE_ON = not self.DEBUG_MODE_ON
 
     def _reset_all_event_flags(self):

@@ -221,12 +221,11 @@ class GameLoop:
             GL.INPUT2.refresh()
 
         def _handle_players_inputs():
-            if not GL.INPUT1.START_EVENT:
-                self.player1(self.arena)
-                self.player2(self.arena)
+            self.player1(self.arena)
+            self.player2(self.arena)
 
         def _handle_special_input():
-            if GL.INPUT1.START_EVENT:
+            if GL.INPUT1.PAUSE_MODE_TOGGLED:
                 self.return_now = True
                 GL.CURR_GAME = self
                 GL.NEXT_PAGE = 'pause'
