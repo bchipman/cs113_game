@@ -344,7 +344,7 @@ class Input:
         self.kb_input = defaultdict(bool)
         self.player_id = player_id
         self.refreshing_during_pause = False
-        self.DEBUG_VIEW = False
+        self.DEBUG_MODE_ON = False
         try:
             self.gamepad = pygame.joystick.Joystick(player_id - 1)
             self.gamepad.init()
@@ -510,8 +510,6 @@ class Input:
     def _combine_all_pressed(self):
         self.LEFT = self.kb_input['KB_LEFT'] or self.gp_input['GP_LEFT']
         self.RIGHT = self.kb_input['KB_RIGHT'] or self.gp_input['GP_RIGHT']
-        self.UP = self.kb_input['KB_UP'] or self.gp_input['GP_UP']
-        self.DOWN = self.kb_input['KB_DOWN'] or self.gp_input['GP_DOWN']
         self.JUMP = self.kb_input['KB_SPACE'] or self.gp_input['GP_A']
         self.ATTACK = self.kb_input['KB_a'] or self.gp_input['GP_X']
         self.SKILL1 = self.kb_input['KB_s'] or self.gp_input['GP_B']
@@ -519,8 +517,6 @@ class Input:
         self.SKILL3 = self.kb_input['KB_f'] or self.gp_input['GP_R1']
         self.ULT = self.kb_input['KB_g'] or self.gp_input['GP_R2']
         self.DROP_SKILL = self.kb_input['KB_q'] or self.gp_input['GP_L1']
-        self.RESPAWN = self.kb_input['KB_r']
-        self.KILLALL = self.kb_input['KB_k']
 
     def _combine_all_events(self):
         self.LEFT_EVENT = self.gp_input['GP_LEFT_EVENT'] or self.kb_input['KB_LEFT_EVENT']
@@ -538,43 +534,21 @@ class Input:
         self.KILLALL_EVENT = self.kb_input['KB_k_EVENT']
         self.QUICK_START = self.kb_input['KB_F12_EVENT']
 
-        self.DEBUG_VIEW_TOGGLED = self.kb_input['KB_BACKQUOTE_EVENT']
-        if self.DEBUG_VIEW_TOGGLED:  # need to save whether this was on or off for the next call to refresh
-            self.DEBUG_VIEW = not self.DEBUG_VIEW
+        self.PAUSE_MODE_TOGGLED = self.kb_input
 
-
-    # def __setattr__(self, name, value):
-    #     if name == 'refreshing_during_pause':
-    #         self.__dict__[name] = value  # update like normal (otherwise infinite recursion)
-    #
-    #     if name == 'DEBUG_VIEW':
-    #         if 'DEBUG_VIEW' not in self.__dict__:  # then this is the first time it is being set
-    #             self.__dict__[name] = value  # so just let it be set normally
-    #
-    #         elif 'DEBUG_VIEW' in self.__dict__:
-    #             if not self.refreshing_during_pause:
-    #                 if NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
-    #                     self.__dict__[name] = value
-    #
-    #     elif name != 'DEBUG_VIEW':
-    #         self.__dict__[name] = value
-
-
-
+        self.DEBUG_MODE_TOGGLED = self.kb_input['KB_BACKQUOTE_EVENT']
+        if self.DEBUG_MODE_TOGGLED:  # need to save whether this was on or off for the next call to refresh
+            self.DEBUG_MODE_ON = not self.DEBUG_MODE_ON
 
     def _reset_all_event_flags(self):
         self.refreshing_during_pause = False
         for k in self.kb_input.keys():
             self.kb_input[k] = False
-
         for k in self.gp_input.keys():
             self.gp_input[k] = False
 
-        # for name in 'LEFT_EVENT, RIGHT_EVENT, UP_EVENT, DOWN_EVENT, START_EVENT, SELECT_EVENT, A_EVENT, B_EVENT'.split(', '):
-        #     exec('self.{} = False'.format(name))
-
     def _handle_mouse_visibility(self):
-        if self.DEBUG_VIEW and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
+        if self.DEBUG_MODE_ON and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
             pygame.mouse.set_visible(False)
         else:
             pygame.mouse.set_visible(True)

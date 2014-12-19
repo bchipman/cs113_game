@@ -231,7 +231,7 @@ class GameLoop:
                 GL.CURR_GAME = self
                 GL.NEXT_PAGE = 'pause'
 
-            if GL.INPUT1.RESPAWN:
+            if GL.INPUT1.RESPAWN_EVENT:
                 self.player1.topleft = self.player1.topleft_initial
                 self.player1.dx = self.player1.dx_initial
                 self.player1.facing_direction = self.player1.facing_direction_initial
@@ -239,7 +239,7 @@ class GameLoop:
                 self.player2.dx = self.player2.dx_initial
                 self.player2.facing_direction = self.player2.facing_direction_initial
 
-            if GL.INPUT1.KILLALL:
+            if GL.INPUT1.KILLALL_EVENT:
                 for m in self.active_monsters:
                     m.hit_points = 0
 
@@ -730,7 +730,7 @@ class GameLoop:
         _draw_arena()
         _draw_monsters()
         _draw_dropped_skills()
-        if not GL.INPUT1.DEBUG_VIEW:
+        if not GL.INPUT1.DEBUG_MODE_ON:
             _draw_players()
         _draw_particles()
         _draw_scrolling_text()
@@ -831,7 +831,7 @@ class GameLoop:
                 for l in locs:
                     pygame.draw.circle(GL.SCREEN, ORANGE, l, 3, 0)
 
-        if GL.INPUT1.DEBUG_VIEW:
+        if GL.INPUT1.DEBUG_MODE_ON:
             _draw_spawn_point_rects()
             _draw_play_area_debug_border()
             _draw_debug_text()
@@ -840,7 +840,7 @@ class GameLoop:
             _draw_players_debug()
             _draw_player_collision_points_for_debugging()
             _draw_mouse_text()
-        elif not GL.INPUT1.DEBUG_VIEW:
+        elif not GL.INPUT1.DEBUG_MODE_ON:
             if self.player1.sprite is None:
                 _draw_players_debug(draw_p1=True, draw_p2=False)
             if self.player2.sprite is None:
@@ -871,7 +871,7 @@ class GameLoop:
                     self.game_time.inc()
 
                     # for CPU usage debug text
-                    if psutil_found and GL.INPUT1.DEBUG_VIEW:
+                    if psutil_found and GL.INPUT1.DEBUG_MODE_ON:
                         new_cpu = psutil.cpu_percent(interval=None)
                         self.cpu_deque.append(new_cpu)
                         self.cpu_avg = sum(self.cpu_deque) / len(self.cpu_deque)

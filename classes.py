@@ -138,10 +138,7 @@ class Player(Rect2):
 
     @property
     def input(self):
-        if self.id == 1:
-            return GL.INPUT1
-        elif self.id == 2:
-            return GL.INPUT2
+        return GL.INPUT1 if self.id == 1 else GL.INPUT2 if self.id == 2 else None
 
     #play the skill's sound
     def play_sound(self, path, i):
