@@ -527,6 +527,7 @@ class Input:
         self.UP_EVENT = self.gp_input['GP_UP_EVENT'] or self.kb_input['KB_UP_EVENT']
         self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT'] or self.kb_input['KB_DOWN_EVENT']
 
+
         self.A_EVENT = self.gp_input['GP_A_EVENT']
         self.B_EVENT = self.gp_input['GP_B_EVENT']
 
@@ -538,7 +539,7 @@ class Input:
         self.QUICK_START = self.kb_input['KB_F12_EVENT']
 
         # need to save whether this was on or off for the next call to refresh
-        self.PAUSE_MODE_TOGGLED = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
+        self.PAUSE_MODE_TOGGLED = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
         if self.PAUSE_MODE_TOGGLED:
             self.PAUSE_MODE_ON = not self.PAUSE_MODE_ON
 

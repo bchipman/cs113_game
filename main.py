@@ -195,25 +195,15 @@ class GameLoop:
     def __call__(self):
         self.return_now = False
         while not self.return_now:
-            if not GL.INPUT1.START_EVENT:
-                self.handle_players_inputs()
-                self.handle_monsters(self.game_time.msec)
-                self.handle_particles()
-                self.draw_screen()
-                self.draw_debug()
-                self.end_game()
-                pygame.display.update()
-                self.handle_event_queue()
-                GL.CLOCK.tick(GL.FPS)
-            else:
-                self.handle_players_inputs()
-                self.handle_event_queue()
-            self.end_game()
-
-    def end_game(self):
-        if self.player1.is_dead() or self.player2.is_dead():
-            self.return_now = True
-            GL.NEXT_PAGE = '_game_over'
+            self.handle_players_inputs()
+            self.handle_monsters(self.game_time.msec)
+            self.handle_particles()
+            self.draw_screen()
+            self.draw_debug()
+            self.handle_event_queue()
+            self.check_if_game_over()
+            pygame.display.update()
+            GL.CLOCK.tick(GL.FPS)
 
     # -------------------------------------------------------------------------
     def handle_players_inputs(self):
@@ -856,15 +846,11 @@ class GameLoop:
                     print('the song ended!')
                     AUDIO.play_next_random_song()
 
-        def _handle_return_to_main_menu():
+        def _handle_return_to_main_menu_from_click():
             for event in pygame.event.get():
                 if 'click' in self.return_button.handleEvent(event):
                     self.return_now = True
                     GL.NEXT_PAGE = '_start'
-            if GL.INPUT1.SELECT_EVENT:
-                self.return_now = True
-                GL.CURR_GAME = self
-                GL.NEXT_PAGE = '_pause'
 
         def _handle_time_tick_event():
             for event in pygame.event.get(TIME_TICK_EVENT):
@@ -987,12 +973,19 @@ class GameLoop:
             _handle_rain_event()
             _handle_monster_spawn_event()
             _handle_quit_event()
-            _handle_return_to_main_menu()
+            _handle_return_to_main_menu_from_click()
         else:
             _handle_quit_event()
             GL.INPUT1.refresh_during_pause()
             pygame.event.clear()
 
+    # ----------------------------------------------------------------------------
+    def check_if_game_over(self):
+        if self.player1.is_dead() or self.player2.is_dead():
+            self.return_now = True
+            GL.NEXT_PAGE = '_game_over'
+
 # ----------------------------------------------------------------------------
+
 if __name__ == '__main__':
     Application()
