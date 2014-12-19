@@ -969,7 +969,7 @@ class GameLoop:
             for event in pygame.event.get(MONSTER_SPAWN_EVENT):
                 if event.type == MONSTER_SPAWN_EVENT:
                     self.spawn_monsters = True
-                    pygame.time.set_timer(MONSTER_SPAWN_EVENT, 1000)
+                    pygame.time.set_timer(MONSTER_SPAWN_EVENT, 10000)
 
         def _handle_quit_event():
             for event in pygame.event.get(QUIT):
