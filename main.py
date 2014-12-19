@@ -28,12 +28,12 @@ from pygbutton import PygButton
 # noinspection PyUnusedLocal
 class Application:
     def __init__(self):
-        start = StartMenu()
-        options = OptionsPage()
-        help = HelpPage()
-        pause = PauseMenu()
-        gameOver = GameOverMenu()
-        current_page = 'start'
+        _start = StartPage()
+        _options = OptionsPage()
+        _help = HelpPage()
+        _pause = PausePage()
+        _game_over = GameOverPage()
+        current_page = '_start'
         while True:
             eval(current_page + '()')
             current_page = GL.NEXT_PAGE
@@ -213,7 +213,7 @@ class GameLoop:
     def end_game(self):
         if self.player1.is_dead() or self.player2.is_dead():
             self.return_now = True
-            GL.NEXT_PAGE = 'gameOver'
+            GL.NEXT_PAGE = '_game_over'
 
     # -------------------------------------------------------------------------
     def handle_players_inputs(self):
@@ -230,7 +230,7 @@ class GameLoop:
             if GL.INPUT1.PAUSE_MODE_TOGGLED:
                 self.return_now = True
                 GL.CURR_GAME = self
-                GL.NEXT_PAGE = 'pause'
+                GL.NEXT_PAGE = '_pause'
 
             if GL.INPUT1.RESPAWN_EVENT:
                 self.player1.topleft = self.player1.topleft_initial
@@ -860,11 +860,11 @@ class GameLoop:
             for event in pygame.event.get():
                 if 'click' in self.return_button.handleEvent(event):
                     self.return_now = True
-                    GL.NEXT_PAGE = 'start'
+                    GL.NEXT_PAGE = '_start'
             if GL.INPUT1.SELECT_EVENT:
                 self.return_now = True
                 GL.CURR_GAME = self
-                GL.NEXT_PAGE = 'pause'
+                GL.NEXT_PAGE = '_pause'
 
         def _handle_time_tick_event():
             for event in pygame.event.get(TIME_TICK_EVENT):

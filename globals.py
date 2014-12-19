@@ -27,7 +27,7 @@ WHITE_BACKGROUND = pygame.Surface((40, 40))
 WHITE_BACKGROUND.fill((100, 100, 100))
 CLOCK = pygame.time.Clock()
 FPS = 30
-NEXT_PAGE = 'start'
+NEXT_PAGE = '_start'
 
 # Colors
 BLACK = Color(0, 0, 0)

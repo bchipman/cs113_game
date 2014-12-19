@@ -18,7 +18,7 @@ from classes import *
 SELECTION_BOX_WIDTH = 4
 SELECTION_BOX_COLOR = BLUE
 
-class StartMenu:
+class StartPage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bkg_start_page.png')
         self.start_button = PygButton((325, 395, 140, 40), 'Start')
@@ -76,11 +76,11 @@ class StartMenu:
 
             elif self.selection_box[0] == self.help_button:
                 self.return_now = True
-                GL.NEXT_PAGE = 'help'
+                GL.NEXT_PAGE = '_help'
 
             elif self.selection_box[0] == self.options_button:
                 self.return_now = True
-                GL.NEXT_PAGE = 'options'
+                GL.NEXT_PAGE = '_options'
 
             elif self.selection_box[0] == self.exit_button:
                 EXIT_GAME()
@@ -106,13 +106,13 @@ class StartMenu:
                 while self.selection_box[0] != self.help_button:
                     self.selection_box.rotate()
                 self.return_now = True
-                GL.NEXT_PAGE = 'help'
+                GL.NEXT_PAGE = '_help'
 
             if 'click' in self.options_button.handleEvent(event):
                 while self.selection_box[0] != self.options_button:
                     self.selection_box.rotate()
                 self.return_now = True
-                GL.NEXT_PAGE = 'options'
+                GL.NEXT_PAGE = '_options'
 
             if 'click' in self.exit_button.handleEvent(event):
                 while self.selection_box[0] != self.exit_button:
@@ -179,7 +179,7 @@ class HelpPage:
         if GL.INPUT1.START_EVENT or GL.INPUT1.SELECT_EVENT or \
                 GL.INPUT1.A_EVENT or GL.INPUT1.B_EVENT:
             self.return_now = True
-            GL.NEXT_PAGE = 'start'
+            GL.NEXT_PAGE = '_start'
 
     def events(self):
         for event in pygame.event.get():
@@ -187,7 +187,7 @@ class HelpPage:
                 EXIT_GAME()
             if 'click' in self.return_button.handleEvent(event):
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
 class PlayerSelectPage:
@@ -334,7 +334,7 @@ class PlayerSelectPage:
             elif not self.ready1 and (GL.INPUT1.B_EVENT or GL.INPUT1.SELECT_EVENT):
                 print('player 1 requested to go back to start')
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
             if self.ready2 and (GL.INPUT2.B_EVENT or GL.INPUT2.SELECT_EVENT):
                 print('player 2 not ready anymore')
@@ -343,7 +343,7 @@ class PlayerSelectPage:
             elif not self.ready2 and (GL.INPUT2.B_EVENT or GL.INPUT2.SELECT_EVENT):
                 print('player 2 requested to go back to start')
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
         def ready_for_start():
             if self.ready1 and self.ready2:
@@ -390,7 +390,7 @@ class PlayerSelectPage:
                 EXIT_GAME()
             if 'click' in self.return_button.handleEvent(event):
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
 class LevelSelectPage:
@@ -476,7 +476,7 @@ class LevelSelectPage:
                 EXIT_GAME()
             if 'click' in self.return_button.handleEvent(event):
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
 class OptionsPage:
@@ -547,12 +547,12 @@ class OptionsPage:
         if GL.INPUT1.START_EVENT or GL.INPUT1.A_EVENT:
             if self.selection_box[0][0] == self.main_menu_button:
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
         if GL.INPUT1.SELECT_EVENT or GL.INPUT1.B_EVENT:
             if self.selection_box[0][0] == self.main_menu_button:  # if already on main menu button when hit select / b ..
                 self.return_now = True  # .. then return
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
             else:  # if not on main menu button when hit select / b ..
                 while self.selection_box[0] != self.main_menu_button:  # .. then go to return button
                     self.selection_box.rotate()
@@ -615,10 +615,10 @@ class OptionsPage:
                 while self.selection_box[0][0] != self.main_menu_button:
                     self.selection_box.rotate()
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
-class PauseMenu:
+class PausePage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bkg_menus_dim.png')
         self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
@@ -658,7 +658,7 @@ class PauseMenu:
                 GL.NEXT_PAGE = 'GL.CURR_GAME'
 
             elif self.selection_box[0] == self.quit_button:
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
         if GL.INPUT1.LEFT_EVENT:
             self.selection_box.rotate()
@@ -685,10 +685,10 @@ class PauseMenu:
                 while self.selection_box[0] != self.quit_button:
                     self.selection_box.rotate()
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
-class GameOverMenu:
+class GameOverPage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bkg_menus_dim.png')
         self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
@@ -723,13 +723,13 @@ class GameOverMenu:
 
         if GL.INPUT1.SELECT_EVENT:
             self.return_now = True
-            GL.NEXT_PAGE = 'start'
+            GL.NEXT_PAGE = '_start'
 
         if GL.INPUT1.START_EVENT:
 
             if self.selection_box[0] == self.main_menu_button:
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
             elif self.selection_box[0] == self.exit_button:
                 EXIT_GAME()
@@ -749,7 +749,7 @@ class GameOverMenu:
                 while self.selection_box[0] != self.main_menu_button:
                     self.selection_box.rotate()
                 self.return_now = True
-                GL.NEXT_PAGE = 'start'
+                GL.NEXT_PAGE = '_start'
 
             if 'click' in self.exit_button.handleEvent(event):
                 while self.selection_box[0] != self.exit_button:
