@@ -27,7 +27,7 @@ class GameLoop:
             self.game_time = GameTime()
 
         def _setup_ui():
-            self.bkg_image = pygame.image.load('data/backgrounds/bkg_menus.png')
+            self.bg_image = pygame.image.load('data/backgrounds/bg_menus.png')
             self.return_button = PygButton((490, 550, 300, 50), 'Main Menu')
             self.window_border = Rect2(left=0, top=0, width=1280, height=600)
             self.play_area_border = Rect2(left=60, top=0, width=1160, height=485)
@@ -370,7 +370,7 @@ class GameLoop:
     def draw_screen(self):
 
         def _draw_ui1():
-            GL.SCREEN.blit(self.bkg_image, (0, 0))
+            GL.SCREEN.blit(self.bg_image, (0, 0))
             if self.arena.background is not None:
                 GL.SCREEN.blit(self.arena_image, (self.arena.play_area_rect.left, 0))
 
