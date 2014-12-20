@@ -1,14 +1,3 @@
-# python standard library modules
-
-# pygame
-
-# psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
-try:
-    import psutil
-    psutil_found = True
-except ImportError:
-    psutil_found = False
-
 # our modules
 from debug import *
 from pages import *

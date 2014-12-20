@@ -1,3 +1,4 @@
+# python standard library modules
 import datetime
 import os
 import random
@@ -5,8 +6,16 @@ import sys
 from collections import namedtuple
 from collections import defaultdict
 
+# pygame
 import pygame
 from pygame.locals import *  # for event timers
+
+# psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
+try:
+    import psutil
+    psutil_found = True
+except ImportError:
+    psutil_found = False
 
 if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
