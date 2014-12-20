@@ -407,16 +407,22 @@ class GameLoop:
 
             skill_ids = self.player1.skills + self.player2.skills
             for i, skill_box in enumerate(self.skill_boxes):
+                # skill box color border (depending on skill type)
+                if i in (0, 5):
+                    pygame.draw.rect(GL.SCREEN, DKRED, skill_box, 5)
+                elif i in (1, 2, 3, 6, 7, 8):
+                    pygame.draw.rect(GL.SCREEN, BLUE, skill_box, 5)
+                elif i in (4, 9):
+                    pygame.draw.rect(GL.SCREEN, DKYELLOW, skill_box, 5)
+
+                # skill box (empty/black)
                 pygame.draw.rect(GL.SCREEN, skill_box.color, skill_box)
 
-                # If icon picture exists
-                if skill_ids[i] in ICONS_TABLE.keys():
-                    # Draw picture
+                if skill_ids[i] in ICONS_TABLE.keys():  # if icon picture exists
                     GL.SCREEN.blit(GL.WHITE_BACKGROUND, (skill_box.left, skill_box.top))
                     GL.SCREEN.blit(ICONS_TABLE[skill_ids[i]], (skill_box.left, skill_box.top))
-                    # Draw energy text
-                # otherwise
-                else:
+
+                else:  # if no icon picture exists
                     skill_text = str(SKILLS_TABLE[skill_ids[i]]['name'])
                     skill_font = self.debug_font_small_2.render(skill_text, True, WHITE)
                     skill_text_xy = font_position_center(skill_box, self.debug_font_small_2, skill_text)
