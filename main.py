@@ -1,12 +1,6 @@
 # python standard library modules
-import os
-import random
-import sys
-from collections import deque
 
 # pygame
-import pygame
-from pygame.locals import *
 
 # psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
 try:
@@ -16,10 +10,7 @@ except ImportError:
     psutil_found = False
 
 # our modules
-import globals as GL
-from classes import *
 from debug import *
-from globals import *
 from pages import *
 from skills import *
 from pygbutton import PygButton
@@ -48,7 +39,7 @@ class GameLoop:
 
         def _setup_ui():
             self.bkg_image = pygame.image.load('data/backgrounds/bkg_menus.png')
-            self.return_button = pygbutton.PygButton((490, 550, 300, 50), 'Main Menu')
+            self.return_button = PygButton((490, 550, 300, 50), 'Main Menu')
             self.window_border = Rect2(left=0, top=0, width=1280, height=600)
             self.play_area_border = Rect2(left=60, top=0, width=1160, height=485)
             self.left_grey_fill = Rect2(left=0, top=0, width=65, height=600)

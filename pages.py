@@ -1,18 +1,11 @@
 # python standard library modules
-import os
-import sys
 import textwrap
-import pygbutton
 from collections import deque
 
 # pygame
-import pygame
-from pygame.locals import *
 
 # our modules
-import globals as GL
-from globals import *
-from pygbutton import *
+from pygbutton import PygButton
 from classes import *
 
 SELECTION_BOX_WIDTH = 4
@@ -125,7 +118,7 @@ class StartPage:
 # ----------------------------------------------------------------------------
 class HelpPage:
     def __init__(self):
-        self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
+        self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
         self.section_font = pygame.font.Font('data/fonts/Kremlin.ttf', 40)
         self.font = pygame.font.Font('data/fonts/arial_narrow_7.ttf', 20)
         self.bg_image = pygame.image.load('data/backgrounds/bkg_help.png')
@@ -193,7 +186,7 @@ class PlayerSelectPage:
 
     def __init__(self):
         def _setup_display():
-            self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
+            self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
             self.player1_spritesheet = None
             self.player2_spritesheet = None
 
@@ -394,7 +387,7 @@ class PlayerSelectPage:
 class LevelSelectPage:
     def __init__(self):
         def _setup_display():
-            self.return_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
+            self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
             self.ready = False
 
         def _load_images():
@@ -483,11 +476,11 @@ class OptionsPage:
         self.active_colors = BLACK, DKRED
         self.inactive_colors = DKRED, BLACK
 
-        self.main_menu_button = pygbutton.PygButton((0, 550, 300, 50), 'Main Menu')
-        self.music_on_button = pygbutton.PygButton((650, 200, 60, 50), 'ON')
-        self.sound_on_button = pygbutton.PygButton((650, 260, 60, 50), 'ON')
-        self.music_off_button = pygbutton.PygButton((730, 200, 80, 50), 'OFF')
-        self.sound_off_button = pygbutton.PygButton((730, 260, 80, 50), 'OFF')
+        self.main_menu_button = PygButton((0, 550, 300, 50), 'Main Menu')
+        self.music_on_button = PygButton((650, 200, 60, 50), 'ON')
+        self.sound_on_button = PygButton((650, 260, 60, 50), 'ON')
+        self.music_off_button = PygButton((730, 200, 80, 50), 'OFF')
+        self.sound_off_button = PygButton((730, 260, 80, 50), 'OFF')
 
         font = pygame.font.Font('data/fonts/Kremlin.ttf', 40)
         self.bg_font = font.render('Music:', True, DKRED)
@@ -624,8 +617,8 @@ class PausePage:
         pause_font = pygame.font.Font(main_font, 100)
         self.pause_font_xy = font_position_center(self.menu_box, pause_font, '-PAUSE-')
         self.pause_font_rendered = pause_font.render('-PAUSE-', True, RED)
-        self.continue_button = pygbutton.PygButton((395, 270, 200, 50), 'Continue')
-        self.quit_button = pygbutton.PygButton((730, 270, 100, 50), 'Quit')
+        self.continue_button = PygButton((395, 270, 200, 50), 'Continue')
+        self.quit_button = PygButton((730, 270, 100, 50), 'Quit')
         self.selection_box = deque([self.continue_button, self.quit_button])
 
     def __call__(self):
@@ -692,8 +685,8 @@ class GameOverPage:
         game_over_font = pygame.font.Font(main_font, 95)
         self.game_over_xy = font_position_center(self.menu_box, game_over_font, '-Game Over-')
         self.game_over_rendered = game_over_font.render('-Game Over-', True, RED)
-        self.main_menu_button = pygbutton.PygButton((395, 270, 200, 50), 'Main Menu')
-        self.exit_button = pygbutton.PygButton((730, 270, 100, 50), 'Exit')
+        self.main_menu_button = PygButton((395, 270, 200, 50), 'Main Menu')
+        self.exit_button = PygButton((730, 270, 100, 50), 'Exit')
         self.selection_box = deque([self.main_menu_button, self.exit_button])
 
     def __call__(self):

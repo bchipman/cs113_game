@@ -6,7 +6,6 @@ from collections import namedtuple
 from collections import defaultdict
 
 import pygame
-from pygame import Color
 from pygame.locals import *  # for event timers
 
 if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':

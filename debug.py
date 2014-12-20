@@ -1,5 +1,3 @@
-import pygame
-from pygame.locals import *
 from collections import namedtuple
 
 collision_points = namedtuple('collision_points', 'T, TR, R, BR, B, BL, L, TL')

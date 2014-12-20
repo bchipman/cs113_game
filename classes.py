@@ -1,15 +1,7 @@
 import copy
-import math
-import random
-from collections import defaultdict
-from collections import namedtuple
-
-import pygame
-from pygame.locals import *
 
 # noinspection PyPep8Naming
 import globals as GL
-from globals import *
 from skills import *
 
 # -------------------------------------------------------------------------

@@ -1,8 +1,4 @@
 import math
-import random
-import pygame
-import os
-from pygame.locals import *
 
 from globals import *
 import classes
