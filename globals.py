@@ -525,15 +525,11 @@ class Input:
         self.UP_EVENT = self.gp_input['GP_UP_EVENT'] or self.kb_input['KB_UP_EVENT']
         self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT'] or self.kb_input['KB_DOWN_EVENT']
 
-
         self.CONFIRM = self.gp_input['GP_A_EVENT'] or self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
         self.CANCEL = self.gp_input['GP_B_EVENT'] or self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
 
-        # self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
-        # self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
-
-        self.RESPAWN_EVENT = self.kb_input['KB_r_EVENT']
-        self.KILLALL_EVENT = self.kb_input['KB_k_EVENT']
+        self.RESPAWN_CHEAT = self.kb_input['KB_r_EVENT']
+        self.KILLALL_CHEAT = self.kb_input['KB_k_EVENT']
         self.QUICK_START = self.kb_input['KB_F12_EVENT']
 
         # need to save whether this was on or off for the next call to refresh
