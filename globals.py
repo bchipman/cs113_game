@@ -526,11 +526,11 @@ class Input:
         self.DOWN_EVENT = self.gp_input['GP_DOWN_EVENT'] or self.kb_input['KB_DOWN_EVENT']
 
 
-        self.CONFIRM = self.gp_input['GP_A_EVENT']
-        self.CANCEL = self.gp_input['GP_B_EVENT']
+        self.CONFIRM = self.gp_input['GP_A_EVENT'] or self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
+        self.CANCEL = self.gp_input['GP_B_EVENT'] or self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
 
-        self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
-        self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
+        # self.START_EVENT = self.gp_input['GP_START_EVENT'] or self.kb_input['KB_RETURN_EVENT']
+        # self.SELECT_EVENT = self.gp_input['GP_SELECT_EVENT'] or self.kb_input['KB_ESCAPE_EVENT']
 
         self.RESPAWN_EVENT = self.kb_input['KB_r_EVENT']
         self.KILLALL_EVENT = self.kb_input['KB_k_EVENT']
