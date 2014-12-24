@@ -18,7 +18,8 @@ class StartPage:
         self.help_button = PygButton((485, 395, 110, 40), 'Help')
         self.options_button = PygButton((615, 395, 175, 40), 'Options')
         self.exit_button = PygButton((810, 395, 105, 40), 'Exit')
-        AUDIO.turn_on_music()
+        if AUDIO.music_on:
+            AUDIO.turn_on_music()
         title_font = pygame.font.Font('data/fonts/Kremlin.ttf', 50)
         self.title_font1 = title_font.render('Famished', True, DKRED)
         self.title_font2 = title_font.render('Tournament', True, DKRED)
