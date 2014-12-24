@@ -214,6 +214,21 @@ class GameLoop:
                 for m in self.active_monsters:
                     m.hit_points = 0
 
+            if GL.INPUT1.NEW_RED_SKILL_CHEAT:
+                self.player1.attack_id = random.choice(auto_attack_skills())
+
+            if GL.INPUT1.NEW_BLUE1_SKILL_CHEAT:
+                self.player1.skill1_id = random.choice(regular_skills())
+
+            if GL.INPUT1.NEW_BLUE2_SKILL_CHEAT:
+                self.player1.skill2_id = random.choice(regular_skills())
+
+            if GL.INPUT1.NEW_BLUE3_SKILL_CHEAT:
+                self.player1.skill3_id = random.choice(regular_skills())
+
+            if GL.INPUT1.NEW_YELLOW_SKILL_CHEAT:
+                self.player1.ult_id = random.choice(ultimate_skills())
+
         _refresh_inputs()
         _handle_players_inputs()
         _handle_special_input()

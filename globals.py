@@ -302,7 +302,7 @@ class Audio:
         except pygame.error:
             self.audio_device_found = False
         self.menu_song = self.curr_song = 'data/songs/404error.mp3'
-        self.music_on = self.sound_on = True
+        self.music_on = self.sound_on = False
 
     def restart_music(self):
         if self.audio_device_found:
@@ -496,6 +496,12 @@ class Input:
             if e.key == K_F12:          self.kb_input['KB_F12_EVENT'] = True
             if e.key == K_BACKQUOTE:    self.kb_input['KB_BACKQUOTE_EVENT'] = True
 
+            if e.key == K_F1:           self.kb_input['KB_F1_EVENT'] = True
+            if e.key == K_F2:           self.kb_input['KB_F2_EVENT'] = True
+            if e.key == K_F3:           self.kb_input['KB_F3_EVENT'] = True
+            if e.key == K_F4:           self.kb_input['KB_F4_EVENT'] = True
+            if e.key == K_F5:           self.kb_input['KB_F5_EVENT'] = True
+
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
             if self.player_id == 1:
@@ -561,6 +567,12 @@ class Input:
         self.DEBUG_MODE_TOGGLED = self.kb_input['KB_BACKQUOTE_EVENT']
         if self.DEBUG_MODE_TOGGLED and not self.PAUSE_MODE_ON:  # only "really" toggle debug mode if not paused
             self.DEBUG_MODE_ON = not self.DEBUG_MODE_ON
+
+        self.NEW_RED_SKILL_CHEAT = self.kb_input['KB_F1_EVENT']
+        self.NEW_BLUE1_SKILL_CHEAT = self.kb_input['KB_F2_EVENT']
+        self.NEW_BLUE2_SKILL_CHEAT = self.kb_input['KB_F3_EVENT']
+        self.NEW_BLUE3_SKILL_CHEAT = self.kb_input['KB_F4_EVENT']
+        self.NEW_YELLOW_SKILL_CHEAT = self.kb_input['KB_F5_EVENT']
 
     def _reset_all_event_flags(self):
         for k in self.kb_input.keys():
