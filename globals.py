@@ -434,16 +434,6 @@ class Input:
         if self.player_id == 1:
             self._handle_mouse_visibility()
 
-    def refresh_during_pause(self):
-        self._reset_all_event_flags()
-        if self.player_id == 1:
-            self._get_keyboard_pressed()
-            self._get_keyboard_events()
-            self._get_gamepad_pressed_and_events()
-            self._combine_all_pressed()
-            self._combine_all_events()
-            self._handle_mouse_visibility()
-
     def _get_keyboard_pressed(self):
         sucky_kb_input = pygame.key.get_pressed()
         self.kb_input['KB_LEFT'] = sucky_kb_input[K_LEFT]

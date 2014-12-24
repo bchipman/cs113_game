@@ -642,7 +642,7 @@ class PausePage:
         pygame.display.update()
 
     def input(self):
-        GL.INPUT1.refresh_during_pause()
+        GL.INPUT1.refresh()
 
         if GL.INPUT1.CONFIRM:
             self.return_now = True
@@ -708,7 +708,7 @@ class GameOverPage:
         pygame.display.update()
 
     def input(self):
-        GL.INPUT1.refresh_during_pause()
+        GL.INPUT1.refresh()
 
         if GL.INPUT1.CANCEL:
             self.return_now = True
