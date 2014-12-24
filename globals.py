@@ -355,14 +355,36 @@ class Input:
         self.player_id = player_id
         self.DEBUG_MODE_ON = False
         self.PAUSE_MODE_ON = False
-        try:
-            self.gamepad = pygame.joystick.Joystick(player_id - 1)
-            self.gamepad.init()
-            self.gamepad_found = True
-            print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
-            self.__setup_gamepad_buttons__()
-        except pygame.error:
-            self.gamepad_found = False
+        num_joys = pygame.joystick.get_count()
+
+        if num_joys == 2:  # p1 = gamepad0 or keyboard, p2 = gamepad1
+            try:
+                self.gamepad = pygame.joystick.Joystick(player_id - 1)
+                self.gamepad.init()
+                self.gamepad_found = True
+                print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
+                self.__setup_gamepad_buttons__()
+            except pygame.error:
+                self.gamepad_found = False
+
+        elif num_joys == 1:  # p1 = keyboard, p2 = gamepad0
+            if player_id == 1:
+                self.gamepad_found = False
+                print('p{} uses "keyboard"'.format(str(self.player_id)))
+            elif player_id == 2:
+                self.gamepad = pygame.joystick.Joystick(0)
+                self.gamepad.init()
+                self.gamepad_found = True
+                print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
+                self.__setup_gamepad_buttons__()
+
+        elif num_joys == 0:  # p1 = keyboard, p2 = cannot play
+            if player_id == 1:
+                self.gamepad_found = False
+                print('p{} uses "keyboard"'.format(str(self.player_id)))
+            elif player_id == 2:
+                self.gamepad_found = False
+                print('p{} cannot play!'.format(str(self.player_id)))
 
     def __setup_gamepad_buttons__(self):
         input_nt = namedtuple('input_nt', 'kind, number, value1, value2')
