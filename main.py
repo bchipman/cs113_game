@@ -261,6 +261,14 @@ class GameLoop:
                 self.p2_yellow_skills_deque.rotate()
                 self.player2.ult_id = self.p2_yellow_skills_deque[0]
 
+            if GL.INPUT1.P1_ININITE_HEALTH_ENERGY_ON:
+                self.player1.hit_points = self.player1.hit_points_max
+                self.player1.energy = self.player1.energy_max
+
+            if GL.INPUT1.P2_ININITE_HEALTH_ENERGY_ON:
+                self.player2.hit_points = self.player2.hit_points_max
+                self.player2.energy = self.player2.energy_max
+
         _refresh_inputs()
         _handle_players_inputs()
         _handle_special_input()
