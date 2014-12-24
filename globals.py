@@ -502,6 +502,12 @@ class Input:
             if e.key == K_F4:           self.kb_input['KB_F4_EVENT'] = True
             if e.key == K_F5:           self.kb_input['KB_F5_EVENT'] = True
 
+            if e.key == K_F6:           self.kb_input['KB_F6_EVENT'] = True
+            if e.key == K_F7:           self.kb_input['KB_F7_EVENT'] = True
+            if e.key == K_F8:           self.kb_input['KB_F8_EVENT'] = True
+            if e.key == K_F9:           self.kb_input['KB_F9_EVENT'] = True
+            if e.key == K_F10:           self.kb_input['KB_F10_EVENT'] = True
+
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
             if self.player_id == 1:
@@ -568,11 +574,17 @@ class Input:
         if self.DEBUG_MODE_TOGGLED and not self.PAUSE_MODE_ON:  # only "really" toggle debug mode if not paused
             self.DEBUG_MODE_ON = not self.DEBUG_MODE_ON
 
-        self.NEW_RED_SKILL_CHEAT = self.kb_input['KB_F1_EVENT']
-        self.NEW_BLUE1_SKILL_CHEAT = self.kb_input['KB_F2_EVENT']
-        self.NEW_BLUE2_SKILL_CHEAT = self.kb_input['KB_F3_EVENT']
-        self.NEW_BLUE3_SKILL_CHEAT = self.kb_input['KB_F4_EVENT']
-        self.NEW_YELLOW_SKILL_CHEAT = self.kb_input['KB_F5_EVENT']
+        self.NEW_P1_RED_SKILL_CHEAT = self.kb_input['KB_F1_EVENT']
+        self.NEW_P1_BLUE1_SKILL_CHEAT = self.kb_input['KB_F2_EVENT']
+        self.NEW_P1_BLUE2_SKILL_CHEAT = self.kb_input['KB_F3_EVENT']
+        self.NEW_P1_BLUE3_SKILL_CHEAT = self.kb_input['KB_F4_EVENT']
+        self.NEW_P1_YELLOW_SKILL_CHEAT = self.kb_input['KB_F5_EVENT']
+
+        self.NEW_P2_RED_SKILL_CHEAT = self.kb_input['KB_F6_EVENT']
+        self.NEW_P2_BLUE1_SKILL_CHEAT = self.kb_input['KB_F7_EVENT']
+        self.NEW_P2_BLUE2_SKILL_CHEAT = self.kb_input['KB_F8_EVENT']
+        self.NEW_P2_BLUE3_SKILL_CHEAT = self.kb_input['KB_F9_EVENT']
+        self.NEW_P2_YELLOW_SKILL_CHEAT = self.kb_input['KB_F10_EVENT']
 
     def _reset_all_event_flags(self):
         for k in self.kb_input.keys():

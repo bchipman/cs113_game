@@ -58,6 +58,21 @@ class GameLoop:
             GL.arena_in_use = self.arena  # used for out_of_arena_fix within global.py
             self.arena_image = pygame.image.load(self.arena.background)
 
+        def _setup_skills():
+            initialize_skill_table()
+
+            self.p1_red_skills_deque = deque([1] + auto_attack_skills())
+            self.p1_blue_skills1_deque = deque(regular_skills())
+            self.p1_blue_skills2_deque = deque(regular_skills())
+            self.p1_blue_skills3_deque = deque(regular_skills())
+            self.p1_yellow_skills_deque = deque(ultimate_skills())
+
+            self.p2_red_skills_deque = deque([1] + auto_attack_skills())
+            self.p2_blue_skills1_deque = deque(regular_skills())
+            self.p2_blue_skills2_deque = deque(regular_skills())
+            self.p2_blue_skills3_deque = deque(regular_skills())
+            self.p2_yellow_skills_deque = deque(ultimate_skills())
+
         def _setup_fonts():
             # main_font = 'data/viner-hand-itc.ttf'
             main_font = 'data/fonts/Kremlin.ttf'
@@ -163,7 +178,7 @@ class GameLoop:
         _setup_time()
         _setup_ui()
         _setup_arena()
-        initialize_skill_table()
+        _setup_skills()
         _setup_monsters()
         _setup_fonts()
         _setup_particles()
@@ -214,20 +229,38 @@ class GameLoop:
                 for m in self.active_monsters:
                     m.hit_points = 0
 
-            if GL.INPUT1.NEW_RED_SKILL_CHEAT:
-                self.player1.attack_id = random.choice(auto_attack_skills())
+            if GL.INPUT1.NEW_P1_RED_SKILL_CHEAT:
+                self.p1_red_skills_deque.rotate()
+                self.player1.attack_id = self.p1_red_skills_deque[0]
+            if GL.INPUT1.NEW_P1_BLUE1_SKILL_CHEAT:
+                self.p1_blue_skills1_deque.rotate()
+                self.player1.skill1_id = self.p1_blue_skills1_deque[0]
+            if GL.INPUT1.NEW_P1_BLUE2_SKILL_CHEAT:
+                self.p1_blue_skills2_deque.rotate()
+                self.player1.skill2_id = self.p1_blue_skills2_deque[0]
+            if GL.INPUT1.NEW_P1_BLUE3_SKILL_CHEAT:
+                self.p1_blue_skills3_deque.rotate()
+                self.player1.skill3_id = self.p1_blue_skills3_deque[0]
+            if GL.INPUT1.NEW_P1_YELLOW_SKILL_CHEAT:
+                self.p1_yellow_skills_deque.rotate()
+                self.player1.ult_id = self.p1_yellow_skills_deque[0]
 
-            if GL.INPUT1.NEW_BLUE1_SKILL_CHEAT:
-                self.player1.skill1_id = random.choice(regular_skills())
 
-            if GL.INPUT1.NEW_BLUE2_SKILL_CHEAT:
-                self.player1.skill2_id = random.choice(regular_skills())
-
-            if GL.INPUT1.NEW_BLUE3_SKILL_CHEAT:
-                self.player1.skill3_id = random.choice(regular_skills())
-
-            if GL.INPUT1.NEW_YELLOW_SKILL_CHEAT:
-                self.player1.ult_id = random.choice(ultimate_skills())
+            if GL.INPUT1.NEW_P2_RED_SKILL_CHEAT:
+                self.p2_red_skills_deque.rotate()
+                self.player2.attack_id = self.p2_red_skills_deque[0]
+            if GL.INPUT1.NEW_P2_BLUE1_SKILL_CHEAT:
+                self.p2_blue_skills1_deque.rotate()
+                self.player2.skill1_id = self.p2_blue_skills1_deque[0]
+            if GL.INPUT1.NEW_P2_BLUE2_SKILL_CHEAT:
+                self.p2_blue_skills2_deque.rotate()
+                self.player2.skill2_id = self.p2_blue_skills2_deque[0]
+            if GL.INPUT1.NEW_P2_BLUE3_SKILL_CHEAT:
+                self.p2_blue_skills3_deque.rotate()
+                self.player2.skill3_id = self.p2_blue_skills3_deque[0]
+            if GL.INPUT1.NEW_P2_YELLOW_SKILL_CHEAT:
+                self.p2_yellow_skills_deque.rotate()
+                self.player2.ult_id = self.p2_yellow_skills_deque[0]
 
         _refresh_inputs()
         _handle_players_inputs()
