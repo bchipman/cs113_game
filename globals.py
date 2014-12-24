@@ -597,7 +597,6 @@ class Input:
             pygame.mouse.set_visible(False)
         else:
             pygame.mouse.set_visible(True)
-
 INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 

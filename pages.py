@@ -2,8 +2,6 @@
 import textwrap
 from collections import deque
 
-# pygame
-
 # our modules
 from pygbutton import PygButton
 from classes import *

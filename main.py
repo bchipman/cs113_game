@@ -245,7 +245,6 @@ class GameLoop:
                 self.p1_yellow_skills_deque.rotate()
                 self.player1.ult_id = self.p1_yellow_skills_deque[0]
 
-
             if GL.INPUT1.NEW_P2_RED_SKILL_CHEAT:
                 self.p2_red_skills_deque.rotate()
                 self.player2.attack_id = self.p2_red_skills_deque[0]

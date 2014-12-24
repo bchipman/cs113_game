@@ -416,7 +416,6 @@ class Player(Rect2):
         else:
             self.state = STAND
 
-
 # -------------------------------------------------------------------------
 class Monster(Player):
     def __init__(self, info, topleft, player1, player2, color=ORANGE):
