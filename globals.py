@@ -122,13 +122,6 @@ PL_ATTACK_TABLE = {'ONEHAND': [28, 3],
 # Inputs
 LEFT = 'LEFT'
 RIGHT = 'RIGHT'
-UP = 'UP'
-DOWN = 'DOWN'
-JUMP = 'JUMP'
-ATTACK = 'ATTACK'
-DEBUG = 'DEBUG'
-EXIT = 'EXIT'
-RESET = 'RESET'
 MELEE = 'MELEE'
 RANGE = 'RANGED'
 FIELD = 'FIELD'
@@ -599,7 +592,6 @@ class Input:
         if self.P2_INFINITE_HEALTH_ENERGY and not self.PAUSE_MODE_ON:
             self.P2_ININITE_HEALTH_ENERGY_ON = not self.P2_ININITE_HEALTH_ENERGY_ON
 
-
     def _reset_all_event_flags(self):
         for k in self.kb_input.keys():
             self.kb_input[k] = False
@@ -705,8 +697,3 @@ MONSTER_TABLE = {
     WEAK: monster_info_nt(WEAK, 30, 40, 2, 10, 50, 5000, 5000, WEAK_EXP_VALUE, 3),
     MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000, MEDIUM_EXP_VALUE, 5),
     ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
-
-# ------------Spritesheet and Arena Globals with Default Values---------------
-P1_SPRITESHEET = 'data/p1_human_8bit.png'
-P2_SPRITESHEET = 'data/p1_human_8bit.png'
-SELECTED_ARENA = arena3
