@@ -391,54 +391,55 @@ class Input:
         #         D                      A
 
         if self.gamepad.get_name() == 'Gioteck PS3 Wired Controller':  # Max's gamepad
-            di = {'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),
-                  'GP_RIGHT': input_nt(kind='hat', number=0, value1=1, value2=0),
-                  'GP_UP': input_nt(kind='hat', number=0, value1=1, value2=-1),
-                  'GP_DOWN': input_nt(kind='hat', number=0, value1=-1, value2=+1),
-                  'GP_A': input_nt(kind='button', number=2, value1=None, value2=None),
-                  'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
-                  'GP_X': input_nt(kind='button', number=3, value1=None, value2=None),
-                  'GP_Y': input_nt(kind='button', number=0, value1=None, value2=None),
-                  'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
-                  'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None),
-                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
-                  'GP_L2': input_nt(kind='button', number=6, value1=None, value2=None),
-                  'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
-                  'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
+            self.GP_INPUTS_DICT = {
+                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),
+                'GP_RIGHT': input_nt(kind='hat', number=0, value1=1, value2=0),
+                'GP_UP': input_nt(kind='hat', number=0, value1=1, value2=-1),
+                'GP_DOWN': input_nt(kind='hat', number=0, value1=-1, value2=+1),
+                'GP_A': input_nt(kind='button', number=2, value1=None, value2=None),
+                'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
+                'GP_X': input_nt(kind='button', number=3, value1=None, value2=None),
+                'GP_Y': input_nt(kind='button', number=0, value1=None, value2=None),
+                'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
+                'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None),
+                'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
+                'GP_L2': input_nt(kind='button', number=6, value1=None, value2=None),
+                'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
+                'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
 
         elif self.gamepad.get_name() == 'Logitech Cordless RumblePad 2 USB':  # Brian's gamepad if switched to "D"
-            di = {'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
-                  'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
-                  'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
-                  'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
-                  'GP_A': input_nt(kind='button', number=1, value1=None, value2=None),
-                  'GP_B': input_nt(kind='button', number=2, value1=None, value2=None),
-                  'GP_X': input_nt(kind='button', number=0, value1=None, value2=None),
-                  'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
-                  'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
-                  'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None),
-                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
-                  'GP_L2': input_nt(kind='button', number=6, value1=None, value2=None),
-                  'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
-                  'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
+            self.GP_INPUTS_DICT = {
+                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
+                'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
+                'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
+                'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
+                'GP_A': input_nt(kind='button', number=1, value1=None, value2=None),
+                'GP_B': input_nt(kind='button', number=2, value1=None, value2=None),
+                'GP_X': input_nt(kind='button', number=0, value1=None, value2=None),
+                'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
+                'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
+                'GP_R2': input_nt(kind='button', number=7, value1=None, value2=None),
+                'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
+                'GP_L2': input_nt(kind='button', number=6, value1=None, value2=None),
+                'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
+                'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
 
         elif self.gamepad.get_name() in ('Wireless Gamepad F710 (Controller)', 'Controller (XBOX 360 For Windows)'):  # Brian's gamepad if switched to "X"
-            di = {'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
-                  'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
-                  'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
-                  'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
-                  'GP_A': input_nt(kind='button', number=0, value1=None, value2=None),
-                  'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
-                  'GP_X': input_nt(kind='button', number=2, value1=None, value2=None),
-                  'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
-                  'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
-                  'GP_R2': input_nt(kind='axis', number=2, value1=-1, value2=None),
-                  'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
-                  'GP_L2': input_nt(kind='axis', number=2, value1=+1, value2=None),
-                  'GP_START': input_nt(kind='button', number=7, value1=None, value2=None),
-                  'GP_SELECT': input_nt(kind='button', number=6, value1=None, value2=None)}
-
-        self.GP_INPUTS_DICT = di
+            self.GP_INPUTS_DICT = {
+                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
+                'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
+                'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
+                'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
+                'GP_A': input_nt(kind='button', number=0, value1=None, value2=None),
+                'GP_B': input_nt(kind='button', number=1, value1=None, value2=None),
+                'GP_X': input_nt(kind='button', number=2, value1=None, value2=None),
+                'GP_Y': input_nt(kind='button', number=3, value1=None, value2=None),
+                'GP_R1': input_nt(kind='button', number=5, value1=None, value2=None),
+                'GP_R2': input_nt(kind='axis', number=2, value1=-1, value2=None),
+                'GP_L1': input_nt(kind='button', number=4, value1=None, value2=None),
+                'GP_L2': input_nt(kind='axis', number=2, value1=+1, value2=None),
+                'GP_START': input_nt(kind='button', number=7, value1=None, value2=None),
+                'GP_SELECT': input_nt(kind='button', number=6, value1=None, value2=None)}
 
     def refresh(self):
         self._reset_all_event_flags()
