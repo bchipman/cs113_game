@@ -362,12 +362,12 @@ def lob_motion(particle, time):
 
 
 def ADD_BIG_HAMMER(i):
-    SKILLS_TABLE[i] = _auto_melee('Big Hammer',75, 75, math.pi / 2, 125, 125, 500, 500, DGREY, 20, 5, TWOHAND, 3, sound='data/sounds/hammer.wav')
+    SKILLS_TABLE[i] = _auto_melee('Big Hammer', 75, 75, math.pi / 2, 125, 125, 500, 500, DGREY, 20, 5, TWOHAND, 3, sound='data/sounds/hammer.wav')
     SKILLS_TABLE[i]['on_hit_f'] = knock_back
     SKILLS_TABLE[i]['conditions'] = [classes.Stun(3000)]
     SKILLS_TABLE[i]['start'] = big_hammer
-    SKILLS_TABLE['bighammer0'] = _auto_melee('',30, 30, math.pi / 2, 30, 30, 500, 500, BROWN, 10, 0)
-    SKILLS_TABLE['bighammer1'] = _auto_melee('',30, 30, math.pi / 2, 60, 60, 500, 500, BROWN, 10, 0)
+    SKILLS_TABLE['bighammer0'] = _auto_melee('', 30, 30, math.pi / 2, 30, 30, 500, 500, BROWN, 10, 0)
+    SKILLS_TABLE['bighammer1'] = _auto_melee('', 30, 30, math.pi / 2, 60, 60, 500, 500, BROWN, 10, 0)
 def big_hammer(sid, player, up=False, down=False):
     return [classes.MeleeParticle('bighammer0', player),
             classes.MeleeParticle('bighammer1', player), classes.MeleeParticle(sid, player)]
@@ -504,14 +504,14 @@ def ADD_SHIELD(i):
     SKILLS_TABLE[i] = {'name': 'Shield', 'type': None, 'start': shield_start, 'cooldown': 200, 'energy': 6, 'state': CAST2, 'frame': 1, 'sound': 'data/sounds/shield.wav'}
 def shield_start(sid, player, up=False, down=False):
     sh = classes.Shield(10000, 10)
-    sh.begin(-1,player)
+    sh.begin(-1, player)
     return None
 def ADD_NAPALM(i):
     SKILLS_TABLE[i] = {'name': 'Napalm', 'type': None, 'start': napalm_start, 'cooldown': 500, 'energy': 5, 'state': THROW, 'frame': 2, 'sound': 'data/sounds/napalm.wav'}
-    SKILLS_TABLE['napalm_main'] = _auto_range('',30, 30, 2, 0, 500, 500, RED, 10, 0)
-    SKILLS_TABLE['napalm0'] = _auto_range('',20, 20, 2, 0, 500, 3000, RED, 10, 0)
-    SKILLS_TABLE['napalm1'] = _auto_range('',20, 20, 2, 0, 500, 3000, RED, 10, 0)
-    SKILLS_TABLE['napalm2'] = _auto_range('',20, 20, 2, 0, 500, 3000, RED, 10, 0)
+    SKILLS_TABLE['napalm_main'] = _auto_range('', 30, 30, 2, 0, 500, 500, RED, 10, 0)
+    SKILLS_TABLE['napalm0'] = _auto_range('', 20, 20, 2, 0, 500, 3000, RED, 10, 0)
+    SKILLS_TABLE['napalm1'] = _auto_range('', 20, 20, 2, 0, 500, 3000, RED, 10, 0)
+    SKILLS_TABLE['napalm2'] = _auto_range('', 20, 20, 2, 0, 500, 3000, RED, 10, 0)
     SKILLS_TABLE['napalm_main']['special_path'] = lob_motion
     SKILLS_TABLE['napalm_main']['conditions'] = [classes.Dot(3, 5, 1000)]
     SKILLS_TABLE['napalm_main']['on_expire_f'] = napalm_on_expire
@@ -524,7 +524,7 @@ def ADD_NAPALM(i):
     PARTICLES_TABLE['napalm1'] = particle_image('napalm_part.png')
     PARTICLES_TABLE['napalm2'] = particle_image('napalm_part.png')
 
-def napalm_start(sid,player,up=False,down=False):
+def napalm_start(sid, player, up=False, down=False):
     obj = classes.RangeParticle('napalm_main', player, up, down)
     obj.dy = -15
     if player.facing_direction == RIGHT:
@@ -574,7 +574,7 @@ def ADD_FIRE_AND_ICE(i):
     SKILLS_TABLE['fai_ice']['conditions'] = [classes.Snare(2500)]
     PARTICLES_TABLE['fai_fire'] = particle_image('fai_fire.png')
     PARTICLES_TABLE['fai_ice'] = particle_image('fai_ice.png')
-def fai_start(sid,player,up=False,down=False):
+def fai_start(sid, player, up=False, down=False):
     ice = classes.RangeParticle('fai_ice', player, up, down)
     fire = classes.RangeParticle('fai_fire', player, up, down)
     return [ice, fire]
@@ -731,7 +731,7 @@ def bee_hive_start(sid, player, up=False, down=False):
     obj.dx = 4 if player.facing_direction == RIGHT else -4
     obj.beeUpdate = -1
     return obj
-def bee_hive_path(particle,time):
+def bee_hive_path(particle, time):
     if particle.beeUpdate == -1:
         particle.beeUpdate = time
 
@@ -745,13 +745,13 @@ def bee_hive_path(particle,time):
               classes.RangeParticle('bee6', particle.belongs_to, False, False),
               classes.RangeParticle('bee7', particle.belongs_to, False, False),
               classes.RangeParticle('bee8', particle.belongs_to, False, False)]
-        for i in range(0,8):
+        for i in range(0, 8):
             li[i].centerx = particle.centerx
             li[i].centery = particle.centery
 
         if particle.belongs_to.new_particle is None:
             particle.belongs_to.new_particle = li
-        elif isinstance(particle.belongs_to.new_particle,list):
+        elif isinstance(particle.belongs_to.new_particle, list):
             particle.belongs_to.new_particle += li
         else:
             temp = p.belongs_to.new_particle
@@ -799,12 +799,12 @@ def faerie_path(p, t):
         x = p.belongs_to.centerx + 15
     else:
         x = p.belongs_to.centerx - 15
-    return x,y
-def faerie_shot_path(p,t):
+    return x, y
+def faerie_shot_path(p, t):
     y = p.centery
     x = p.centerx + p.dx
     p.dx += p.ddx
-    return x,y
+    return x, y
 
 def ADD_EPICENTER(i):
     SKILLS_TABLE[i] = {'name': 'Epicenter', 'type': None, 'start': epicenter_start, 'cooldown': 300, 'energy': 8, 'state': CAST3, 'frame': 2, 'sound': 'data/sounds/epicenter.wav'}
@@ -889,16 +889,16 @@ def teleport_shot_on_hit(particle, target, time):
         particle.belongs_to.centerx = x
         particle.belongs_to.centery = y
 
-def vampiric_swipe_on_hit(particle,target,time):
+def vampiric_swipe_on_hit(particle, target, time):
     if particle.belongs_to.hit_points < particle.belongs_to.hit_points_max:
         v = min(particle.belongs_to.hit_points_max - particle.belongs_to.hit_points, min(15, int(target.hit_points / 10)))
         handle_hp_gain(particle.belongs_to, v, time)
 
 def ADD_BLAST_OFF(i):
     SKILLS_TABLE[i] = {'name': 'Blast Off', 'type': None, 'start': blast_off_start, 'cooldown': 250, 'energy': 2, 'state': DASH, 'frame': 1, 'sound': 'none'}
-    SKILLS_TABLE['blast_off'] = _auto_melee('',70, 80, 0, 0, 0, 250, 250, RED, 5, 0)
+    SKILLS_TABLE['blast_off'] = _auto_melee('', 70, 80, 0, 0, 0, 250, 250, RED, 5, 0)
     SKILLS_TABLE['blast_off']['special_path'] = blast_off_path
-    SKILLS_TABLE['blast_off']['conditions'] = [classes.Dot(2,3,1000)]
+    SKILLS_TABLE['blast_off']['conditions'] = [classes.Dot(2, 3, 1000)]
     PARTICLES_TABLE['blast_off'] = particle_image('blast_off.png')
 def blast_off_start(sid, player, up, down):
     speed = classes.Speed(250, 0.75)
@@ -1027,31 +1027,30 @@ def ADD_SHOTGUN(i):
     SKILLS_TABLE['shotgun_pellet']['special_path'] = shotgun_pellet_path
 def shotgun_start(sid, player, up=False, down=False):
     plist = []
-    for i in range(0,5):
+    for i in range(0, 5):
         p = classes.RangeParticle('shotgun_pellet', player, up, down)
         p.centery = player.centery
         if player.facing_direction == RIGHT:
-            p.centerx = player.centerx+10
-            p.dx = random.randint(20,30)
-            p.dy = random.randint(-4,4)
+            p.centerx = player.centerx + 10
+            p.dx = random.randint(20, 30)
+            p.dy = random.randint(-4, 4)
         else:
-            p.centerx = player.centerx-10
-            p.dx = random.randint(-30,-20)
-            p.dy = random.randint(-4,4)
+            p.centerx = player.centerx - 10
+            p.dx = random.randint(-30, -20)
+            p.dy = random.randint(-4, 4)
         plist.append(p)
     return plist
 
-def shotgun_pellet_path(particle,time):
+def shotgun_pellet_path(particle, time):
     return particle.centerx + particle.dx, particle.centery + particle.dy
 # ----------------------------------------------------------------------------
 def get_dropped_skill(monster):
     if monster.kind == WEAK:
-        li = auto_attack_skills()
+        return random.choice(auto_attack_skills())
     elif monster.kind == MEDIUM:
-        li = regular_skills()
+        return random.choice(regular_skills())
     elif monster.kind == ULTIMATE:
-        li = ultimate_skills()
-    return random.choice(li)
+        return random.choice(ultimate_skills())
 
 def get_skill_type(skill_id):
     if 1 <= skill_id <= 99:

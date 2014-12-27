@@ -239,7 +239,7 @@ def condition_string(cond, value):
     return st
 
 def force_add_particle_to_player(particle, player):
-    if isinstance(particle,list):
+    if isinstance(particle, list):
         if player.new_particle is None:
             player.new_particle = particle
         elif isinstance(player.new_particle, list):

@@ -449,13 +449,11 @@ class LevelSelectPage:
         def set_level():
             print('setting level')
             if self.index == 0:
-                arena = arena4
+                GL.set_level(arena4)
             elif self.index == 1:
-                arena = arena3
+                GL.set_level(arena3)
             elif self.index == 2:
-                arena = arena5
-
-            GL.set_level(arena)
+                GL.set_level(arena5)
             print('set level')
 
         ready_check()

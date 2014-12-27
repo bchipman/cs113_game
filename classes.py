@@ -108,7 +108,7 @@ class Player(Rect2):
 
         # specific testing:
         # self.attack_id = 10
-        # self.skill1_id = 111
+        # self.skill1_id = 113
         # self.skill2_id = 102
         # self.skill3_id = 123
         # self.ult_id = 1007
@@ -458,9 +458,9 @@ class Monster(Player):
             else:
                 self.target = self.p2
 
-    def _handle_last_hit(self,time):
-        for i,v in enumerate(self.has_hit_time):
-            if (v+2000) <= time:
+    def _handle_last_hit(self, time):
+        for i, v in enumerate(self.has_hit_time):
+            if (v + 2000) <= time:
                 del self.has_hit[i]
                 del self.has_hit_time[i]
 
@@ -628,7 +628,7 @@ class MeleeParticle(Particle):
         # multiple times
         self.has_hit_time = []
         self.extend = SKILLS_TABLE[sid]['extend']
-        self.dradius = (self.max_radius - self.radius)*35/self.duration
+        self.dradius = (self.max_radius - self.radius) * 35 / self.duration
         self.direction = player.facing_direction
 
     # def update(self, time, player):
@@ -650,11 +650,11 @@ class MeleeParticle(Particle):
         self.progress = (1 - r) * self.arc
 
         if self.special_f:
-            self.centerx, self.centery = self.special_f(self,time)
+            self.centerx, self.centery = self.special_f(self, time)
         else:
             if self.extend:
                 self.width += self.dradius
-                self.radius += self.dradius/2
+                self.radius += self.dradius / 2
             else:
                 self.radius += self.dradius
 
@@ -785,7 +785,6 @@ class FieldParticle(Particle):
         if 'frequency' in SKILLS_TABLE[sid].keys():
             self.frequency = SKILLS_TABLE[sid]['frequency']
 
-
     def update(self, time):
         if self.spawn_time == 0:
             self.spawn_time = time
@@ -868,7 +867,7 @@ class Condition:
         c.target = target
         target.conditions[c.type].append(c)
 
-    def is_expired(self,time):
+    def is_expired(self, time):
         if self.start == -1:
             self.start = time
         return self.duration <= (time - self.start)

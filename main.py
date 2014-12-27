@@ -402,11 +402,11 @@ class GameLoop:
                     if m.kind == ULTIMATE:
                         self.ultimate_monster_active = False
                     if m.last_hit_by is not None:
-                        m.last_hit_by.handle_exp(m.exp_value,self.game_time.msec)
+                        m.last_hit_by.handle_exp(m.exp_value, self.game_time.msec)
 
                     # Debugging: kill button used
                     else:
-                        self.player1.handle_exp(m.exp_value,self.game_time.msec)
+                        self.player1.handle_exp(m.exp_value, self.game_time.msec)
                     self.active_monsters.remove(m)
 
         def _update_monsters(time):
