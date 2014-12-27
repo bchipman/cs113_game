@@ -35,6 +35,7 @@ NEXT_PAGE = '_start'
 # Colors
 BLACK = Color(0, 0, 0)
 DGREY = Color(64, 64, 64)
+GREY = Color(100, 100, 100)
 WHITE = Color(255, 255, 255)
 BROWN = Color(139, 69, 19)
 RED = Color(255, 0, 0)

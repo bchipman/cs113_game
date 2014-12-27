@@ -74,13 +74,13 @@ class GameLoop:
             self.p2_yellow_skills_deque = deque(ultimate_skills())
 
             self.red_mask = pygame.Surface((40, 40))
-            self.red_mask.fill((255, 0, 0))
+            self.red_mask.fill(RED)
             self.red_mask.set_alpha(100)
             self.white_mask = pygame.Surface((40, 40))
-            self.white_mask.fill((255, 255, 255))
+            self.white_mask.fill(WHITE)
             self.white_mask.set_alpha(100)
-            self.white_bg = pygame.Surface((40, 40))
-            self.white_bg.fill((100, 100, 100))
+            self.grey_bg = pygame.Surface((40, 40))
+            self.grey_bg.fill(GREY)
 
         def _setup_fonts():
             # main_font = 'data/viner-hand-itc.ttf'
@@ -480,7 +480,7 @@ class GameLoop:
                 pygame.draw.rect(GL.SCREEN, skill_box.color, skill_box)
 
                 if skill_ids[i] in ICONS_TABLE.keys():  # if icon picture exists
-                    GL.SCREEN.blit(self.white_bg, (skill_box.left, skill_box.top))
+                    GL.SCREEN.blit(self.grey_bg, (skill_box.left, skill_box.top))
                     GL.SCREEN.blit(ICONS_TABLE[skill_ids[i]], (skill_box.left, skill_box.top))
 
                 else:  # if no icon picture exists
