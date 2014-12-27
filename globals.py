@@ -350,9 +350,9 @@ class Input:
         self.PAUSE_MODE_ON = False
         self.P1_ININITE_HEALTH_ENERGY_ON = False
         self.P2_ININITE_HEALTH_ENERGY_ON = False
-        num_joys = pygame.joystick.get_count()
+        self.num_joys = pygame.joystick.get_count()
 
-        if num_joys == 2:  # p1 = gamepad0 or keyboard, p2 = gamepad1
+        if self.num_joys == 2:  # p1 = gamepad0 or keyboard, p2 = gamepad1
             try:
                 self.gamepad = pygame.joystick.Joystick(player_id - 1)
                 self.gamepad.init()
@@ -362,7 +362,7 @@ class Input:
             except pygame.error:
                 self.gamepad_found = False
 
-        elif num_joys == 1:  # p1 = keyboard, p2 = gamepad0
+        elif self.num_joys == 1:  # p1 = keyboard, p2 = gamepad0
             if player_id == 1:
                 self.gamepad_found = False
                 print('p{} uses "keyboard"'.format(str(self.player_id)))
@@ -373,7 +373,7 @@ class Input:
                 print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
                 self.__setup_gamepad_buttons__()
 
-        elif num_joys == 0:  # p1 = keyboard, p2 = cannot play
+        elif self.num_joys == 0:  # p1 = keyboard, p2 = cannot play
             if player_id == 1:
                 self.gamepad_found = False
                 print('p{} uses "keyboard"'.format(str(self.player_id)))
@@ -509,7 +509,8 @@ class Input:
 
     def _get_gamepad_pressed_and_events(self):
         if self.gamepad_found:
-            if self.player_id == 1:
+            if (self.num_joys == 2 and self.player_id == 1) or \
+                    (self.num_joys == 1 and self.player_id == 2):
                 # These three lists are placed in the namespace of the Input
                 # class so that both instances of Input may access them
                 Input.joy_button_events = [e for e in pygame.event.get(JOYBUTTONDOWN)]
