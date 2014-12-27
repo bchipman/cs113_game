@@ -493,6 +493,15 @@ class GameLoop:
                     if self.player2.energy < SKILLS_TABLE[skill_ids[i]]['energy']:
                         GL.SCREEN.blit(GL.RED_MASK, (skill_box.left, skill_box.top))
 
+        def _draw_ui_controls():
+            li = [('X', RED), ('B', BLUE), ('Y', BLUE), ('R1', BLUE), ('R2', DKYELLOW) ]
+            li = li + li
+            for i, skill_box in enumerate(self.skill_boxes):
+                font = self.debug_font.render(li[i][0], True, li[i][1])
+                xy_centered = font_position_center(self.skill_boxes[i], self.debug_font, li[i][0])
+                xy_new = xy_centered[0], xy_centered[1] - 30
+                GL.SCREEN.blit(font, xy_new)
+
         def _draw_timer():
             time_display = self.timer_font.render(str(self.game_time), True, BLUE)
             GL.SCREEN.blit(time_display, self.timer_font_xy)
@@ -769,6 +778,7 @@ class GameLoop:
         _draw_scrolling_text()
         _draw_ui2()
         _draw_ui_skill_boxes()
+        _draw_ui_controls()
         _draw_timer()
         # _draw_rain()
 
