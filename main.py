@@ -460,6 +460,9 @@ class GameLoop:
             pygame.draw.rect(GL.SCREEN, GREEN, self.energy_bar1)
             pygame.draw.rect(GL.SCREEN, GREEN, self.energy_bar2)
 
+            self.return_button.draw(GL.SCREEN)
+
+        def _draw_ui_skill_boxes():
             skill_ids = self.player1.skills + self.player2.skills
             for i, skill_box in enumerate(self.skill_boxes):
                 # skill box color border (depending on skill type)
@@ -489,8 +492,6 @@ class GameLoop:
                 else:
                     if self.player2.energy < SKILLS_TABLE[skill_ids[i]]['energy']:
                         GL.SCREEN.blit(GL.RED_MASK, (skill_box.left, skill_box.top))
-
-            self.return_button.draw(GL.SCREEN)
 
         def _draw_timer():
             time_display = self.timer_font.render(str(self.game_time), True, BLUE)
@@ -767,6 +768,7 @@ class GameLoop:
         _draw_particles()
         _draw_scrolling_text()
         _draw_ui2()
+        _draw_ui_skill_boxes()
         _draw_timer()
         # _draw_rain()
 
