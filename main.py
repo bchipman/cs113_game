@@ -73,6 +73,15 @@ class GameLoop:
             self.p2_blue_skills3_deque = deque(regular_skills())
             self.p2_yellow_skills_deque = deque(ultimate_skills())
 
+            self.red_mask = pygame.Surface((40, 40))
+            self.red_mask.fill((255, 0, 0))
+            self.red_mask.set_alpha(100)
+            self.white_mask = pygame.Surface((40, 40))
+            self.white_mask.fill((255, 255, 255))
+            self.white_mask.set_alpha(100)
+            self.white_bg = pygame.Surface((40, 40))
+            self.white_bg.fill((100, 100, 100))
+
         def _setup_fonts():
             # main_font = 'data/viner-hand-itc.ttf'
             main_font = 'data/fonts/Kremlin.ttf'
@@ -471,7 +480,7 @@ class GameLoop:
                 pygame.draw.rect(GL.SCREEN, skill_box.color, skill_box)
 
                 if skill_ids[i] in ICONS_TABLE.keys():  # if icon picture exists
-                    GL.SCREEN.blit(GL.WHITE_BACKGROUND, (skill_box.left, skill_box.top))
+                    GL.SCREEN.blit(self.white_bg, (skill_box.left, skill_box.top))
                     GL.SCREEN.blit(ICONS_TABLE[skill_ids[i]], (skill_box.left, skill_box.top))
 
                 else:  # if no icon picture exists
@@ -482,10 +491,10 @@ class GameLoop:
 
                 if i < 5:
                     if self.player1.energy < SKILLS_TABLE[skill_ids[i]]['energy']:
-                        GL.SCREEN.blit(GL.RED_MASK, (skill_box.left, skill_box.top))
+                        GL.SCREEN.blit(self.red_mask, (skill_box.left, skill_box.top))
                 else:
                     if self.player2.energy < SKILLS_TABLE[skill_ids[i]]['energy']:
-                        GL.SCREEN.blit(GL.RED_MASK, (skill_box.left, skill_box.top))
+                        GL.SCREEN.blit(self.red_mask, (skill_box.left, skill_box.top))
 
         def _draw_ui_controls():
             li = [('X', RED), ('B', BLUE), ('Y', BLUE), ('R1', BLUE), ('R2', DKYELLOW) ]
@@ -497,17 +506,17 @@ class GameLoop:
                 GL.SCREEN.blit(font, xy_new)
 
         def _draw_ui_controls2():
-            if GL.INPUT1.ATTACK:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[0].topleft)
-            if GL.INPUT1.SKILL1:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[1].topleft)
-            if GL.INPUT1.SKILL2:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[2].topleft)
-            if GL.INPUT1.SKILL3:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[3].topleft)
-            if GL.INPUT1.ULT:       GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[4].topleft)
+            if GL.INPUT1.ATTACK:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[0].topleft)
+            if GL.INPUT1.SKILL1:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[1].topleft)
+            if GL.INPUT1.SKILL2:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[2].topleft)
+            if GL.INPUT1.SKILL3:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[3].topleft)
+            if GL.INPUT1.ULT:       GL.SCREEN.blit(self.white_mask, self.skill_boxes[4].topleft)
 
-            if GL.INPUT2.ATTACK:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[5].topleft)
-            if GL.INPUT2.SKILL1:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[6].topleft)
-            if GL.INPUT2.SKILL2:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[7].topleft)
-            if GL.INPUT2.SKILL3:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[8].topleft)
-            if GL.INPUT2.ULT:       GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[9].topleft)
+            if GL.INPUT2.ATTACK:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[5].topleft)
+            if GL.INPUT2.SKILL1:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[6].topleft)
+            if GL.INPUT2.SKILL2:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[7].topleft)
+            if GL.INPUT2.SKILL3:    GL.SCREEN.blit(self.white_mask, self.skill_boxes[8].topleft)
+            if GL.INPUT2.ULT:       GL.SCREEN.blit(self.white_mask, self.skill_boxes[9].topleft)
 
         def _draw_timer():
             time_display = self.timer_font.render(str(self.game_time), True, BLUE)
