@@ -430,12 +430,6 @@ class GameLoop:
                 GL.SCREEN.blit(self.arena_image, (self.arena.play_area_rect.left, 0))
 
         def _draw_ui2():
-            # font for player's health and energy
-            # health_display = self.health_font.render(str(self.player1.hit_points), True, RED)
-            # energy_display = self.energy_font.render(str(int(self.player1.energy)), True, YELLOW)
-            # GL.SCREEN.blit(health_display, self.health_font_xy)
-            # GL.SCREEN.blit(energy_display, self.energy_font_xy)
-
             # health bars
             GL.SCREEN.blit(self.health_bar_outline, (5, 20))
             GL.SCREEN.blit(self.health_bar_outline2, (1239, 20))
