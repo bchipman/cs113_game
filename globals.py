@@ -542,6 +542,8 @@ class Input:
     def _combine_all_pressed(self):
         self.LEFT = self.kb_input['KB_LEFT'] or self.gp_input['GP_LEFT']
         self.RIGHT = self.kb_input['KB_RIGHT'] or self.gp_input['GP_RIGHT']
+        self.UP = self.kb_input['KB_UP'] or self.gp_input['GP_UP']
+        self.DOWN = self.kb_input['KB_DOWN'] or self.gp_input['GP_DOWN']
         self.JUMP = self.kb_input['KB_SPACE'] or self.gp_input['GP_A']
         self.ATTACK = self.kb_input['KB_a'] or self.gp_input['GP_X']
         self.SKILL1 = self.kb_input['KB_s'] or self.gp_input['GP_B']
