@@ -502,6 +502,19 @@ class GameLoop:
                 xy_new = xy_centered[0], xy_centered[1] - 30
                 GL.SCREEN.blit(font, xy_new)
 
+        def _draw_ui_controls2():
+            if GL.INPUT1.ATTACK:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[0].topleft)
+            if GL.INPUT1.SKILL1:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[1].topleft)
+            if GL.INPUT1.SKILL2:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[2].topleft)
+            if GL.INPUT1.SKILL3:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[3].topleft)
+            if GL.INPUT1.ULT:       GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[4].topleft)
+
+            if GL.INPUT2.ATTACK:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[5].topleft)
+            if GL.INPUT2.SKILL1:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[6].topleft)
+            if GL.INPUT2.SKILL2:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[7].topleft)
+            if GL.INPUT2.SKILL3:    GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[8].topleft)
+            if GL.INPUT2.ULT:       GL.SCREEN.blit(GL.WHITE_MASK, self.skill_boxes[9].topleft)
+
         def _draw_timer():
             time_display = self.timer_font.render(str(self.game_time), True, BLUE)
             GL.SCREEN.blit(time_display, self.timer_font_xy)
@@ -779,6 +792,7 @@ class GameLoop:
         _draw_ui2()
         _draw_ui_skill_boxes()
         _draw_ui_controls()
+        _draw_ui_controls2()
         _draw_timer()
         # _draw_rain()
 
