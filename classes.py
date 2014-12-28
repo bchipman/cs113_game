@@ -437,19 +437,12 @@ class Monster(Player):
     def input(self):
         return self.ai_input
 
-    def _pick_new_target(self):
-        d1 = self.distance_from(self.p1)
-        d2 = self.distance_from(self.p2)
-        if d1 != d2 and random.randint(1, 50) <= 30:
-            if d1 > d2:
-                self.target = self.p1
-            elif d2 < d2:
-                self.target = self.p2
-        else:
-            if random.randint(1, 2) == 1:
-                self.target = self.p1
-            else:
-                self.target = self.p2
+    def __call__(self, time, arena_map):
+        self._handle_last_hit(time)
+        self._ai(time)
+        self._handle_facing_direction()
+        self._handle_acceleration()
+        self._handle_movement(arena_map)
 
     def _handle_last_hit(self, time):
         for i, v in enumerate(self.has_hit_time):
@@ -461,16 +454,6 @@ class Monster(Player):
             self.hit_by[1] = False
         if self.hit_by_time[2] + 2000 <= time:
             self.hit_by[2] = False
-
-    def _switch_mode(self, time):
-        time_spent_in_status = time - self.last_status_change
-        if self.status == CHASING and time_spent_in_status > self.chasing_time:
-            self.last_status_change = time
-            self.status = IDLE
-        elif self.status == IDLE and time_spent_in_status > self.idle_time:
-            self.last_status_change = time
-            self.status = CHASING
-            self._pick_new_target()
 
     def _ai(self, time):
         self._switch_mode(time)
@@ -497,12 +480,29 @@ class Monster(Player):
             if random.randint(1, 100) == 2:
                 self.input.JUMP = True
 
-    def __call__(self, time, arena_map):
-        self._handle_last_hit(time)
-        self._ai(time)
-        self._handle_facing_direction()
-        self._handle_acceleration()
-        self._handle_movement(arena_map)
+    def _switch_mode(self, time):
+        time_spent_in_status = time - self.last_status_change
+        if self.status == CHASING and time_spent_in_status > self.chasing_time:
+            self.last_status_change = time
+            self.status = IDLE
+        elif self.status == IDLE and time_spent_in_status > self.idle_time:
+            self.last_status_change = time
+            self.status = CHASING
+            self._pick_new_target()
+
+    def _pick_new_target(self):
+        d1 = self.distance_from(self.p1)
+        d2 = self.distance_from(self.p2)
+        if d1 != d2 and random.randint(1, 50) <= 30:
+            if d1 > d2:
+                self.target = self.p1
+            elif d2 < d2:
+                self.target = self.p2
+        else:
+            if random.randint(1, 2) == 1:
+                self.target = self.p1
+            else:
+                self.target = self.p2
 
     def on_hit(self, target, time):
         if target not in self.has_hit:
