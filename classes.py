@@ -540,7 +540,7 @@ class Arena:
         self.right_wall = Rect2(arena_info.right_wall_x, 0, 1280 - arena_info.right_wall_x, 600, color=None, spawn_point=False)
 
         play_area_color = SKYBLUE if arena_info.background is None else None
-        play_area = Rect2(self.left_wall.right, 0, self.right_wall.left - self.left_wall.right, self.floor.top, color=play_area_color)
+        play_area = Rect2(self.left_wall.right, 0, self.right_wall.left - self.left_wall.right, self.floor.top, color=play_area_color, spawn_point=False)
         self.p1_spawn = (arena_info.p1_spawn[0] + play_area.left, arena_info.p1_spawn[1])
         self.p2_spawn = (arena_info.p2_spawn[0] + play_area.left, arena_info.p1_spawn[1])
         platforms = [Rect2(tuple(terr)[0:4], color=terr.color, hits_to_destroy=terr.hits_to_destroy, spawn_point=terr.spawn_point) for terr in arena_info.platforms]
