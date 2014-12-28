@@ -785,18 +785,18 @@ class GameLoop:
             self.make_rain = False
 
         _draw_ui1()
-        _draw_arena()
-        _draw_monsters()
-        _draw_dropped_skills()
-        if not GL.INPUT1.DEBUG_MODE_ON:
-            _draw_players()
-        _draw_particles()
-        _draw_scrolling_text()
         _draw_ui2()
         _draw_ui_skill_boxes()
         _draw_ui_controls()
         _draw_ui_controls2()
         _draw_timer()
+        _draw_arena()
+        _draw_dropped_skills()
+        _draw_monsters()
+        if not GL.INPUT1.DEBUG_MODE_ON:
+            _draw_players()
+        _draw_particles()
+        _draw_scrolling_text()
         # _draw_rain()
 
     # -------------------------------------------------------------------------
