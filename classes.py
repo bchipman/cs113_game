@@ -47,12 +47,6 @@ class Rect2(pygame.Rect):
                 hit_indices.append(i)
         return hit_indices
 
-    def __getattr__(self, name):
-        if name == 'hits_to_destroy':
-            return -1
-        elif name == 'spawn_point':
-            return None
-
 # -------------------------------------------------------------------------
 class Player(Rect2):
     def __init__(self, id, topleft, sprite=None):
@@ -263,36 +257,35 @@ class Player(Rect2):
 
         def _check_for_collisions():
             self.hit_wall_from, self.touching_ground = None, False  # reset every frame
-            for terrain in arena.rects:
-                if not terrain.spawn_point:
-                    # Check if touching ground
-                    if (terrain.left < self.left < terrain.right or terrain.left < self.right < terrain.right) or (self.left < terrain.left < self.right or self.left < terrain.right < self.right):
-                        if self.top < terrain.top < self.bottom:
-                            if self.ptop + self.height - 5 <= terrain.top:
-                                self.bottom = terrain.top
-                                self.dy, self.touching_ground = 0, True
-                            if isinstance(self, Monster):
-                                self.hit_wall_from = False
-                                self.touching_ground = True
-                        if self.top < terrain.bottom < self.bottom and self.dy < 0:
-                            if self.ptop >= terrain.bottom:
-                                self.top = terrain.bottom
-                                self.dy *= 0.4  # Prevents immediate drop when player hits ceiling
-                    if (terrain.top < self.bottom < terrain.bottom or terrain.top < self.top < terrain.bottom) or (self.top < terrain.top < self.bottom or self.top < terrain.bottom < self.bottom):
-                        if self.left < terrain.right < self.right and self.dx <= 0:
-                            self.left = terrain.right
-                            self.hit_wall_from = LEFT
-                            self.dx = 0
-                            # Sliding
-                            if self.dy > 0 and not isinstance(self, Monster):
-                                self.dy = 0
-                        elif self.left < terrain.left < self.right and self.dx >= 0:
-                            self.right = terrain.left
-                            self.hit_wall_from = RIGHT
-                            self.dx = 0
-                            # Sliding
-                            if self.dy > 0 and not isinstance(self, Monster):
-                                self.dy = 0
+            for terrain in arena.non_spawn_points:
+                # Check if touching ground
+                if (terrain.left < self.left < terrain.right or terrain.left < self.right < terrain.right) or (self.left < terrain.left < self.right or self.left < terrain.right < self.right):
+                    if self.top < terrain.top < self.bottom:
+                        if self.ptop + self.height - 5 <= terrain.top:
+                            self.bottom = terrain.top
+                            self.dy, self.touching_ground = 0, True
+                        if isinstance(self, Monster):
+                            self.hit_wall_from = False
+                            self.touching_ground = True
+                    if self.top < terrain.bottom < self.bottom and self.dy < 0:
+                        if self.ptop >= terrain.bottom:
+                            self.top = terrain.bottom
+                            self.dy *= 0.4  # Prevents immediate drop when player hits ceiling
+                if (terrain.top < self.bottom < terrain.bottom or terrain.top < self.top < terrain.bottom) or (self.top < terrain.top < self.bottom or self.top < terrain.bottom < self.bottom):
+                    if self.left < terrain.right < self.right and self.dx <= 0:
+                        self.left = terrain.right
+                        self.hit_wall_from = LEFT
+                        self.dx = 0
+                        # Sliding
+                        if self.dy > 0 and not isinstance(self, Monster):
+                            self.dy = 0
+                    elif self.left < terrain.left < self.right and self.dx >= 0:
+                        self.right = terrain.left
+                        self.hit_wall_from = RIGHT
+                        self.dx = 0
+                        # Sliding
+                        if self.dy > 0 and not isinstance(self, Monster):
+                            self.dy = 0
 
         def _check_for_skill_pick_ups(arena):
             if not isinstance(self, Monster):
@@ -542,9 +535,9 @@ class Arena:
         self.possible_monsters = tuple(MONSTER_TABLE.keys()) if arena_info.possible_monsters == ALL \
             else arena_info.possible_monsters
 
-        self.floor = Rect2(0, arena_info.floor_y, 1280, 50, color=None)
-        self.left_wall = Rect2(0, 0, arena_info.left_wall_x, 600, color=None)
-        self.right_wall = Rect2(arena_info.right_wall_x, 0, 1280 - arena_info.right_wall_x, 600, color=None)
+        self.floor = Rect2(0, arena_info.floor_y, 1280, 50, color=None, spawn_point=False)
+        self.left_wall = Rect2(0, 0, arena_info.left_wall_x, 600, color=None, spawn_point=False)
+        self.right_wall = Rect2(arena_info.right_wall_x, 0, 1280 - arena_info.right_wall_x, 600, color=None, spawn_point=False)
 
         play_area_color = SKYBLUE if arena_info.background is None else None
         play_area = Rect2(self.left_wall.right, 0, self.right_wall.left - self.left_wall.right, self.floor.top, color=play_area_color)
@@ -568,6 +561,10 @@ class Arena:
     @property
     def spawn_points(self):
         return filter(lambda x: x.spawn_point, self)
+
+    @property
+    def non_spawn_points(self):
+        return filter(lambda x: not x.spawn_point, self)
 
     @property
     def destructible_terrain(self):
