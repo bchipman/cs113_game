@@ -754,7 +754,7 @@ def bee_hive_path(particle, time):
         elif isinstance(particle.belongs_to.new_particle, list):
             particle.belongs_to.new_particle += li
         else:
-            temp = p.belongs_to.new_particle
+            temp = particle.belongs_to.new_particle
             particle.belongs_to.new_particle = [temp] + li
 
     return particle.centerx + particle.dx, particle.centery
