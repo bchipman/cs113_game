@@ -1,18 +1,26 @@
 """
 PygButton v0.1.0
+
 PygButton (pronounced "pig button") is a module that implements UI buttons for Pygame.
 PygButton requires Pygame to be installed. Pygame can be downloaded from http://pygame.org
 PygButton was developed by Al Sweigart (al@inventwithpython.com)
 https://github.com/asweigart/pygbutton
+
+
 Simplified BSD License:
+
 Copyright 2012 Al Sweigart. All rights reserved.
+
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
+
    1. Redistributions of source code must retain the above copyright notice, this list of
       conditions and the following disclaimer.
+
    2. Redistributions in binary form must reproduce the above copyright notice, this list
       of conditions and the following disclaimer in the documentation and/or other materials
       provided with the distribution.
+
 THIS SOFTWARE IS PROVIDED BY Al Sweigart ''AS IS'' AND ANY EXPRESS OR IMPLIED
 WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Al Sweigart OR
@@ -22,6 +30,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSE
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 The views and conclusions contained in the software and documentation are those of the
 authors and should not be interpreted as representing official policies, either expressed
 or implied, of Al Sweigart.
@@ -55,6 +64,7 @@ class PygButton(object):
                 appearance.
             highlight - A pygame.Surface object for the button's appearance
                 when the mouse is over it.
+
             If the Surface objects are used, then the caption, bgcolor,
             fgcolor, and font parameters are ignored (and vice versa).
             Specifying the Surface objects lets the user use a custom image
@@ -108,13 +118,16 @@ class PygButton(object):
         """All MOUSEMOTION, MOUSEBUTTONUP, MOUSEBUTTONDOWN event objects
         created by Pygame should be passed to this method. handleEvent() will
         detect if the event is relevant to this button and change its state.
+
         There are two ways that your code can respond to button-events. One is
         to inherit the PygButton class and override the mouse*() methods. The
         other is to have the caller of handleEvent() check the return value
         for the strings 'enter', 'move', 'down', 'up', 'click', or 'exit'.
+
         Note that mouseEnter() is always called before mouseMove(), and
         mouseMove() is always called before mouseExit(). Also, mouseUp() is
         always called before mouseClick().
+
         buttonDown is always True when mouseDown() is called, and always False
         when mouseUp() or mouseClick() is called. lastMouseDownOverButton is
         always False when mouseUp() or mouseClick() is called."""
