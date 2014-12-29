@@ -21,221 +21,224 @@ if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
 if os.environ['COMPUTERNAME'] in ('MAX-LT', 'BRIAN-LAPTOP'):
     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(50, 30)
-# if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
-#     os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(100, 900)
 
 pygame.init()
 pygame.display.set_caption('Famished Tournament')
-SCREEN = pygame.display.set_mode((1280, 600))
-WINDOW = SCREEN.get_rect()
-CLOCK = pygame.time.Clock()
-FPS = 30
-NEXT_PAGE = '_start'
 
-# Music
-SONGS = ['data/songs/pneumatic_driller.mp3', 'data/songs/euglena_zielona.mp3',
-         'data/songs/drilldance.mp3', 'data/songs/running_emu.mp3', 'data/songs/wooboodoo.mp3',
-         'data/songs/accident.mp3']
-
-SOUNDS = {}
-
-# Monster Types and Globals
-ALL = 'ALL'
-WEAK = 'WEAK'
-MEDIUM = 'MEDIUM'
-ULTIMATE = 'ULTIMATE'
-CHASING = 'CHASING'
-IDLE = 'IDLE'
-ULTIMATE_SPAWN_RATE = 5000
-WEAK_EXP_VALUE = 10
-MEDIUM_EXP_VALUE = 25
-ULTIMATE_EXP_VALUE = 50
-
-# Player exp level-up thresholds
-#                   1  2   3    4    5    6    7    8    9    10
-LEVEL_THRESHOLDS = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450]
-
-# Player States (for animation)
-STAND = 'STAND'
-LWALK = 'LWALK'
-RWALK = 'RWALK'
-JUMP = 'JUMP'
-FALL = 'FALL'
-WIN = 'WIN'
-DEATH = 'DEATH'
-RESET = 'RESET'
-ATTACK = 'ATTACK'  # Rest is attacks
-ONEHAND = 'ONEHAND'
-TWOHAND = 'TWOHAND'
-CAST1 = 'CAST1'
-CAST2 = 'CAST2'
-CAST3 = 'CAST3'
-THROW = 'THROW'
-MACHGUN = 'MACHGUN'
-BREATH = 'BREATH'
-POKE = 'POKE'
-BULLET = 'BULLET'
-DASH = 'DASH'
-RUN = 'RUN'
-
-# Player Attack State Info Table [index, max value]
-PL_ATTACK_TABLE = {'ONEHAND': [28, 3],
-                   'TWOHAND': [32, 3],
-                   'CAST1': [36, 2],
-                   'CAST2': [39, 3],
-                   'CAST3': [43, 0],
-                   'THROW': [44, 3],
-                   'MACHGUN': [48, 1],
-                   'BREATH': [50, 2],
-                   'POKE': [53, 3],
-                   'BULLET': [57, 3],
-                   'DASH': [7, 0],
-                   'RUN': [8, 15]}
-
-# Inputs
-LEFT = 'LEFT'
-RIGHT = 'RIGHT'
-MELEE = 'MELEE'
-RANGE = 'RANGED'
-FIELD = 'FIELD'
-
-# Conditions
-STUN = 'STUN'
-SLOW = 'SLOW'
-SNARE = 'SNARE'
-DOT = 'DOT'
-SILENCE = 'SILENCE'
-WOUNDED = 'WOUNDED'
-WEAKENED = 'WEAKENED'
-SPEED = 'SPEED'
-SHIELD = 'SHIELD'
-INVIGORATED = 'INVIGORATED'
-EMPOWERED = 'EMPOWERED'
-BUFFS = [SPEED, SHIELD, INVIGORATED, EMPOWERED]
-DEBUFFS = [STUN, SLOW, SNARE, DOT, SILENCE, WOUNDED, WEAKENED]
-
-# Buttons
-ATTACKBUTTON = 'attack_id'
-SKILL1BUTTON = 'skill1_id'
-SKILL2BUTTON = 'skill2_id'
-SKILL3BUTTON = 'skill3_id'
-ULTBUTTON = 'ult_id'
-
-# Scrolling texts
-ST_DMG = 'ST_DMG'
-ST_HP = 'ST_HP'
-ST_ENERGY = 'ST_ENERGY'
-ST_LEVEL_UP = 'ST_LEVEL_UP'
-
-# Events
-TIME_TICK_EVENT = USEREVENT + 0
-PLAYER1_LOCK_EVENT = USEREVENT + 1
-PLAYER2_LOCK_EVENT = USEREVENT + 2
-PLAYER1_PICKUP_EVENT = USEREVENT + 3
-PLAYER2_PICKUP_EVENT = USEREVENT + 4
-REGENERATION_EVENT = USEREVENT + 5
-MONSTER_SPAWN_EVENT = USEREVENT + 6
-SONG_END_EVENT = USEREVENT + 7
-MORE_RAIN_EVENT = USEREVENT + 8
-
-# -----------------------------Global Functions-------------------------------
 def add_to_module_namespace(class_name):
     for k, v in sorted(class_name.__dict__.items()):
         globals()[k] = v
 
-def all_in(items_want_inside, container_being_checked):
-    for thing in items_want_inside:
-        if thing not in container_being_checked:
-            return False
-    return True
+# --------------------------------Constants-----------------------------------
+class Constants:
+    SCREEN = pygame.display.set_mode((1280, 600))
+    WINDOW = SCREEN.get_rect()
+    CLOCK = pygame.time.Clock()
+    FPS = 30
+    NEXT_PAGE = '_start'
 
-def all_isinstance(items_checking, instance_wanted):
-    for thing in items_checking:
-        if isinstance(thing, instance_wanted) is False:
-            return False
-    return True
+    # Music
+    SONGS = ['data/songs/pneumatic_driller.mp3', 'data/songs/euglena_zielona.mp3',
+             'data/songs/drilldance.mp3', 'data/songs/running_emu.mp3', 'data/songs/wooboodoo.mp3',
+             'data/songs/accident.mp3']
 
-def font_position_center(rect, font, text):
-    x = (rect.width - font.size(text)[0]) // 2
-    y = (rect.height - font.size(text)[1]) // 2
-    return rect.left + x, rect.top + y
+    SOUNDS = {}
 
-def out_of_arena_fix(player):
-    """Global to handle players from reaching out of arena."""
-    global SELECTED_ARENA  # set in GameLoop._setup_arena of main.py
-    play_area = SELECTED_ARENA.play_area_rect
-    fixed = False  # Can be used for out-of-bounds checking since it returns true
-    if player.left < play_area.left:
-        player.left = play_area.left
-        fixed = True
-    if player.bottom > play_area.bottom:
-        player.bottom = play_area.bottom
-        fixed = True
-    if player.right > play_area.right:
-        player.right = play_area.right
-        fixed = True
-    return fixed
+    # Monster Types and Globals
+    ALL = 'ALL'
+    WEAK = 'WEAK'
+    MEDIUM = 'MEDIUM'
+    ULTIMATE = 'ULTIMATE'
+    CHASING = 'CHASING'
+    IDLE = 'IDLE'
+    ULTIMATE_SPAWN_RATE = 5000
+    WEAK_EXP_VALUE = 10
+    MEDIUM_EXP_VALUE = 25
+    ULTIMATE_EXP_VALUE = 50
 
-def handle_damage(target, value, time):
-    if value != 0:
-        target.hit_points -= value
-        target.shield_trigger(value)
-        if target.hit_points < 0:
-            target.hit_points = 0
-        if time >= 0:
-            target.st_buffer.append((ST_DMG, value, time + 2000))
+    # Player exp level-up thresholds
+    #                   1  2   3    4    5    6    7    8    9    10
+    LEVEL_THRESHOLDS = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450]
+
+    # Player States (for animation)
+    STAND = 'STAND'
+    LWALK = 'LWALK'
+    RWALK = 'RWALK'
+    JUMP = 'JUMP'
+    FALL = 'FALL'
+    WIN = 'WIN'
+    DEATH = 'DEATH'
+    RESET = 'RESET'
+    ATTACK = 'ATTACK'  # Rest is attacks
+    ONEHAND = 'ONEHAND'
+    TWOHAND = 'TWOHAND'
+    CAST1 = 'CAST1'
+    CAST2 = 'CAST2'
+    CAST3 = 'CAST3'
+    THROW = 'THROW'
+    MACHGUN = 'MACHGUN'
+    BREATH = 'BREATH'
+    POKE = 'POKE'
+    BULLET = 'BULLET'
+    DASH = 'DASH'
+    RUN = 'RUN'
+
+    # Player Attack State Info Table [index, max value]
+    PL_ATTACK_TABLE = {'ONEHAND': [28, 3],
+                       'TWOHAND': [32, 3],
+                       'CAST1': [36, 2],
+                       'CAST2': [39, 3],
+                       'CAST3': [43, 0],
+                       'THROW': [44, 3],
+                       'MACHGUN': [48, 1],
+                       'BREATH': [50, 2],
+                       'POKE': [53, 3],
+                       'BULLET': [57, 3],
+                       'DASH': [7, 0],
+                       'RUN': [8, 15]}
+
+    # Inputs
+    LEFT = 'LEFT'
+    RIGHT = 'RIGHT'
+    MELEE = 'MELEE'
+    RANGE = 'RANGED'
+    FIELD = 'FIELD'
+
+    # Conditions
+    STUN = 'STUN'
+    SLOW = 'SLOW'
+    SNARE = 'SNARE'
+    DOT = 'DOT'
+    SILENCE = 'SILENCE'
+    WOUNDED = 'WOUNDED'
+    WEAKENED = 'WEAKENED'
+    SPEED = 'SPEED'
+    SHIELD = 'SHIELD'
+    INVIGORATED = 'INVIGORATED'
+    EMPOWERED = 'EMPOWERED'
+    BUFFS = [SPEED, SHIELD, INVIGORATED, EMPOWERED]
+    DEBUFFS = [STUN, SLOW, SNARE, DOT, SILENCE, WOUNDED, WEAKENED]
+
+    # Buttons
+    ATTACKBUTTON = 'attack_id'
+    SKILL1BUTTON = 'skill1_id'
+    SKILL2BUTTON = 'skill2_id'
+    SKILL3BUTTON = 'skill3_id'
+    ULTBUTTON = 'ult_id'
+
+    # Scrolling texts
+    ST_DMG = 'ST_DMG'
+    ST_HP = 'ST_HP'
+    ST_ENERGY = 'ST_ENERGY'
+    ST_LEVEL_UP = 'ST_LEVEL_UP'
+
+    # Events
+    TIME_TICK_EVENT = USEREVENT + 0
+    PLAYER1_LOCK_EVENT = USEREVENT + 1
+    PLAYER2_LOCK_EVENT = USEREVENT + 2
+    PLAYER1_PICKUP_EVENT = USEREVENT + 3
+    PLAYER2_PICKUP_EVENT = USEREVENT + 4
+    REGENERATION_EVENT = USEREVENT + 5
+    MONSTER_SPAWN_EVENT = USEREVENT + 6
+    SONG_END_EVENT = USEREVENT + 7
+    MORE_RAIN_EVENT = USEREVENT + 8
+
+# --------------------------------Functions-----------------------------------
+class Functions:
+
+    def all_in(items_want_inside, container_being_checked):
+        for thing in items_want_inside:
+            if thing not in container_being_checked:
+                return False
+        return True
+
+    def all_isinstance(items_checking, instance_wanted):
+        for thing in items_checking:
+            if isinstance(thing, instance_wanted) is False:
+                return False
+        return True
+
+    def font_position_center(rect, font, text):
+        x = (rect.width - font.size(text)[0]) // 2
+        y = (rect.height - font.size(text)[1]) // 2
+        return rect.left + x, rect.top + y
+
+    def out_of_arena_fix(player):
+        """Global to handle players from reaching out of arena."""
+        global SELECTED_ARENA  # set in GameLoop._setup_arena of main.py
+        play_area = SELECTED_ARENA.play_area_rect
+        fixed = False  # Can be used for out-of-bounds checking since it returns true
+        if player.left < play_area.left:
+            player.left = play_area.left
+            fixed = True
+        if player.bottom > play_area.bottom:
+            player.bottom = play_area.bottom
+            fixed = True
+        if player.right > play_area.right:
+            player.right = play_area.right
+            fixed = True
+        return fixed
+
+    def handle_damage(target, value, time):
+        if value != 0:
+            target.hit_points -= value
+            target.shield_trigger(value)
+            if target.hit_points < 0:
+                target.hit_points = 0
+            if time >= 0:
+                target.st_buffer.append((ST_DMG, value, time + 2000))
+            else:
+                target.st_buffer.append((ST_DMG, value, time))
+
+    def handle_hp_gain(target, value, time):
+        if value != 0:
+            if target.hit_points > 0:
+                target.hit_points += value
+            if target.hit_points > target.hit_points_max:
+                target.hit_points = target.hit_points_max
+            if time >= 0:
+                target.st_buffer.append((ST_HP, value, time + 2000))
+            else:
+                target.st_buffer.append((ST_HP, value, time))
+
+    def handle_energy(target, value, time):
+        if value != 0:
+            target.energy += value
+            if time >= 0:
+                target.st_buffer.append((ST_ENERGY, value, time + 2000))
+            else:
+                target.st_buffer.append((ST_ENERGY, value, time))
+
+    def condition_string(cond, value):
+        st = cond + ': '
+        left = 0 + int(value / 1000)
+        right = 0 + int((value % 1000) / 100)
+        st += str(left)
+        st += '.'
+        st += str(right)
+        return st
+
+    def force_add_particle_to_player(particle, player):
+        if isinstance(particle, list):
+            if player.new_particle is None:
+                player.new_particle = particle
+            elif isinstance(player.new_particle, list):
+                player.new_particle += particle
+            else:
+                player.new_particle = [player.new_particle] + particle
+
         else:
-            target.st_buffer.append((ST_DMG, value, time))
+            if player.new_particle is None:
+                player.new_particle = particle
+            elif isinstance(player.new_particle, list):
+                player.new_particle.append(particle)
+            else:
+                player.new_particle = [player.new_particle, particle]
 
-def handle_hp_gain(target, value, time):
-    if value != 0:
-        if target.hit_points > 0:
-            target.hit_points += value
-        if target.hit_points > target.hit_points_max:
-            target.hit_points = target.hit_points_max
-        if time >= 0:
-            target.st_buffer.append((ST_HP, value, time + 2000))
-        else:
-            target.st_buffer.append((ST_HP, value, time))
-
-def handle_energy(target, value, time):
-    if value != 0:
-        target.energy += value
-        if time >= 0:
-            target.st_buffer.append((ST_ENERGY, value, time + 2000))
-        else:
-            target.st_buffer.append((ST_ENERGY, value, time))
-
-def condition_string(cond, value):
-    st = cond + ': '
-    left = 0 + int(value / 1000)
-    right = 0 + int((value % 1000) / 100)
-    st += str(left)
-    st += '.'
-    st += str(right)
-    return st
-
-def force_add_particle_to_player(particle, player):
-    if isinstance(particle, list):
-        if player.new_particle is None:
-            player.new_particle = particle
-        elif isinstance(player.new_particle, list):
-            player.new_particle += particle
-        else:
-            player.new_particle = [player.new_particle] + particle
-
-    else:
-        if player.new_particle is None:
-            player.new_particle = particle
-        elif isinstance(player.new_particle, list):
-            player.new_particle.append(particle)
-        else:
-            player.new_particle = [player.new_particle, particle]
-
-# noinspection PyPep8Naming
-def EXIT_GAME():
-    pygame.quit()
-    sys.exit()
+    # noinspection PyPep8Naming
+    def EXIT_GAME():
+        pygame.quit()
+        sys.exit()
 
 # ----------------------------------Colors------------------------------------
 class Colors:
@@ -260,9 +263,8 @@ class Colors:
     ORANGE = Color(255, 153, 0)
     DKORANGE = Color(153, 92, 0)
     TRANSPARENT = Color(235, 0, 255)
-add_to_module_namespace(Colors)
 
-# -----------------------------Music and Sound--------------------------------
+# ----------------------------------Audio-------------------------------------
 class Audio:
     def __init__(self):
         try:
@@ -585,6 +587,12 @@ class Input:
 INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 
+# ----------------------------------------------------------------------------
+add_to_module_namespace(Functions)
+add_to_module_namespace(Constants)
+add_to_module_namespace(Colors)
+# ----------------------------------------------------------------------------
+
 # ----------------------------------Arenas------------------------------------
 class ArenaInfos:
     arena_nt = namedtuple('arena_nt', 'left_wall_x, right_wall_x, floor_y, platforms, max_monsters, possible_monsters, background, p1_spawn, p2_spawn')
@@ -670,11 +678,14 @@ class ArenaInfos:
             terrain_nt(930, 450, -5, 5, None, -1, True), ],
         max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
         background='data/backgrounds/arena_android.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
-add_to_module_namespace(ArenaInfos)
 
 # ---------------------------------Monsters-----------------------------------
-monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle, exp_value, dmg')
-MONSTER_TABLE = {
-    WEAK: monster_info_nt(WEAK, 30, 40, 2, 10, 50, 5000, 5000, WEAK_EXP_VALUE, 3),
-    MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000, MEDIUM_EXP_VALUE, 5),
-    ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
+class MonsterInfos:
+    monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle, exp_value, dmg')
+    MONSTER_TABLE = {
+        WEAK: monster_info_nt(WEAK, 30, 40, 2, 10, 50, 5000, 5000, WEAK_EXP_VALUE, 3),
+        MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000, MEDIUM_EXP_VALUE, 5),
+        ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
+
+add_to_module_namespace(ArenaInfos)
+add_to_module_namespace(MonsterInfos)
