@@ -59,17 +59,17 @@ class GameLoop:
         def _setup_skills():
             initialize_skill_table()
 
-            self.p1_red_skills_deque = deque([1] + auto_attack_skills())
-            self.p1_blue_skills1_deque = deque(regular_skills())
-            self.p1_blue_skills2_deque = deque(regular_skills())
-            self.p1_blue_skills3_deque = deque(regular_skills())
-            self.p1_yellow_skills_deque = deque(ultimate_skills())
+            self.p1_red_skills_deque = Deque2([1] + auto_attack_skills())
+            self.p1_blue_skills1_deque = Deque2(regular_skills())
+            self.p1_blue_skills2_deque = Deque2(regular_skills())
+            self.p1_blue_skills3_deque = Deque2(regular_skills())
+            self.p1_yellow_skills_deque = Deque2(ultimate_skills())
 
-            self.p2_red_skills_deque = deque([1] + auto_attack_skills())
-            self.p2_blue_skills1_deque = deque(regular_skills())
-            self.p2_blue_skills2_deque = deque(regular_skills())
-            self.p2_blue_skills3_deque = deque(regular_skills())
-            self.p2_yellow_skills_deque = deque(ultimate_skills())
+            self.p2_red_skills_deque = Deque2([1] + auto_attack_skills())
+            self.p2_blue_skills1_deque = Deque2(regular_skills())
+            self.p2_blue_skills2_deque = Deque2(regular_skills())
+            self.p2_blue_skills3_deque = Deque2(regular_skills())
+            self.p2_yellow_skills_deque = Deque2(ultimate_skills())
 
             self.red_mask = pygame.Surface((40, 40))
             self.red_mask.fill(RED)
@@ -100,7 +100,7 @@ class GameLoop:
             self.debug_font_xy6 = 800, 520
             self.debug_font_xy7 = 800, 540
             self.cpu_avg = 0.0
-            self.cpu_deque = deque((0,), maxlen=5)
+            self.cpu_deque = Deque2((0,), maxlen=5)
 
             # Scrolling text stuff
             self.st_dmg_font = pygame.font.Font(main_font, 12)
@@ -237,36 +237,26 @@ class GameLoop:
                     m.hit_points = 0
 
             if GL.INPUT1.NEW_P1_RED_SKILL_CHEAT:
-                self.p1_red_skills_deque.rotate()
-                self.player1.attack_id = self.p1_red_skills_deque[0]
+                self.player1.attack_id = +self.p1_red_skills_deque
             if GL.INPUT1.NEW_P1_BLUE1_SKILL_CHEAT:
-                self.p1_blue_skills1_deque.rotate()
-                self.player1.skill1_id = self.p1_blue_skills1_deque[0]
+                self.player1.skill1_id = +self.p1_blue_skills1_deque
             if GL.INPUT1.NEW_P1_BLUE2_SKILL_CHEAT:
-                self.p1_blue_skills2_deque.rotate()
-                self.player1.skill2_id = self.p1_blue_skills2_deque[0]
+                self.player1.skill2_id = +self.p1_blue_skills2_deque
             if GL.INPUT1.NEW_P1_BLUE3_SKILL_CHEAT:
-                self.p1_blue_skills3_deque.rotate()
-                self.player1.skill3_id = self.p1_blue_skills3_deque[0]
+                self.player1.skill3_id = +self.p1_blue_skills3_deque
             if GL.INPUT1.NEW_P1_YELLOW_SKILL_CHEAT:
-                self.p1_yellow_skills_deque.rotate()
-                self.player1.ult_id = self.p1_yellow_skills_deque[0]
+                self.player1.ult_id = +self.p1_yellow_skills_deque
 
             if GL.INPUT1.NEW_P2_RED_SKILL_CHEAT:
-                self.p2_red_skills_deque.rotate()
-                self.player2.attack_id = self.p2_red_skills_deque[0]
+                self.player2.attack_id = +self.p2_red_skills_deque
             if GL.INPUT1.NEW_P2_BLUE1_SKILL_CHEAT:
-                self.p2_blue_skills1_deque.rotate()
-                self.player2.skill1_id = self.p2_blue_skills1_deque[0]
+                self.player2.skill1_id = +self.p2_blue_skills1_deque
             if GL.INPUT1.NEW_P2_BLUE2_SKILL_CHEAT:
-                self.p2_blue_skills2_deque.rotate()
-                self.player2.skill2_id = self.p2_blue_skills2_deque[0]
+                self.player2.skill2_id = +self.p2_blue_skills2_deque
             if GL.INPUT1.NEW_P2_BLUE3_SKILL_CHEAT:
-                self.p2_blue_skills3_deque.rotate()
-                self.player2.skill3_id = self.p2_blue_skills3_deque[0]
+                self.player2.skill3_id = +self.p2_blue_skills3_deque
             if GL.INPUT1.NEW_P2_YELLOW_SKILL_CHEAT:
-                self.p2_yellow_skills_deque.rotate()
-                self.player2.ult_id = self.p2_yellow_skills_deque[0]
+                self.player2.ult_id = +self.p2_yellow_skills_deque
 
             if GL.INPUT1.P1_ININITE_HEALTH_ENERGY_ON:
                 self.player1.hit_points = self.player1.hit_points_max
