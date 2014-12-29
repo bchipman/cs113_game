@@ -181,8 +181,8 @@ def font_position_center(rect, font, text):
 
 def out_of_arena_fix(player):
     """Global to handle players from reaching out of arena."""
-    global arena_in_use  # set in GameLoop._setup_arena of main.py
-    play_area = arena_in_use.play_area_rect
+    global SELECTED_ARENA  # set in GameLoop._setup_arena of main.py
+    play_area = SELECTED_ARENA.play_area_rect
     fixed = False  # Can be used for out-of-bounds checking since it returns true
     if player.left < play_area.left:
         player.left = play_area.left

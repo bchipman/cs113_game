@@ -55,7 +55,7 @@ class StartPage:
             GL.P2_SPRITESHEET = p2_sprite
 
             arena = random.choice([GL.arena3, GL.arena4, GL.arena5])
-            GL.SELECTED_ARENA = arena
+            GL.SELECTED_ARENA = Arena(arena)
 
             self.return_now = True
             GL.NEXT_PAGE = 'GameLoop()'
@@ -449,11 +449,11 @@ class LevelSelectPage:
         def set_level():
             print('setting level')
             if self.index == 0:
-                GL.SELECTED_ARENA = arena4
+                GL.SELECTED_ARENA = Arena(arena4)
             elif self.index == 1:
-                GL.SELECTED_ARENA = arena3
+                GL.SELECTED_ARENA = Arena(arena3)
             elif self.index == 2:
-                GL.SELECTED_ARENA = arena5
+                GL.SELECTED_ARENA = Arena(arena5)
             print('set level')
 
         ready_check()

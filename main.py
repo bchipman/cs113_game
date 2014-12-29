@@ -53,8 +53,7 @@ class GameLoop:
             self.energy_bar_outline2 = pygame.image.load('data/backgrounds/energy_bar_outline2.png')
 
         def _setup_arena():
-            self.arena = Arena(GL.SELECTED_ARENA)
-            GL.arena_in_use = self.arena  # used for out_of_arena_fix within global.py
+            self.arena = GL.SELECTED_ARENA
             self.arena_image = pygame.image.load(self.arena.background)
 
         def _setup_skills():
