@@ -21,7 +21,7 @@ class StartPage:
         title_font = pygame.font.Font('data/fonts/Kremlin.ttf', 50)
         self.title_font1 = title_font.render('Famished', True, DKRED)
         self.title_font2 = title_font.render('Tournament', True, DKRED)
-        self.selection_box = deque([self.start_button, self.help_button, self.options_button, self.exit_button])
+        self.selection_box = Deque2([self.start_button, self.help_button, self.options_button, self.exit_button])
 
     def __call__(self):
         self.return_now = False
@@ -137,7 +137,7 @@ class HelpPage:
                                         'minutes.  These bosses drop ultimate skills which ' +
                                         'will help you humiliate and destroy your opponent.  ' +
                                         'Muah Hah Hah!!', width=50)
-        self.selection_box = deque([self.return_button])
+        self.selection_box = Deque2([self.return_button])
 
     def __call__(self):
         self.return_now = False
@@ -483,10 +483,10 @@ class OptionsPage:
         self.bg_font = font.render('Music:', True, DKRED)
         self.se_font = font.render('Sound:', True, DKRED)
 
-        self.selection_box = deque([
-            deque([self.main_menu_button]),
-            deque([self.sound_on_button, self.sound_off_button]),
-            deque([self.music_on_button, self.music_off_button]),
+        self.selection_box = Deque2([
+            Deque2([self.main_menu_button]),
+            Deque2([self.sound_on_button, self.sound_off_button]),
+            Deque2([self.music_on_button, self.music_off_button]),
         ])
 
         if not AUDIO.music_on:
@@ -616,7 +616,7 @@ class PausePage:
         self.pause_font_rendered = pause_font.render('-PAUSE-', True, RED)
         self.continue_button = PygButton((395, 270, 200, 50), 'Continue')
         self.quit_button = PygButton((730, 270, 100, 50), 'Quit')
-        self.selection_box = deque([self.continue_button, self.quit_button])
+        self.selection_box = Deque2([self.continue_button, self.quit_button])
 
     def __call__(self):
         self.return_now = False
@@ -684,7 +684,7 @@ class GameOverPage:
         self.game_over_rendered = game_over_font.render('-Game Over-', True, RED)
         self.main_menu_button = PygButton((395, 270, 200, 50), 'Main Menu')
         self.exit_button = PygButton((730, 270, 100, 50), 'Exit')
-        self.selection_box = deque([self.main_menu_button, self.exit_button])
+        self.selection_box = Deque2([self.main_menu_button, self.exit_button])
 
     def __call__(self):
         self.return_now = False
