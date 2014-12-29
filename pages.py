@@ -1,6 +1,5 @@
 # python standard library modules
 import textwrap
-from collections import deque
 
 # our modules
 from pygbutton import PygButton
@@ -9,6 +8,7 @@ from classes import *
 SELECTION_BOX_WIDTH = 4
 SELECTION_BOX_COLOR = BLUE
 
+# noinspection PyStatementEffect
 class StartPage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bg_start_page.png')
@@ -78,10 +78,10 @@ class StartPage:
                 EXIT_GAME()
 
         if GL.INPUT1.LEFT_EVENT:
-            self.selection_box.rotate()
+            +self.selection_box
 
         if GL.INPUT1.RIGHT_EVENT:
-            self.selection_box.rotate(-1)
+            -self.selection_box
 
         if GL.INPUT1.CANCEL:
             EXIT_GAME()
@@ -90,25 +90,25 @@ class StartPage:
         for event in pygame.event.get():
             if 'click' in self.start_button.handleEvent(event):
                 while self.selection_box() != self.start_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 self.return_now = True
                 GL.NEXT_PAGE = 'PlayerSelectPage()'
 
             if 'click' in self.help_button.handleEvent(event):
                 while self.selection_box() != self.help_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 self.return_now = True
                 GL.NEXT_PAGE = '_help'
 
             if 'click' in self.options_button.handleEvent(event):
                 while self.selection_box() != self.options_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 self.return_now = True
                 GL.NEXT_PAGE = '_options'
 
             if 'click' in self.exit_button.handleEvent(event):
                 while self.selection_box() != self.exit_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 EXIT_GAME()
 
             if event.type == pygame.QUIT:
@@ -467,6 +467,7 @@ class LevelSelectPage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
+# noinspection PyStatementEffect
 class OptionsPage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bg_start_page.png')
@@ -490,9 +491,9 @@ class OptionsPage:
         ])
 
         if not AUDIO.music_on:
-            self.selection_box().rotate()
+            +self.selection_box()
         if not AUDIO.sound_on:
-            self.selection_box(1).rotate()
+            +self.selection_box(1)
 
     def __call__(self):
         self.return_now = False
@@ -543,19 +544,19 @@ class OptionsPage:
                 GL.NEXT_PAGE = '_start'
             else:  # if not on main menu button when hit select / b ..
                 while self.selection_box()() != self.main_menu_button:  # .. then go to return button
-                    self.selection_box.rotate()
+                    +self.selection_box
 
         if GL.INPUT1.UP_EVENT:
-            self.selection_box.rotate(-1)
+            -self.selection_box
 
         if GL.INPUT1.DOWN_EVENT:
-            self.selection_box.rotate()
+            +self.selection_box
 
         if GL.INPUT1.LEFT_EVENT or GL.INPUT1.RIGHT_EVENT:
             if GL.INPUT1.LEFT_EVENT:
-                self.selection_box().rotate()
+                +self.selection_box()
             if GL.INPUT1.RIGHT_EVENT:
-                self.selection_box().rotate(-1)
+                -self.selection_box()
 
             if self.selection_box()() == self.sound_on_button:
                 AUDIO.turn_on_effects()
@@ -573,39 +574,40 @@ class OptionsPage:
 
             if 'click' in self.music_on_button.handleEvent(event):
                 while self.selection_box()() not in (self.music_on_button, self.music_off_button):
-                    self.selection_box.rotate()
+                    +self.selection_box
                 while self.selection_box()() != self.music_on_button:
-                    self.selection_box().rotate()
+                    +self.selection_box()
                 AUDIO.turn_on_music()
 
             if 'click' in self.music_off_button.handleEvent(event):
                 while self.selection_box()() not in (self.music_on_button, self.music_off_button):
-                    self.selection_box.rotate()
+                    +self.selection_box
                 while self.selection_box()() != self.music_off_button:
-                    self.selection_box().rotate()
+                    +self.selection_box()
                 AUDIO.turn_off_music()
 
             if 'click' in self.sound_on_button.handleEvent(event):
                 while self.selection_box()() not in (self.sound_on_button, self.sound_off_button):
-                    self.selection_box.rotate()
+                    +self.selection_box
                 while self.selection_box()() != self.sound_on_button:
-                    self.selection_box().rotate()
+                    +self.selection_box()
                 AUDIO.turn_on_effects()
 
             if 'click' in self.sound_off_button.handleEvent(event):
                 while self.selection_box()() not in (self.sound_on_button, self.sound_off_button):
-                    self.selection_box.rotate()
+                    +self.selection_box
                 while self.selection_box()() != self.sound_off_button:
-                    self.selection_box().rotate()
+                    +self.selection_box()
                 AUDIO.turn_off_effects()
 
             if 'click' in self.main_menu_button.handleEvent(event):
                 while self.selection_box()() != self.main_menu_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 self.return_now = True
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
+# noinspection PyStatementEffect
 class PausePage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bg_menus_dim.png')
@@ -626,7 +628,7 @@ class PausePage:
             self.events()
             GL.CLOCK.tick(GL.FPS)
         while self.selection_box() != self.continue_button:  # reset selection box to 'continue'
-            self.selection_box.rotate()
+            +self.selection_box
 
     def draw(self):
         scaled_bg = pygame.transform.scale(self.bg_image, self.menu_box.size)
@@ -651,10 +653,10 @@ class PausePage:
                 GL.NEXT_PAGE = '_start'
 
         if GL.INPUT1.LEFT_EVENT:
-            self.selection_box.rotate()
+            +self.selection_box
 
         if GL.INPUT1.RIGHT_EVENT:
-            self.selection_box.rotate(-1)
+            -self.selection_box
 
         if GL.INPUT1.CANCEL:
             self.return_now = True
@@ -674,6 +676,7 @@ class PausePage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
+# noinspection PyStatementEffect
 class GameOverPage:
     def __init__(self):
         self.bg_image = pygame.image.load('data/backgrounds/bg_menus_dim.png')
@@ -721,10 +724,10 @@ class GameOverPage:
                 EXIT_GAME()
 
         if GL.INPUT1.LEFT_EVENT:
-            self.selection_box.rotate()
+            +self.selection_box
 
         if GL.INPUT1.RIGHT_EVENT:
-            self.selection_box.rotate(-1)
+            -self.selection_box
 
     def events(self):
         for event in pygame.event.get():
@@ -733,11 +736,11 @@ class GameOverPage:
 
             if 'click' in self.main_menu_button.handleEvent(event):
                 while self.selection_box() != self.main_menu_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 self.return_now = True
                 GL.NEXT_PAGE = '_start'
 
             if 'click' in self.exit_button.handleEvent(event):
                 while self.selection_box() != self.exit_button:
-                    self.selection_box.rotate()
+                    +self.selection_box
                 EXIT_GAME()
