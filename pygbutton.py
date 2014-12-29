@@ -36,9 +36,6 @@ authors and should not be interpreted as representing official policies, either 
 or implied, of Al Sweigart.
 """
 
-import pygame
-from pygame.locals import *
-
 from globals import *
 
 pygame.font.init()
