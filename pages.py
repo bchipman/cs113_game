@@ -51,11 +51,11 @@ class StartPage:
                            'data/sprites+portraits/elf_p2.png']
             p1_sprite = random.choice(all_sprites)
             p2_sprite = random.choice([s for s in all_sprites if s != p1_sprite])
-            GL.set_player1_spritesheet(p1_sprite)
-            GL.set_player2_spritesheet(p2_sprite)
+            GL.P1_SPRITESHEET = p1_sprite
+            GL.P2_SPRITESHEET = p2_sprite
 
             arena = random.choice([GL.arena3, GL.arena4, GL.arena5])
-            GL.set_level(arena)
+            GL.SELECTED_ARENA = arena
 
             self.return_now = True
             GL.NEXT_PAGE = 'GameLoop()'
@@ -366,8 +366,8 @@ class PlayerSelectPage:
             elif self.index2 == 1:  # elf
                 self.player2_spritesheet = 'data/sprites+portraits/elf_p2.png'
 
-            GL.set_player1_spritesheet(self.player1_spritesheet)
-            GL.set_player2_spritesheet(self.player2_spritesheet)
+            GL.P1_SPRITESHEET = self.player1_spritesheet
+            GL.P2_SPRITESHEET = self.player2_spritesheet
 
         refresh_inputs()
         player_select_inputs()
@@ -449,11 +449,11 @@ class LevelSelectPage:
         def set_level():
             print('setting level')
             if self.index == 0:
-                GL.set_level(arena4)
+                GL.SELECTED_ARENA = arena4
             elif self.index == 1:
-                GL.set_level(arena3)
+                GL.SELECTED_ARENA = arena3
             elif self.index == 2:
-                GL.set_level(arena5)
+                GL.SELECTED_ARENA = arena5
             print('set level')
 
         ready_check()

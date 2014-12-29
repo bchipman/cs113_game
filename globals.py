@@ -256,32 +256,6 @@ def EXIT_GAME():
     pygame.quit()
     sys.exit()
 
-
-# ---------Getters and Setters for Player Sprites and Level Select------------
-def set_player1_spritesheet(spritesheet):
-    global P1_SPRITESHEET
-    P1_SPRITESHEET = spritesheet
-
-def set_player2_spritesheet(spritesheet):
-    global P2_SPRITESHEET
-    P2_SPRITESHEET = spritesheet
-
-def set_level(arena):
-    global SELECTED_ARENA
-    SELECTED_ARENA = arena
-
-def get_spritesheet(player):
-    if player == 'player1':
-        global P1_SPRITESHEET
-        return P1_SPRITESHEET
-    elif player == 'player2':
-        global P2_SPRITESHEET
-        return P2_SPRITESHEET
-
-def get_selected_level():
-    global SELECTED_ARENA
-    return SELECTED_ARENA
-
 # -----------------------------Music and Sound--------------------------------
 class Audio:
     def __init__(self):
