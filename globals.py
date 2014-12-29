@@ -323,21 +323,20 @@ class Input:
         self.num_joys = pygame.joystick.get_count()
 
         if self.num_joys == 2:  # p1 = gamepad0 or keyboard, p2 = gamepad1
-            try:
-                self.gamepad = pygame.joystick.Joystick(player_id - 1)
-                self.gamepad.init()
-                self.gamepad_found = True
-                print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
-                self.__setup_gamepad_buttons__()
-            except pygame.error:
-                self.gamepad_found = False
+            self.joy_num = player_id - 1
+            self.gamepad = pygame.joystick.Joystick(self.joy_num)
+            self.gamepad.init()
+            self.gamepad_found = True
+            print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
+            self.__setup_gamepad_buttons__()
 
         elif self.num_joys == 1:  # p1 = keyboard, p2 = gamepad0
             if player_id == 1:
                 self.gamepad_found = False
                 print('p{} uses "keyboard"'.format(str(self.player_id)))
             elif player_id == 2:
-                self.gamepad = pygame.joystick.Joystick(0)
+                self.joy_num = 0
+                self.gamepad = pygame.joystick.Joystick(self.joy_num)
                 self.gamepad.init()
                 self.gamepad_found = True
                 print('p{} uses "{}"'.format(str(self.player_id), self.gamepad.get_name()))
@@ -379,8 +378,8 @@ class Input:
 
         elif self.gamepad.get_name() == 'Logitech Cordless RumblePad 2 USB':  # Brian's gamepad if switched to "D"
             self.GP_INPUTS_DICT = {
-                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
-                'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
+                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),
+                'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),
                 'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
                 'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
                 'GP_A': input_nt(kind='button', number=1, value1=None, value2=None),
@@ -396,8 +395,8 @@ class Input:
 
         elif self.gamepad.get_name() in ('Wireless Gamepad F710 (Controller)', 'Controller (XBOX 360 For Windows)'):  # Brian's gamepad if switched to "X"
             self.GP_INPUTS_DICT = {
-                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),  # works but seems backwards to me (value1 and value2)
-                'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),  # works but seems backwards to me (value1 and value2)
+                'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),
+                'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),
                 'GP_UP': input_nt(kind='hat', number=0, value1=0, value2=+1),
                 'GP_DOWN': input_nt(kind='hat', number=0, value1=0, value2=-1),
                 'GP_A': input_nt(kind='button', number=0, value1=None, value2=None),
@@ -487,9 +486,9 @@ class Input:
                 Input.joy_axis_events = [e for e in pygame.event.get(JOYAXISMOTION)]
                 Input.joy_hat_events = [e for e in pygame.event.get(JOYHATMOTION)]
 
-            joy_button_events = list(filter(lambda x: x.joy == self.player_id - 1, Input.joy_button_events))
-            joy_axis_events = list(filter(lambda x: x.joy == self.player_id - 1, Input.joy_axis_events))
-            joy_hat_events = list(filter(lambda x: x.joy == self.player_id - 1, Input.joy_hat_events))
+            joy_button_events = list(filter(lambda x: x.joy == self.joy_num, Input.joy_button_events))
+            joy_axis_events = list(filter(lambda x: x.joy == self.joy_num, Input.joy_axis_events))
+            joy_hat_events = list(filter(lambda x: x.joy == self.joy_num, Input.joy_hat_events))
 
             for name, info in self.GP_INPUTS_DICT.items():  # these are all the inputs that we care about
                 if info.kind == 'button':
@@ -505,8 +504,8 @@ class Input:
                         # print('axis  ', name + '_EVENT', self.gp_input[name + '_EVENT'])
 
                 elif info.kind == 'hat':
-                    self.gp_input[name] = self.gamepad.get_hat(info.number)[info.value2] == info.value1  # ITS FUCKING BACKWARDS??? THE TWO WAYS TO LOOK UP HAT DATA DONT RETURN THE SAME DATA IN THE SAME FUCKING WAY?  WHAT THE FUCK FUCK YOU PYGAME.
-                    if (info.number, info.value1, info.value2) in [(e.hat, e.value[0], e.value[1]) for e in joy_hat_events]:
+                    self.gp_input[name] = self.gamepad.get_hat(info.number) == (info.value1, info.value2)
+                    if (info.number, (info.value1, info.value2)) in [(e.hat, e.value) for e in joy_hat_events]:
                         self.gp_input[name + '_EVENT'] = True
                         # print('hat   ', name + '_EVENT', self.gp_input[name + '_EVENT'])
 
