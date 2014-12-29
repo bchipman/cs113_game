@@ -85,10 +85,6 @@ class GameLoop:
             main_font = 'data/fonts/Kremlin.ttf'
             self.timer_font = pygame.font.Font(main_font, 36)
             self.timer_font_xy = 605, 500
-            self.health_font = pygame.font.Font(main_font, 55)
-            self.health_font_xy = 60, 490
-            self.energy_font = pygame.font.Font(main_font, 55)
-            self.energy_font_xy = 80, 535
             self.debug_font_small = pygame.font.SysFont('consolas', 12)  # monospace
             self.debug_font_small_2 = pygame.font.SysFont('lucidasans', 12)  # monospace
             self.debug_font = pygame.font.SysFont('consolas', 20)  # monospace
