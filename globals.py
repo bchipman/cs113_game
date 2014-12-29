@@ -32,29 +32,6 @@ CLOCK = pygame.time.Clock()
 FPS = 30
 NEXT_PAGE = '_start'
 
-# Colors
-BLACK = Color(0, 0, 0)
-DGREY = Color(64, 64, 64)
-GREY = Color(100, 100, 100)
-WHITE = Color(255, 255, 255)
-BROWN = Color(139, 69, 19)
-RED = Color(255, 0, 0)
-DKRED = Color(128, 0, 0)
-DKGREEN = Color(0, 128, 0)
-GREEN = Color(0, 255, 0)
-BLUE = Color(0, 0, 255)
-LLBLUE = Color(0, 0, 128)
-LBLUE = Color(0, 128, 255)
-SKYBLUE = Color(128, 223, 223)
-YELLOW = Color(255, 255, 0)
-DKYELLOW = Color(153, 153, 0)
-DKDKYELLOW = Color(128, 128, 0)
-PURPLE = Color(255, 0, 255)
-DKPURPLE = Color(153, 0, 153)
-ORANGE = Color(255, 153, 0)
-DKORANGE = Color(153, 92, 0)
-TRANSPARENT = Color(235, 0, 255)
-
 # Music
 SONGS = ['data/songs/pneumatic_driller.mp3', 'data/songs/euglena_zielona.mp3',
          'data/songs/drilldance.mp3', 'data/songs/running_emu.mp3', 'data/songs/wooboodoo.mp3',
@@ -162,6 +139,10 @@ SONG_END_EVENT = USEREVENT + 7
 MORE_RAIN_EVENT = USEREVENT + 8
 
 # -----------------------------Global Functions-------------------------------
+def add_to_module_namespace(class_name):
+    for k, v in sorted(class_name.__dict__.items()):
+        globals()[k] = v
+
 def all_in(items_want_inside, container_being_checked):
     for thing in items_want_inside:
         if thing not in container_being_checked:
@@ -255,6 +236,31 @@ def force_add_particle_to_player(particle, player):
 def EXIT_GAME():
     pygame.quit()
     sys.exit()
+
+# ----------------------------------Colors------------------------------------
+class Colors:
+    BLACK = Color(0, 0, 0)
+    DGREY = Color(64, 64, 64)
+    GREY = Color(100, 100, 100)
+    WHITE = Color(255, 255, 255)
+    BROWN = Color(139, 69, 19)
+    RED = Color(255, 0, 0)
+    DKRED = Color(128, 0, 0)
+    DKGREEN = Color(0, 128, 0)
+    GREEN = Color(0, 255, 0)
+    BLUE = Color(0, 0, 255)
+    LLBLUE = Color(0, 0, 128)
+    LBLUE = Color(0, 128, 255)
+    SKYBLUE = Color(128, 223, 223)
+    YELLOW = Color(255, 255, 0)
+    DKYELLOW = Color(153, 153, 0)
+    DKDKYELLOW = Color(128, 128, 0)
+    PURPLE = Color(255, 0, 255)
+    DKPURPLE = Color(153, 0, 153)
+    ORANGE = Color(255, 153, 0)
+    DKORANGE = Color(153, 92, 0)
+    TRANSPARENT = Color(235, 0, 255)
+add_to_module_namespace(Colors)
 
 # -----------------------------Music and Sound--------------------------------
 class Audio:
@@ -580,89 +586,91 @@ INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 
 # ----------------------------------Arenas------------------------------------
-arena_nt = namedtuple('arena_nt', 'left_wall_x, right_wall_x, floor_y, platforms, max_monsters, possible_monsters, background, p1_spawn, p2_spawn')
-terrain_nt = namedtuple('terrain_nt', 'left, top, width, height, color, hits_to_destroy, spawn_point')
+class ArenaInfos:
+    arena_nt = namedtuple('arena_nt', 'left_wall_x, right_wall_x, floor_y, platforms, max_monsters, possible_monsters, background, p1_spawn, p2_spawn')
+    terrain_nt = namedtuple('terrain_nt', 'left, top, width, height, color, hits_to_destroy, spawn_point')
 
-arena1 = arena_nt(
-    left_wall_x=65, right_wall_x=1215, floor_y=475,
-    platforms=[
-        terrain_nt(0, 270, 300, 60, DKGREEN, -1, False),
-        terrain_nt(850, 270, 300, 60, DKGREEN, -1, False),
-        terrain_nt(545, 150, 60, 230, DKGREEN, -1, False),
-        terrain_nt(140, 100, 150, 20, DKGREEN, -1, False),
-        terrain_nt(860, 100, 150, 20, DKGREEN, -1, False),
-        terrain_nt(30, 240, 40, 20, WHITE, 5, False),
-        terrain_nt(1145, 465, -5, 5, None, -1, True),
-        terrain_nt(15, 465, -5, 5, None, -1, True), ],
-    max_monsters=3, possible_monsters=(WEAK, MEDIUM),
-    background=None, p1_spawn=(135, 150), p2_spawn=(985, 150))
+    arena1 = arena_nt(
+        left_wall_x=65, right_wall_x=1215, floor_y=475,
+        platforms=[
+            terrain_nt(0, 270, 300, 60, DKGREEN, -1, False),
+            terrain_nt(850, 270, 300, 60, DKGREEN, -1, False),
+            terrain_nt(545, 150, 60, 230, DKGREEN, -1, False),
+            terrain_nt(140, 100, 150, 20, DKGREEN, -1, False),
+            terrain_nt(860, 100, 150, 20, DKGREEN, -1, False),
+            terrain_nt(30, 240, 40, 20, WHITE, 5, False),
+            terrain_nt(1145, 465, -5, 5, None, -1, True),
+            terrain_nt(15, 465, -5, 5, None, -1, True), ],
+        max_monsters=3, possible_monsters=(WEAK, MEDIUM),
+        background=None, p1_spawn=(135, 150), p2_spawn=(985, 150))
 
-arena2 = arena_nt(
-    left_wall_x=65, right_wall_x=1215, floor_y=475,
-    platforms=[
-        terrain_nt(50, 100, 50, 300, DKGREEN, -1, False),
-        terrain_nt(240, 40, 50, 300, DKGREEN, -1, False),
-        terrain_nt(500, 135, 100, 25, DKGREEN, -1, False),
-        terrain_nt(725, 255, 175, 25, DKGREEN, -1, False),
-        terrain_nt(1050, 375, 100, 25, DKGREEN, -1, False),
-        terrain_nt(400, 434, 300, 41, DKGREEN, -1, False),
-        terrain_nt(485, 394, 300, 41, DKGREEN, -1, False),
-        terrain_nt(970, 65, 80, 10, DKGREEN, -1, False),
-        terrain_nt(150, 465, -5, 5, None, -1, True),
-        terrain_nt(930, 465, -5, 5, None, -1, True), ],
-    max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background=None, p1_spawn=(135, 150), p2_spawn=(985, 150))
+    arena2 = arena_nt(
+        left_wall_x=65, right_wall_x=1215, floor_y=475,
+        platforms=[
+            terrain_nt(50, 100, 50, 300, DKGREEN, -1, False),
+            terrain_nt(240, 40, 50, 300, DKGREEN, -1, False),
+            terrain_nt(500, 135, 100, 25, DKGREEN, -1, False),
+            terrain_nt(725, 255, 175, 25, DKGREEN, -1, False),
+            terrain_nt(1050, 375, 100, 25, DKGREEN, -1, False),
+            terrain_nt(400, 434, 300, 41, DKGREEN, -1, False),
+            terrain_nt(485, 394, 300, 41, DKGREEN, -1, False),
+            terrain_nt(970, 65, 80, 10, DKGREEN, -1, False),
+            terrain_nt(150, 465, -5, 5, None, -1, True),
+            terrain_nt(930, 465, -5, 5, None, -1, True), ],
+        max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
+        background=None, p1_spawn=(135, 150), p2_spawn=(985, 150))
 
-arena3 = arena_nt(
-    left_wall_x=65, right_wall_x=1215, floor_y=458,
-    platforms=[
-        terrain_nt(401, 80, 112, 37, None, -1, False),
-        terrain_nt(557, 80, 112, 37, None, -1, False),
-        terrain_nt(85, 140, 228, 40, None, -1, False),
-        terrain_nt(85, 180, 40, 142, None, -1, False),
-        terrain_nt(85, 322, 95, 40, None, -1, False),
-        terrain_nt(332, 241, 220, 40, None, -1, False),
-        terrain_nt(595, 319, 417, 40, None, -1, False),
-        terrain_nt(972, 156, 40, 163, None, -1, False),
-        terrain_nt(785, 120, 227, 40, None, -1, False),
-        terrain_nt(150, 465, -5, 5, None, -1, True),
-        terrain_nt(930, 465, -5, 5, None, -1, True), ],
-    max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background='data/backgrounds/arena_vines.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
+    arena3 = arena_nt(
+        left_wall_x=65, right_wall_x=1215, floor_y=458,
+        platforms=[
+            terrain_nt(401, 80, 112, 37, None, -1, False),
+            terrain_nt(557, 80, 112, 37, None, -1, False),
+            terrain_nt(85, 140, 228, 40, None, -1, False),
+            terrain_nt(85, 180, 40, 142, None, -1, False),
+            terrain_nt(85, 322, 95, 40, None, -1, False),
+            terrain_nt(332, 241, 220, 40, None, -1, False),
+            terrain_nt(595, 319, 417, 40, None, -1, False),
+            terrain_nt(972, 156, 40, 163, None, -1, False),
+            terrain_nt(785, 120, 227, 40, None, -1, False),
+            terrain_nt(150, 465, -5, 5, None, -1, True),
+            terrain_nt(930, 465, -5, 5, None, -1, True), ],
+        max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
+        background='data/backgrounds/arena_vines.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
 
-arena4 = arena_nt(
-    left_wall_x=65, right_wall_x=1215, floor_y=458,
-    platforms=[
-        terrain_nt(546, 51, 229, 37, None, -1, False),
-        terrain_nt(0, 114, 110, 37, None, -1, False),
-        terrain_nt(338, 114, 112, 37, None, -1, False),
-        terrain_nt(823, 152, 229, 37, None, -1, False),
-        terrain_nt(594, 164, 18, 194, None, -1, False),
-        terrain_nt(702, 181, 18, 194, None, -1, False),
-        terrain_nt(134, 190, 113, 37, None, -1, False),
-        terrain_nt(268, 286, 229, 37, None, -1, False),
-        terrain_nt(802, 316, 348, 37, None, -1, False),
-        terrain_nt(72, 351, 112, 37, None, -1, False),
-        terrain_nt(150, 450, -5, 5, None, -1, True),
-        terrain_nt(930, 450, -5, 5, None, -1, True), ],
-    max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background='data/backgrounds/arena_human.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
+    arena4 = arena_nt(
+        left_wall_x=65, right_wall_x=1215, floor_y=458,
+        platforms=[
+            terrain_nt(546, 51, 229, 37, None, -1, False),
+            terrain_nt(0, 114, 110, 37, None, -1, False),
+            terrain_nt(338, 114, 112, 37, None, -1, False),
+            terrain_nt(823, 152, 229, 37, None, -1, False),
+            terrain_nt(594, 164, 18, 194, None, -1, False),
+            terrain_nt(702, 181, 18, 194, None, -1, False),
+            terrain_nt(134, 190, 113, 37, None, -1, False),
+            terrain_nt(268, 286, 229, 37, None, -1, False),
+            terrain_nt(802, 316, 348, 37, None, -1, False),
+            terrain_nt(72, 351, 112, 37, None, -1, False),
+            terrain_nt(150, 450, -5, 5, None, -1, True),
+            terrain_nt(930, 450, -5, 5, None, -1, True), ],
+        max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
+        background='data/backgrounds/arena_human.png', p1_spawn=(75, 50), p2_spawn=(992, 50))
 
-arena5 = arena_nt(
-    left_wall_x=65, right_wall_x=1215, floor_y=458,
-    platforms=[
-        terrain_nt(59, 70, 40, 298, None, -1, False),
-        terrain_nt(236, 44, 40, 298, None, -1, False),
-        terrain_nt(498, 119, 112, 37, None, -1, False),
-        terrain_nt(953, 47, 112, 37, None, -1, False),
-        terrain_nt(1031, 335, 112, 37, None, -1, False),
-        terrain_nt(673, 208, 229, 37, None, -1, False),
-        terrain_nt(496, 348, 263, 56, None, -1, False),
-        terrain_nt(381, 402, 350, 56, None, -1, False),
-        terrain_nt(150, 450, -5, 5, None, -1, True),
-        terrain_nt(930, 450, -5, 5, None, -1, True), ],
-    max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
-    background='data/backgrounds/arena_android.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
+    arena5 = arena_nt(
+        left_wall_x=65, right_wall_x=1215, floor_y=458,
+        platforms=[
+            terrain_nt(59, 70, 40, 298, None, -1, False),
+            terrain_nt(236, 44, 40, 298, None, -1, False),
+            terrain_nt(498, 119, 112, 37, None, -1, False),
+            terrain_nt(953, 47, 112, 37, None, -1, False),
+            terrain_nt(1031, 335, 112, 37, None, -1, False),
+            terrain_nt(673, 208, 229, 37, None, -1, False),
+            terrain_nt(496, 348, 263, 56, None, -1, False),
+            terrain_nt(381, 402, 350, 56, None, -1, False),
+            terrain_nt(150, 450, -5, 5, None, -1, True),
+            terrain_nt(930, 450, -5, 5, None, -1, True), ],
+        max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
+        background='data/backgrounds/arena_android.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
+add_to_module_namespace(ArenaInfos)
 
 # ---------------------------------Monsters-----------------------------------
 monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle, exp_value, dmg')
