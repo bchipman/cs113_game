@@ -491,7 +491,7 @@ class OptionsPage:
         ])
 
         if not AUDIO.music_on:
-            +self.selection_box()
+            +self.selection_box(2)
         if not AUDIO.sound_on:
             +self.selection_box(1)
 
