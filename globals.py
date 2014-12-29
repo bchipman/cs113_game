@@ -333,7 +333,7 @@ class Input:
         elif self.num_joys == 1:  # p1 = keyboard, p2 = gamepad0
             if player_id == 1:
                 self.gamepad_found = False
-                print('p{} uses "keyboard"'.format(str(self.player_id)))
+                print('p{} uses keyboard'.format(str(self.player_id)))
             elif player_id == 2:
                 self.joy_num = 0
                 self.gamepad = pygame.joystick.Joystick(self.joy_num)
@@ -345,7 +345,7 @@ class Input:
         elif self.num_joys == 0:  # p1 = keyboard, p2 = cannot play
             if player_id == 1:
                 self.gamepad_found = False
-                print('p{} uses "keyboard"'.format(str(self.player_id)))
+                print('p{} uses keyboard'.format(str(self.player_id)))
             elif player_id == 2:
                 self.gamepad_found = False
                 print('p{} cannot play!'.format(str(self.player_id)))
