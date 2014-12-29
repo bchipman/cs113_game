@@ -1,8 +1,22 @@
+import collections
 import copy
 
 # noinspection PyPep8Naming
 import globals as GL
 from skills import *
+
+# ----------------------------------------------------------------------------
+class Deque2(collections.deque):
+    def __call__(self, i=0):
+        return self[i]
+
+    def __pos__(self):
+        self.rotate()
+        return self()
+
+    def __neg__(self):
+        self.rotate(-1)
+        return self()
 
 # -------------------------------------------------------------------------
 class Rect2(pygame.Rect):
