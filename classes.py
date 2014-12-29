@@ -578,7 +578,7 @@ class Arena:
 
     @property
     def non_spawn_points(self):
-        return filter(lambda x: not x.spawn_point, self)
+        return filter(lambda x: not x.spawn_point and x != self.play_area_rect, self)
 
     @property
     def destructible_terrain(self):
