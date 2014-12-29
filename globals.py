@@ -1,35 +1,227 @@
-# python standard library modules
-import datetime
-import os
-import random
-import sys
-from collections import namedtuple
-from collections import defaultdict
 
-# pygame
-import pygame
-from pygame.locals import *  # for event timers
+class Imports:
+    # python standard library modules
+    import datetime
+    import os
+    import random
+    import sys
+    from collections import namedtuple
+    from collections import defaultdict
 
-# psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
-try:
-    import psutil
-    psutil_found = True
-except ImportError:
-    psutil_found = False
+    # pygame
+    import pygame
+    from pygame.locals import HAT_CENTERED
+    from pygame.locals import HAT_DOWN
+    from pygame.locals import HAT_LEFT
+    from pygame.locals import HAT_LEFTDOWN
+    from pygame.locals import HAT_LEFTUP
+    from pygame.locals import HAT_RIGHT
+    from pygame.locals import HAT_RIGHTDOWN
+    from pygame.locals import HAT_RIGHTUP
+    from pygame.locals import HAT_UP
+    from pygame.locals import JOYAXISMOTION
+    from pygame.locals import JOYBALLMOTION
+    from pygame.locals import JOYBUTTONDOWN
+    from pygame.locals import JOYBUTTONUP
+    from pygame.locals import JOYHATMOTION
+    from pygame.locals import KEYDOWN
+    from pygame.locals import KEYUP
+    from pygame.locals import KMOD_ALT
+    from pygame.locals import KMOD_CAPS
+    from pygame.locals import KMOD_CTRL
+    from pygame.locals import KMOD_LALT
+    from pygame.locals import KMOD_LCTRL
+    from pygame.locals import KMOD_LMETA
+    from pygame.locals import KMOD_LSHIFT
+    from pygame.locals import KMOD_META
+    from pygame.locals import KMOD_MODE
+    from pygame.locals import KMOD_NONE
+    from pygame.locals import KMOD_NUM
+    from pygame.locals import KMOD_RALT
+    from pygame.locals import KMOD_RCTRL
+    from pygame.locals import KMOD_RMETA
+    from pygame.locals import KMOD_RSHIFT
+    from pygame.locals import KMOD_SHIFT
+    from pygame.locals import K_0
+    from pygame.locals import K_1
+    from pygame.locals import K_2
+    from pygame.locals import K_3
+    from pygame.locals import K_4
+    from pygame.locals import K_5
+    from pygame.locals import K_6
+    from pygame.locals import K_7
+    from pygame.locals import K_8
+    from pygame.locals import K_9
+    from pygame.locals import K_AMPERSAND
+    from pygame.locals import K_ASTERISK
+    from pygame.locals import K_AT
+    from pygame.locals import K_BACKQUOTE
+    from pygame.locals import K_BACKSLASH
+    from pygame.locals import K_BACKSPACE
+    from pygame.locals import K_BREAK
+    from pygame.locals import K_CAPSLOCK
+    from pygame.locals import K_CARET
+    from pygame.locals import K_CLEAR
+    from pygame.locals import K_COLON
+    from pygame.locals import K_COMMA
+    from pygame.locals import K_DELETE
+    from pygame.locals import K_DOLLAR
+    from pygame.locals import K_DOWN
+    from pygame.locals import K_END
+    from pygame.locals import K_EQUALS
+    from pygame.locals import K_ESCAPE
+    from pygame.locals import K_EURO
+    from pygame.locals import K_EXCLAIM
+    from pygame.locals import K_F1
+    from pygame.locals import K_F10
+    from pygame.locals import K_F11
+    from pygame.locals import K_F12
+    from pygame.locals import K_F13
+    from pygame.locals import K_F14
+    from pygame.locals import K_F15
+    from pygame.locals import K_F2
+    from pygame.locals import K_F3
+    from pygame.locals import K_F4
+    from pygame.locals import K_F5
+    from pygame.locals import K_F6
+    from pygame.locals import K_F7
+    from pygame.locals import K_F8
+    from pygame.locals import K_F9
+    from pygame.locals import K_FIRST
+    from pygame.locals import K_GREATER
+    from pygame.locals import K_HASH
+    from pygame.locals import K_HELP
+    from pygame.locals import K_HOME
+    from pygame.locals import K_INSERT
+    from pygame.locals import K_KP0
+    from pygame.locals import K_KP1
+    from pygame.locals import K_KP2
+    from pygame.locals import K_KP3
+    from pygame.locals import K_KP4
+    from pygame.locals import K_KP5
+    from pygame.locals import K_KP6
+    from pygame.locals import K_KP7
+    from pygame.locals import K_KP8
+    from pygame.locals import K_KP9
+    from pygame.locals import K_KP_DIVIDE
+    from pygame.locals import K_KP_ENTER
+    from pygame.locals import K_KP_EQUALS
+    from pygame.locals import K_KP_MINUS
+    from pygame.locals import K_KP_MULTIPLY
+    from pygame.locals import K_KP_PERIOD
+    from pygame.locals import K_KP_PLUS
+    from pygame.locals import K_LALT
+    from pygame.locals import K_LAST
+    from pygame.locals import K_LCTRL
+    from pygame.locals import K_LEFT
+    from pygame.locals import K_LEFTBRACKET
+    from pygame.locals import K_LEFTPAREN
+    from pygame.locals import K_LESS
+    from pygame.locals import K_LMETA
+    from pygame.locals import K_LSHIFT
+    from pygame.locals import K_LSUPER
+    from pygame.locals import K_MENU
+    from pygame.locals import K_MINUS
+    from pygame.locals import K_MODE
+    from pygame.locals import K_NUMLOCK
+    from pygame.locals import K_PAGEDOWN
+    from pygame.locals import K_PAGEUP
+    from pygame.locals import K_PAUSE
+    from pygame.locals import K_PERIOD
+    from pygame.locals import K_PLUS
+    from pygame.locals import K_POWER
+    from pygame.locals import K_PRINT
+    from pygame.locals import K_QUESTION
+    from pygame.locals import K_QUOTE
+    from pygame.locals import K_QUOTEDBL
+    from pygame.locals import K_RALT
+    from pygame.locals import K_RCTRL
+    from pygame.locals import K_RETURN
+    from pygame.locals import K_RIGHT
+    from pygame.locals import K_RIGHTBRACKET
+    from pygame.locals import K_RIGHTPAREN
+    from pygame.locals import K_RMETA
+    from pygame.locals import K_RSHIFT
+    from pygame.locals import K_RSUPER
+    from pygame.locals import K_SCROLLOCK
+    from pygame.locals import K_SEMICOLON
+    from pygame.locals import K_SLASH
+    from pygame.locals import K_SPACE
+    from pygame.locals import K_SYSREQ
+    from pygame.locals import K_TAB
+    from pygame.locals import K_UNDERSCORE
+    from pygame.locals import K_UNKNOWN
+    from pygame.locals import K_UP
+    from pygame.locals import K_a
+    from pygame.locals import K_b
+    from pygame.locals import K_c
+    from pygame.locals import K_d
+    from pygame.locals import K_e
+    from pygame.locals import K_f
+    from pygame.locals import K_g
+    from pygame.locals import K_h
+    from pygame.locals import K_i
+    from pygame.locals import K_j
+    from pygame.locals import K_k
+    from pygame.locals import K_l
+    from pygame.locals import K_m
+    from pygame.locals import K_n
+    from pygame.locals import K_o
+    from pygame.locals import K_p
+    from pygame.locals import K_q
+    from pygame.locals import K_r
+    from pygame.locals import K_s
+    from pygame.locals import K_t
+    from pygame.locals import K_u
+    from pygame.locals import K_v
+    from pygame.locals import K_w
+    from pygame.locals import K_x
+    from pygame.locals import K_y
+    from pygame.locals import K_z
+    from pygame.locals import MOUSEBUTTONDOWN
+    from pygame.locals import MOUSEBUTTONUP
+    from pygame.locals import MOUSEMOTION
+    from pygame.locals import NOEVENT
+    from pygame.locals import NUMEVENTS
+    from pygame.locals import QUIT
+    from pygame.locals import RESIZABLE
+    from pygame.locals import SRCALPHA
+    from pygame.locals import SRCCOLORKEY
+    from pygame.locals import SWSURFACE
+    from pygame.locals import USEREVENT
+    from pygame.locals import VIDEOEXPOSE
+    from pygame.locals import VIDEORESIZE
+    from pygame.locals import color
+    from pygame.locals import Color
+    from pygame.locals import Rect
 
-if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
-    os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
-if os.environ['COMPUTERNAME'] in ('MAX-LT', 'BRIAN-LAPTOP'):
-    os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(50, 30)
+    # psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
+    try:
+        import psutil
+        psutil_found = True
+    except ImportError:
+        psutil_found = False
 
-pygame.init()
-pygame.display.set_caption('Famished Tournament')
+    locals_dict = dict(locals().items())
+    for k, v in locals_dict.items():
+        sys.modules[__name__].__dict__[k] = v
 
-def add_to_module_namespace(class_name):
-    for k, v in sorted(class_name.__dict__.items()):
+
+class Setup:
+    if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
+    if os.environ['COMPUTERNAME'] in ('MAX-LT', 'BRIAN-LAPTOP'):
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(50, 30)
+
+    pygame.init()
+    pygame.display.set_caption('Famished Tournament')
+
+
+def add_to_module_namespace(locals_dict):
+    for k, v in locals_dict.items():
         globals()[k] = v
 
-# --------------------------------Constants-----------------------------------
+
 class Constants:
     SCREEN = pygame.display.set_mode((1280, 600))
     WINDOW = SCREEN.get_rect()
@@ -143,7 +335,10 @@ class Constants:
     SONG_END_EVENT = USEREVENT + 7
     MORE_RAIN_EVENT = USEREVENT + 8
 
-# --------------------------------Functions-----------------------------------
+    add_to_module_namespace(locals())
+
+
+# noinspection PyMethodParameters
 class Functions:
 
     def all_in(items_want_inside, container_being_checked):
@@ -240,7 +435,9 @@ class Functions:
         pygame.quit()
         sys.exit()
 
-# ----------------------------------Colors------------------------------------
+    add_to_module_namespace(locals())
+
+
 class Colors:
     BLACK = Color(0, 0, 0)
     DGREY = Color(64, 64, 64)
@@ -263,8 +460,9 @@ class Colors:
     ORANGE = Color(255, 153, 0)
     DKORANGE = Color(153, 92, 0)
     TRANSPARENT = Color(235, 0, 255)
+    add_to_module_namespace(locals())
 
-# ----------------------------------Audio-------------------------------------
+
 class Audio:
     def __init__(self):
         try:
@@ -318,7 +516,7 @@ class Audio:
         return 'new song: "{}"    started at: {}'.format(self.curr_song.replace('data/songs/', '').replace('.mp3', ''), t)
 AUDIO = Audio()
 
-# ----------------------------------Input-------------------------------------
+
 class Input:
     def __init__(self, player_id=1):
         self.gp_input = defaultdict(bool)
@@ -587,13 +785,7 @@ class Input:
 INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 
-# ----------------------------------------------------------------------------
-add_to_module_namespace(Functions)
-add_to_module_namespace(Constants)
-add_to_module_namespace(Colors)
-# ----------------------------------------------------------------------------
 
-# ----------------------------------Arenas------------------------------------
 class ArenaInfos:
     arena_nt = namedtuple('arena_nt', 'left_wall_x, right_wall_x, floor_y, platforms, max_monsters, possible_monsters, background, p1_spawn, p2_spawn')
     terrain_nt = namedtuple('terrain_nt', 'left, top, width, height, color, hits_to_destroy, spawn_point')
@@ -679,7 +871,9 @@ class ArenaInfos:
         max_monsters=3, possible_monsters=(WEAK, MEDIUM),  # ALL
         background='data/backgrounds/arena_android.png', p1_spawn=(75, 50), p2_spawn=(985, 150))
 
-# ---------------------------------Monsters-----------------------------------
+    add_to_module_namespace(locals())
+
+
 class MonsterInfos:
     monster_info_nt = namedtuple('monster_info_nt', 'kind, w, h, dx, dy, hp, chase, idle, exp_value, dmg')
     MONSTER_TABLE = {
@@ -687,5 +881,4 @@ class MonsterInfos:
         MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000, MEDIUM_EXP_VALUE, 5),
         ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
 
-add_to_module_namespace(ArenaInfos)
-add_to_module_namespace(MonsterInfos)
+    add_to_module_namespace(locals())
