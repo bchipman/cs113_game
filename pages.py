@@ -181,46 +181,28 @@ class HelpPage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
+# noinspection PyStatementEffect,PyAttributeOutsideInit
 class PlayerSelectPage:
-
     def __init__(self):
-        def _setup_display():
-            self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
-            self.player1_spritesheet = None
-            self.player2_spritesheet = None
+        self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
 
-        def _load_images():
-            self.bg_image = pygame.image.load('data/backgrounds/bg_player_select.png')
-            self.humanPortrait = pygame.image.load('data/sprites+portraits/human_portrait.png')
-            self.elfPortrait = pygame.image.load('data/sprites+portraits/elf_portrait.png')
+        self.bg_image = pygame.image.load('data/backgrounds/bg_player_select.png')
+        self.humanPortrait = pygame.image.load('data/sprites+portraits/human_portrait.png')
+        self.elfPortrait = pygame.image.load('data/sprites+portraits/elf_portrait.png')
 
-            self.portraits = [self.humanPortrait, self.elfPortrait]
-            self.portraits2 = [self.humanPortrait, self.elfPortrait]
+        self.portraits = Deque2([self.humanPortrait, self.elfPortrait])
+        self.portraits2 = Deque2([self.humanPortrait, self.elfPortrait])
 
-            # show human portrait by default
-            self.index = 0
-            self.index2 = 0
+        self.start_font = pygame.font.Font('data/fonts/Kremlin.ttf', 50)
+        self.start_font_xy = font_position_center(GL.SCREEN.get_rect(), self.start_font, '---------------Press Start when ready---------------')
+        self.start_font_rendered = self.start_font.render('---------------Press Start when ready---------------', True, YELLOW)
 
-        def _setup_fonts():
-            self.start_font = pygame.font.Font('data/fonts/Kremlin.ttf', 50)
-            self.start_font_xy = font_position_center(GL.SCREEN.get_rect(), self.start_font, '---------------Press Start when ready---------------')
-            self.start_font_rendered = self.start_font.render('---------------Press Start when ready---------------', True, YELLOW)
+        self.ready1 = False
 
-        def _setup_flags():
-            self.ready1 = False
-            self.ready2 = False
-            self.start = False
-
-            # if there is a second gamepad, there is a second player
-            # set ready to false if second player exists
-            # if no second player, set ready to true
-            if not GL.INPUT2.gamepad_found:
-                self.ready2 = True
-
-        _setup_display()
-        _setup_fonts()
-        _setup_flags()
-        _load_images()
+        # if there is a second gamepad, there is a second player
+        # set ready to false if second player exists
+        # if no second player, set ready to true
+        self.ready2 = False if GL.INPUT2.gamepad_found else True
 
     def __call__(self):
         self.return_now = False
@@ -233,8 +215,10 @@ class PlayerSelectPage:
     def draw(self):
         GL.SCREEN.blit(self.bg_image, (0, 0))
         self.return_button.draw(GL.SCREEN)
-        GL.SCREEN.blit(self.portraits[self.index], (167, 106))
-        GL.SCREEN.blit(self.portraits2[self.index2], (810, 106))
+
+        GL.SCREEN.blit(self.portraits(), (167, 106))
+        GL.SCREEN.blit(self.portraits2(), (810, 106))
+
         if self.ready1 and self.ready2:
             GL.SCREEN.blit(self.start_font_rendered, self.start_font_xy)
         pygame.display.update()
@@ -246,55 +230,20 @@ class PlayerSelectPage:
             GL.INPUT2.refresh()
 
         def player_select_inputs():
-
-            def check_left_right(player):
-                if player == 'player1':
-                    if GL.INPUT1.LEFT_EVENT:
-                        self.index -= 1
-                        if self.index < 0:
-                            self.index = len(self.portraits) - 1
-
-                        check_other_player('player1')
-
-                    elif GL.INPUT1.RIGHT_EVENT:
-                        self.index += 1
-                        if self.index >= len(self.portraits):
-                            self.index = 0
-
-                        check_other_player('player1')
-
-                elif player == 'player2':
-                    if GL.INPUT2.LEFT_EVENT:
-                        self.index2 -= 1
-                        if self.index2 < 0:
-                            self.index2 = len(self.portraits2) - 1
-
-                        check_other_player('player2')
-
-                    elif GL.INPUT2.RIGHT_EVENT:
-                        self.index2 += 1
-                        if self.index2 >= len(self.portraits2):
-                            self.index2 = 0
-
-                        check_other_player('player2')
-
-            def check_other_player(player):
-                if player == 'player1':
-                    if self.index == self.index2 and self.ready2:  # player 2 is using character, skip index
-                        self.index += 1
-                        if self.index >= len(self.portraits):
-                            self.index = 0
-                else:
-                    if self.index == self.index2 and self.ready1:  # player 2 is using character, skip index
-                        self.index2 += 1
-                        if self.index2 >= len(self.portraits2):
-                            self.index2 = 0
-
-            # if player 1/2 is not ready, let them select character
             if not self.ready1:
-                check_left_right('player1')
+                if GL.INPUT1.LEFT_EVENT:
+                    +self.portraits
+
+                elif GL.INPUT1.RIGHT_EVENT:
+                    -self.portraits
+
             if not self.ready2:
-                check_left_right('player2')
+                if GL.INPUT2.LEFT_EVENT:
+                    +self.portraits2
+
+                elif GL.INPUT2.RIGHT_EVENT:
+                    -self.portraits2
+
 
         def player_done_selecting():
             # if player presses A
@@ -303,76 +252,74 @@ class PlayerSelectPage:
             # if they pressed select
             # they want to select a different sprite or return to start screen
             if GL.INPUT1.CONFIRM:
-                if self.ready2 and self.index2 == self.index:
+                if self.portraits() == self.portraits2() and self.ready2:
                     print('Player 2 is using this character. Select a different one.')
                 else:
-                    print('player 1 ready')
+                    print('Player 1 ready')
                     self.ready1 = True
 
             if GL.INPUT2.CONFIRM:
-                if self.ready1 and self.index2 == self.index:
+                if self.portraits() == self.portraits2() and self.ready1:
                     print('Player 1 is using this character. Select a different one.')
                 else:
-                    print('player 2 ready')
+                    print('Player 2 ready')
                     self.ready2 = True
 
             # if player presses back when previously stated they were ready
             # allow them to reselect player
             if self.ready1 and GL.INPUT1.CANCEL:
-                print('player 1 not ready anymore')
+                print('Player 1 not ready anymore')
                 self.ready1 = False
 
             elif not self.ready1 and GL.INPUT1.CANCEL:
-                print('player 1 requested to go back to start')
+                print('Player 1 requested to go back to start')
                 self.return_now = True
                 GL.NEXT_PAGE = '_start'
 
             if self.ready2 and GL.INPUT2.CANCEL:
-                print('player 2 not ready anymore')
+                print('Player 2 not ready anymore')
                 self.ready2 = False
 
             elif not self.ready2 and GL.INPUT2.CANCEL:
-                print('player 2 requested to go back to start')
+                print('Player 2 requested to go back to start')
                 self.return_now = True
                 GL.NEXT_PAGE = '_start'
 
         def ready_for_start():
             if self.ready1 and self.ready2:
-
                 # if player 1 or player 2 presses start when both players are ready
                 # go to level select
                 # if using a keyboard - only one player
                 # if keyboard user presses 'A' when he is ready
                 # go to level select
                 if GL.INPUT1.CONFIRM or GL.INPUT2.CONFIRM:
-                    self.start = True
-                    print('setting sprites')
+                    print('Setting sprites')
                     set_sprites()
-                    print('set sprites')
+                    print('Set sprites')
                     print('going to level select screen')
                     GL.NEXT_PAGE = 'LevelSelectPage()'
                     self.return_now = True
 
         def set_sprites():
             # set spritesheet for player1
-            if self.index == 0:  # human
+            if self.portraits() == self.humanPortrait:
                 self.player1_spritesheet = 'data/sprites+portraits/human_p1.png'
-            elif self.index == 1:  # elf
+            elif self.portraits() == self.elfPortrait:
                 self.player1_spritesheet = 'data/sprites+portraits/elf_p1.png'
 
             # set spritesheet for player2
-            if self.index2 == 0:  # human
+            if self.portraits2() == self.humanPortrait:
                 self.player2_spritesheet = 'data/sprites+portraits/human_p2.png'
-            elif self.index2 == 1:  # elf
+            elif self.portraits2() == self.elfPortrait:
                 self.player2_spritesheet = 'data/sprites+portraits/elf_p2.png'
 
             GL.P1_SPRITESHEET = self.player1_spritesheet
             GL.P2_SPRITESHEET = self.player2_spritesheet
 
         refresh_inputs()
+        ready_for_start()
         player_select_inputs()
         player_done_selecting()
-        ready_for_start()
 
     def events(self):
         for event in pygame.event.get():
