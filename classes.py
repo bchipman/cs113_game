@@ -41,7 +41,10 @@ class Rect2(pygame.Rect):
                 except KeyError:
                     pass
         for k, v in kargs.items():
-            exec('self.{} = {}'.format(k, repr(v)))
+            try:
+                exec('self.{} = {}'.format(k, repr(v)))
+            except SyntaxError:
+                self.__dict__[k] = v
 
     def p_collidelist(self, li):
         """follows same logic as pygame.Rect.collidelist, but customized to

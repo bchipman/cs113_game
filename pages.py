@@ -333,25 +333,24 @@ class PlayerSelectPage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
+# noinspection PyStatementEffect
 class LevelSelectPage:
     def __init__(self):
-        def _setup_display():
-            self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
-            self.ready = False
+        self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
+        self.ready = False
+        self.bg_image = pygame.image.load('data/backgrounds/bg_level_select.png')
+        self.bg_image2 = pygame.image.load('data/backgrounds/bg_level_select2.png')
 
-        def _load_images():
-            self.bg_image = pygame.image.load('data/backgrounds/bg_level_select.png')
-            self.bg_image2 = pygame.image.load('data/backgrounds/bg_level_select2.png')
-            self.humanLevel = pygame.image.load('data/backgrounds/arena_human.png')
-            self.elfLevel = pygame.image.load('data/backgrounds/arena_vines.png')
-            self.androidLevel = pygame.image.load('data/backgrounds/arena_android.png')
-            self.levels = [self.humanLevel, self.elfLevel, self.androidLevel]
-            self.outerX = [19, 444, 874]
-            self.innerX = [24, 450, 878]
-            self.index = 0
+        arena_image_size = (369, 153)
+        human_arena_image = image_scale(image_load('data/backgrounds/arena_human.png'), arena_image_size)
+        elf_arena_image = image_scale(image_load('data/backgrounds/arena_vines.png'), arena_image_size)
+        android_arena_image = image_scale(image_load('data/backgrounds/arena_android.png'), arena_image_size)
 
-        _setup_display()
-        _load_images()
+        human_arena = Rect2(topleft=(29, 194), size=arena_image_size, bg=human_arena_image, arena=GL.arena4)
+        elf_arena = Rect2(topleft=(444, 194), size=arena_image_size, bg=elf_arena_image, arena=GL.arena3)
+        android_arena = Rect2(topleft=(874, 194), size=arena_image_size, bg=android_arena_image, arena=GL.arena5)
+        self.levels = Deque2([human_arena, elf_arena, android_arena])
+
 
     def __call__(self):
         self.return_now = False
@@ -363,11 +362,14 @@ class LevelSelectPage:
 
     def draw(self):
         GL.SCREEN.blit(self.bg_image, (0, 0))
-        outer_highlight = Rect2(topleft=(self.outerX[self.index], 184), size = (389, 173), color=(20, 118, 128))
-        inner_highlight = Rect2(topleft=(self.innerX[self.index], 190), size=(379, 162), color=(80, 191, 201))
-        pygame.draw.rect(GL.SCREEN, outer_highlight.color, outer_highlight)
-        pygame.draw.rect(GL.SCREEN, inner_highlight.color, inner_highlight)
         GL.SCREEN.blit(self.bg_image2, (0, 0))
+        for level in self.levels:
+            if self.levels() == level:
+                outer = Rect2(left=level.left - 10, top=level.top - 10, width=level.width + 20, height=level.height + 20)
+                inner = Rect2(left=level.left - 5, top=level.top - 5, width=level.width + 10, height=level.height + 10)
+                pygame.draw.rect(GL.SCREEN, DKCYAN, outer)
+                pygame.draw.rect(GL.SCREEN, CYAN, inner)
+            GL.SCREEN.blit(level.bg, level.topleft)
         self.return_button.draw(GL.SCREEN)
         draw_mouse_debug()
         pygame.display.update()
@@ -376,38 +378,22 @@ class LevelSelectPage:
         GL.INPUT1.refresh()  # only player 1 can select level
 
         if GL.INPUT1.LEFT_EVENT:
-            self.index -= 1
-            if self.index < 0:
-                self.index = len(self.levels) - 1
+            +self.levels
 
         if GL.INPUT1.RIGHT_EVENT:
-            self.index += 1
-            if self.index >= len(self.levels):
-                self.index = 0
+            -self.levels
 
         if GL.INPUT1.CANCEL:
             GL.NEXT_PAGE = 'PlayerSelectPage()'
             self.return_now = True
 
-        def ready_check():
-            if GL.INPUT1.CONFIRM:
-                print('ready to load')
-                self.ready = True
-                set_level()
-                GL.NEXT_PAGE = 'GameLoop()'
-                self.return_now = True
-
-        def set_level():
-            print('setting level')
-            if self.index == 0:
-                GL.SELECTED_ARENA = Arena(arena4)
-            elif self.index == 1:
-                GL.SELECTED_ARENA = Arena(arena3)
-            elif self.index == 2:
-                GL.SELECTED_ARENA = Arena(arena5)
-            print('set level')
-
-        ready_check()
+        if GL.INPUT1.CONFIRM:
+            self.ready = True
+            print('Ready to load, setting arena ... ', end='')
+            GL.SELECTED_ARENA = Arena(self.levels().arena)
+            print('set.')
+            GL.NEXT_PAGE = 'GameLoop()'
+            self.return_now = True
 
     def events(self):
         for event in pygame.event.get():

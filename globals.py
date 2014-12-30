@@ -9,6 +9,8 @@ from collections import defaultdict
 # pygame
 import pygame
 from pygame.locals import *  # for event timers
+from pygame.transform import scale as image_scale
+from pygame.image import load as image_load
 
 # psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
 try:
@@ -45,6 +47,8 @@ GREEN = Color(0, 255, 0)
 BLUE = Color(0, 0, 255)
 LLBLUE = Color(0, 0, 128)
 LBLUE = Color(0, 128, 255)
+CYAN = Color(80, 191, 201)
+DKCYAN = Color(20, 118, 128)
 SKYBLUE = Color(128, 223, 223)
 YELLOW = Color(255, 255, 0)
 DKYELLOW = Color(153, 153, 0)
