@@ -420,6 +420,7 @@ class Input:
         self._combine_all_events()
         if self.player_id == 1:
             self._handle_mouse_visibility()
+        # self._debug()
 
     def _get_keyboard_pressed(self):
         sucky_kb_input = pygame.key.get_pressed()
@@ -576,6 +577,15 @@ class Input:
             pygame.mouse.set_visible(False)
         else:
             pygame.mouse.set_visible(True)
+
+    def _debug(self):
+        for k in self.kb_input.keys():
+            if self.kb_input[k]:
+                print(k)
+        for k in self.gp_input.keys():
+            if self.gp_input[k]:
+                print(k)
+
 INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 
