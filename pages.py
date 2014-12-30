@@ -11,7 +11,7 @@ SELECTION_BOX_COLOR = BLUE
 # noinspection PyStatementEffect
 class StartPage:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/backgrounds/bg_start_page.png')
+        self.bg_image = image_load('data/backgrounds/bg_start_page.png')
         self.start_button = PygButton((325, 395, 140, 40), 'Start')
         self.help_button = PygButton((485, 395, 110, 40), 'Help')
         self.options_button = PygButton((615, 395, 175, 40), 'Options')
@@ -121,7 +121,7 @@ class HelpPage:
         self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
         self.section_font = pygame.font.Font('data/fonts/Kremlin.ttf', 40)
         self.font = pygame.font.Font('data/fonts/arial_narrow_7.ttf', 20)
-        self.bg_image = pygame.image.load('data/backgrounds/bg_help.png')
+        self.bg_image = image_load('data/backgrounds/bg_help.png')
         self.bg_title = self.section_font.render('Background', True, WHITE)
         self.bg_text = textwrap.wrap('Under the tyranny of the dark overlord, the world ' +
                                      'is in chaos and all the resources are nearly depleted.  ' +
@@ -188,9 +188,9 @@ class PlayerSelectPage:
     def __init__(self):
         self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
 
-        self.bg_image = pygame.image.load('data/backgrounds/bg_player_select.png')
-        self.humanPortrait = pygame.image.load('data/sprites+portraits/human_portrait.png')
-        self.elfPortrait = pygame.image.load('data/sprites+portraits/elf_portrait.png')
+        self.bg_image = image_load('data/backgrounds/bg_player_select.png')
+        self.humanPortrait = image_load('data/sprites+portraits/human_portrait.png')
+        self.elfPortrait = image_load('data/sprites+portraits/elf_portrait.png')
 
         self.portraits = Deque2([self.humanPortrait, self.elfPortrait])
         self.portraits2 = Deque2([self.humanPortrait, self.elfPortrait])
@@ -338,8 +338,8 @@ class LevelSelectPage:
     def __init__(self):
         self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
         self.ready = False
-        self.bg_image = pygame.image.load('data/backgrounds/bg_level_select.png')
-        self.bg_image2 = pygame.image.load('data/backgrounds/bg_level_select2.png')
+        self.bg_image = image_load('data/backgrounds/bg_level_select.png')
+        self.bg_image2 = image_load('data/backgrounds/bg_level_select2.png')
 
         arena_image_size = (369, 153)
         human_arena_image = image_scale(image_load('data/backgrounds/arena_human.png'), arena_image_size)
@@ -407,7 +407,7 @@ class LevelSelectPage:
 # noinspection PyStatementEffect
 class OptionsPage:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/backgrounds/bg_start_page.png')
+        self.bg_image = image_load('data/backgrounds/bg_start_page.png')
         self.active_colors = BLACK, DKRED
         self.inactive_colors = DKRED, BLACK
 
@@ -548,7 +548,7 @@ class OptionsPage:
 # noinspection PyStatementEffect
 class PausePage:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/backgrounds/bg_menus_dim.png')
+        self.bg_image = image_load('data/backgrounds/bg_menus_dim.png')
         self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
         main_font = 'data/fonts/Kremlin.ttf'
         pause_font = pygame.font.Font(main_font, 100)
@@ -569,7 +569,7 @@ class PausePage:
             +self.selection_box
 
     def draw(self):
-        scaled_bg = pygame.transform.scale(self.bg_image, self.menu_box.size)
+        scaled_bg = image_scale(self.bg_image, self.menu_box.size)
         GL.SCREEN.blit(scaled_bg, self.menu_box.topleft)
         pygame.draw.rect(GL.SCREEN, self.menu_box.border_color, self.menu_box, 4)
         GL.SCREEN.blit(self.pause_font_rendered, (self.pause_font_xy[0], self.menu_box.top))
@@ -618,7 +618,7 @@ class PausePage:
 # noinspection PyStatementEffect
 class GameOverPage:
     def __init__(self):
-        self.bg_image = pygame.image.load('data/backgrounds/bg_menus_dim.png')
+        self.bg_image = image_load('data/backgrounds/bg_menus_dim.png')
         self.menu_box = Rect2(topleft=(320, 120), size=(640, 240), border_color=BLACK, fill_color=DGREY)
         main_font = 'data/fonts/Kremlin.ttf'
         game_over_font = pygame.font.Font(main_font, 95)
@@ -637,7 +637,7 @@ class GameOverPage:
             GL.CLOCK.tick(GL.FPS)
 
     def draw(self):
-        scaled_bg = pygame.transform.scale(self.bg_image, self.menu_box.size)
+        scaled_bg = image_scale(self.bg_image, self.menu_box.size)
         GL.SCREEN.blit(scaled_bg, self.menu_box.topleft)
         pygame.draw.rect(GL.SCREEN, self.menu_box.border_color, self.menu_box, 4)
         GL.SCREEN.blit(self.game_over_rendered, (self.game_over_xy[0], self.menu_box.top))
