@@ -40,6 +40,7 @@ class StartPage:
         GL.SCREEN.blit(self.title_font1, (495, 120))
         GL.SCREEN.blit(self.title_font2, (450, 175))
         pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box().rect, SELECTION_BOX_WIDTH)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):
@@ -163,6 +164,7 @@ class HelpPage:
 
         self.return_button.draw(GL.SCREEN)
         pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box().rect, SELECTION_BOX_WIDTH)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):
@@ -221,6 +223,7 @@ class PlayerSelectPage:
 
         if self.ready1 and self.ready2:
             GL.SCREEN.blit(self.start_font_rendered, self.start_font_xy)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):
@@ -366,6 +369,7 @@ class LevelSelectPage:
         pygame.draw.rect(GL.SCREEN, inner_highlight.color, inner_highlight)
         GL.SCREEN.blit(self.bg_image2, (0, 0))
         self.return_button.draw(GL.SCREEN)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):
@@ -475,6 +479,7 @@ class OptionsPage:
         self.main_menu_button.draw(GL.SCREEN)
 
         pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box()().rect, SELECTION_BOX_WIDTH)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):
@@ -585,6 +590,7 @@ class PausePage:
         self.continue_button.draw(GL.SCREEN)
         self.quit_button.draw(GL.SCREEN)
         pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box().rect, SELECTION_BOX_WIDTH)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):
@@ -652,6 +658,7 @@ class GameOverPage:
         self.main_menu_button.draw(GL.SCREEN)
         self.exit_button.draw(GL.SCREEN)
         pygame.draw.rect(GL.SCREEN, SELECTION_BOX_COLOR, self.selection_box().rect, SELECTION_BOX_WIDTH)
+        draw_mouse_debug()
         pygame.display.update()
 
     def input(self):

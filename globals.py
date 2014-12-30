@@ -573,7 +573,9 @@ class Input:
             self.gp_input[k] = False
 
     def _handle_mouse_visibility(self):
-        if self.DEBUG_MODE_ON and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
+        if NEXT_PAGE not in ('GameLoop()', 'GL.CURR_GAME'):
+            pass
+        elif self.DEBUG_MODE_ON and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
             pygame.mouse.set_visible(False)
         else:
             pygame.mouse.set_visible(True)
@@ -680,3 +682,17 @@ MONSTER_TABLE = {
     WEAK: monster_info_nt(WEAK, 30, 40, 2, 10, 50, 5000, 5000, WEAK_EXP_VALUE, 3),
     MEDIUM: monster_info_nt(MEDIUM, 50, 60, 3, 12, 100, 7000, 5000, MEDIUM_EXP_VALUE, 5),
     ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
+def draw_mouse_debug():
+    if INPUT1.DEBUG_MODE_ON:
+        pygame.mouse.set_visible(False)
+        mouse_pos = pygame.mouse.get_pos()
+        pygame.draw.circle(SCREEN, WHITE, mouse_pos, 2, 0)
+        pygame.draw.circle(SCREEN, BLACK, mouse_pos, 2, 1)
+        real_pos_mouse_font = pygame.font.SysFont('consolas', 12).render(str(mouse_pos), True, DKYELLOW)
+        SCREEN.blit(real_pos_mouse_font, (mouse_pos[0] + 3, mouse_pos[1] + 10))
+    else:
+        pygame.mouse.set_visible(True)
