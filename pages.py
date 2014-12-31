@@ -8,7 +8,7 @@ from classes import *
 SELECTION_BOX_WIDTH = 4
 SELECTION_BOX_COLOR = BLUE
 
-# noinspection PyStatementEffect
+# noinspection PyStatementEffect,PyAttributeOutsideInit
 class StartPage:
     def __init__(self):
         self.bg_image = image_load('data/backgrounds/bg_start_page.png')
@@ -116,6 +116,7 @@ class StartPage:
                 EXIT_GAME()
 
 # ----------------------------------------------------------------------------
+# noinspection PyAttributeOutsideInit
 class HelpPage:
     def __init__(self):
         self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
@@ -333,7 +334,7 @@ class PlayerSelectPage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
-# noinspection PyStatementEffect
+# noinspection PyStatementEffect,PyAttributeOutsideInit
 class LevelSelectPage:
     def __init__(self):
         self.return_button = PygButton((0, 550, 300, 50), 'Main Menu')
@@ -404,7 +405,7 @@ class LevelSelectPage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
-# noinspection PyStatementEffect
+# noinspection PyStatementEffect,PyAttributeOutsideInit
 class OptionsPage:
     def __init__(self):
         self.bg_image = image_load('data/backgrounds/bg_start_page.png')
@@ -545,7 +546,7 @@ class OptionsPage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
-# noinspection PyStatementEffect
+# noinspection PyStatementEffect,PyAttributeOutsideInit
 class PausePage:
     def __init__(self):
         self.bg_image = image_load('data/backgrounds/bg_menus_dim.png')
@@ -615,7 +616,7 @@ class PausePage:
                 GL.NEXT_PAGE = '_start'
 
 # ----------------------------------------------------------------------------
-# noinspection PyStatementEffect
+# noinspection PyStatementEffect,PyAttributeOutsideInit
 class GameOverPage:
     def __init__(self):
         self.bg_image = image_load('data/backgrounds/bg_menus_dim.png')
