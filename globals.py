@@ -1,19 +1,3 @@
-
-# python standard library modules
-import datetime
-import os
-import random
-import sys
-from collections import namedtuple
-from collections import defaultdict
-
-# pygame
-import pygame
-from pygame.locals import *  # for event timers
-from pygame.transform import scale as image_scale
-from pygame.image import load as image_load
-
-
 class Imports:
     # python standard library modules
     import datetime
@@ -23,8 +7,19 @@ class Imports:
     from collections import namedtuple
     from collections import defaultdict
 
-    # pygame
-    import pygame
+    # psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
+    try:
+        import psutil
+        psutil_found = True
+    except ImportError:
+        psutil_found = False
+
+    locals_dict = dict(locals().items())
+    for k, v in locals_dict.items():
+        sys.modules[__name__].__dict__[k] = v
+
+
+class PygameLocalsImports:
     from pygame.locals import HAT_CENTERED
     from pygame.locals import HAT_DOWN
     from pygame.locals import HAT_LEFT
@@ -210,12 +205,33 @@ class Imports:
     from pygame.locals import Color
     from pygame.locals import Rect
 
-    # psutil  (download here:  http://www.lfd.uci.edu/~gohlke/pythonlibs/#psutil)
-    try:
-        import psutil
-        psutil_found = True
-    except ImportError:
-        psutil_found = False
+    locals_dict = dict(locals().items())
+    for k, v in locals_dict.items():
+        sys.modules[__name__].__dict__[k] = v
+
+
+class PygameImports:
+    import pygame
+
+    from pygame import Surface
+    from pygame.time import Clock
+    from pygame.mixer import Sound
+    from pygame.event import Event
+    from pygame.joystick import Joystick
+    from pygame.font import Font
+    from pygame.font import SysFont
+
+    from pygame.draw import circle as draw_circle
+    from pygame.draw import polygon as draw_polygon
+    from pygame.draw import rect as draw_rect
+
+    from pygame.event import get as get_events
+    from pygame.event import post as post_event
+
+    from pygame.image import load as image_load
+    from pygame.transform import flip as image_flip
+    from pygame.transform import rotate as image_rotate
+    from pygame.transform import scale as image_scale
 
     locals_dict = dict(locals().items())
     for k, v in locals_dict.items():
