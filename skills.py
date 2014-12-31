@@ -1070,13 +1070,13 @@ def ultimate_skills():
     return list(filter(lambda x: type(x) is int and x >= 1000, SKILLS_TABLE.keys()))
 
 def icon_image(fname):
-    a = pygame.image.load(os.path.join('data', 'icons', fname)).convert()
+    a = image_load(os.path.join('data', 'icons', fname)).convert()
     a.set_colorkey(TRANSPARENT)
     a = a.convert_alpha()
     return a
 
 def particle_image(fname):
-    a = pygame.image.load(os.path.join('data', 'particles', fname)).convert()
+    a = image_load(os.path.join('data', 'particles', fname)).convert()
     a.set_colorkey(TRANSPARENT)
     a = a.convert_alpha()
     return a

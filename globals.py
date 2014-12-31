@@ -1,4 +1,19 @@
 
+# python standard library modules
+import datetime
+import os
+import random
+import sys
+from collections import namedtuple
+from collections import defaultdict
+
+# pygame
+import pygame
+from pygame.locals import *  # for event timers
+from pygame.transform import scale as image_scale
+from pygame.image import load as image_load
+
+
 class Imports:
     # python standard library modules
     import datetime
@@ -451,6 +466,8 @@ class Colors:
     BLUE = Color(0, 0, 255)
     LLBLUE = Color(0, 0, 128)
     LBLUE = Color(0, 128, 255)
+    CYAN = Color(80, 191, 201)
+    DKCYAN = Color(20, 118, 128)
     SKYBLUE = Color(128, 223, 223)
     YELLOW = Color(255, 255, 0)
     DKYELLOW = Color(153, 153, 0)
@@ -626,6 +643,7 @@ class Input:
         self._combine_all_events()
         if self.player_id == 1:
             self._handle_mouse_visibility()
+        # self._debug()
 
     def _get_keyboard_pressed(self):
         sucky_kb_input = pygame.key.get_pressed()
@@ -778,10 +796,21 @@ class Input:
             self.gp_input[k] = False
 
     def _handle_mouse_visibility(self):
-        if self.DEBUG_MODE_ON and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
+        if NEXT_PAGE not in ('GameLoop()', 'GL.CURR_GAME'):
+            pass
+        elif self.DEBUG_MODE_ON and NEXT_PAGE in ('GameLoop()', 'GL.CURR_GAME'):
             pygame.mouse.set_visible(False)
         else:
             pygame.mouse.set_visible(True)
+
+    def _debug(self):
+        for k in self.kb_input.keys():
+            if self.kb_input[k]:
+                print(k)
+        for k in self.gp_input.keys():
+            if self.gp_input[k]:
+                print(k)
+
 INPUT1 = Input(player_id=1)
 INPUT2 = Input(player_id=2)
 
@@ -882,3 +911,14 @@ class MonsterInfos:
         ULTIMATE: monster_info_nt(ULTIMATE, 80, 80, 4, 13, 150, 10000, 5000, ULTIMATE_EXP_VALUE, 8)}
 
     add_to_module_namespace(locals())
+
+def draw_mouse_debug():
+    if INPUT1.DEBUG_MODE_ON:
+        pygame.mouse.set_visible(False)
+        mouse_pos = pygame.mouse.get_pos()
+        pygame.draw.circle(SCREEN, WHITE, mouse_pos, 2, 0)
+        pygame.draw.circle(SCREEN, BLACK, mouse_pos, 2, 1)
+        real_pos_mouse_font = pygame.font.SysFont('consolas', 12).render(str(mouse_pos), True, DKYELLOW)
+        SCREEN.blit(real_pos_mouse_font, (mouse_pos[0] + 3, mouse_pos[1] + 10))
+    else:
+        pygame.mouse.set_visible(True)

@@ -27,7 +27,7 @@ class GameLoop:
             self.game_time = GameTime()
 
         def _setup_ui():
-            self.bg_image = pygame.image.load('data/backgrounds/bg_menus.png')
+            self.bg_image = image_load('data/backgrounds/bg_menus.png')
             self.return_button = PygButton((490, 550, 300, 50), 'Main Menu')
             self.window_border = Rect2(left=0, top=0, width=1280, height=600)
             self.play_area_border = Rect2(left=60, top=0, width=1160, height=485)
@@ -47,14 +47,14 @@ class GameLoop:
                 Rect2(topleft=(1050, 500), size=(40, 40), color=BLACK),
                 Rect2(topleft=(1100, 500), size=(40, 40), color=BLACK),
                 Rect2(topleft=(1150, 500), size=(40, 40), color=BLACK), ]
-            self.health_bar_outline = pygame.image.load('data/backgrounds/health_bar_outline.png')
-            self.health_bar_outline2 = pygame.image.load('data/backgrounds/health_bar_outline2.png')
-            self.energy_bar_outline = pygame.image.load('data/backgrounds/energy_bar_outline.png')
-            self.energy_bar_outline2 = pygame.image.load('data/backgrounds/energy_bar_outline2.png')
+            self.health_bar_outline = image_load('data/backgrounds/health_bar_outline.png')
+            self.health_bar_outline2 = image_load('data/backgrounds/health_bar_outline2.png')
+            self.energy_bar_outline = image_load('data/backgrounds/energy_bar_outline.png')
+            self.energy_bar_outline2 = image_load('data/backgrounds/energy_bar_outline2.png')
 
         def _setup_arena():
             self.arena = GL.SELECTED_ARENA
-            self.arena_image = pygame.image.load(self.arena.background)
+            self.arena_image = image_load(self.arena.background)
 
         def _setup_skills():
             initialize_skill_table()
@@ -120,9 +120,9 @@ class GameLoop:
             self.spawn_monsters = False
             pygame.event.post(pygame.event.Event(MONSTER_SPAWN_EVENT))
 
-            self.weak_monster_image = pygame.image.load('data/sprites+portraits/monster_weak.png')
-            self.medium_monster_image = pygame.image.load('data/sprites+portraits/monster_medium.png')
-            self.ultimate_monster_image = pygame.image.load('data/sprites+portraits/monster_ultimate.png')
+            self.weak_monster_image = image_load('data/sprites+portraits/monster_weak.png')
+            self.medium_monster_image = image_load('data/sprites+portraits/monster_medium.png')
+            self.ultimate_monster_image = image_load('data/sprites+portraits/monster_ultimate.png')
 
         def _setup_music():
             if AUDIO.music_on:
@@ -138,7 +138,7 @@ class GameLoop:
 
             def _setup_player_sprites(spritesheet):
                 try:
-                    spritesheet1 = pygame.image.load(spritesheet)
+                    spritesheet1 = image_load(spritesheet)
                     spritesheet1.convert()
                 except pygame.error:
                     return None
@@ -660,7 +660,7 @@ class GameLoop:
                     GL.SCREEN.blit(skill_font, skill_text_xy)
                 else:
                     icon = ICONS_TABLE[skill.id]
-                    icon = pygame.transform.scale(icon, (20, 20))
+                    icon = image_scale(icon, (20, 20))
                     GL.SCREEN.blit(icon, (skill[0] + 2.5, skill[1] + 2.5))
 
         def _draw_particles():
