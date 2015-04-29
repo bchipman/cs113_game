@@ -240,7 +240,7 @@ class PygameImports:
 
 class Setup:
     if os.environ['COMPUTERNAME'] == 'BRIAN-DESKTOP':
-        os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 90)
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(1920, 230)
     if os.environ['COMPUTERNAME'] in ('MAX-LT', 'BRIAN-LAPTOP'):
         os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(50, 30)
 
@@ -615,7 +615,7 @@ class Input:
                 'GP_START': input_nt(kind='button', number=9, value1=None, value2=None),
                 'GP_SELECT': input_nt(kind='button', number=8, value1=None, value2=None)}
 
-        elif self.gamepad.get_name() == 'Logitech Cordless RumblePad 2 USB':  # Brian's gamepad if switched to "D"
+        elif self.gamepad.get_name() in ('Logitech Cordless RumblePad 2', 'Logitech Cordless RumblePad 2 USB'):  # Brian's gamepad if switched to "D"
             self.GP_INPUTS_DICT = {
                 'GP_LEFT': input_nt(kind='hat', number=0, value1=-1, value2=0),
                 'GP_RIGHT': input_nt(kind='hat', number=0, value1=+1, value2=0),
