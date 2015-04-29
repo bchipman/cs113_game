@@ -21,7 +21,7 @@ Fall Quarter, 2014
 
 This game runs best on a Windows 7 / 8 / 8.1 / 10 machine with Python 3.3.5 x86 and Pygame 1.9.2a0 x86 for Python 3.3.
 
-* Download and install **Python 3.3.5** for Windows x86 (even if you have a 64 bit machine): <br>
+1. Download and install **Python 3.3.5** for Windows x86 (even if you have a 64 bit machine): <br>
     [Download Page][1] <br>
     [Direct Download Link][2]
 
