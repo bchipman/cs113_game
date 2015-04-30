@@ -4,8 +4,9 @@ CS-113: Computer Game Development<br>
 University of California, Irvine<br>
 Fall Quarter, 2014
 </h6>
-
 * * *
+
+![Title Screen](data/screenshots/title_screen.png?raw=true "Title Screen")
 
 ### Introduction
 
