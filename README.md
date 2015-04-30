@@ -4,6 +4,7 @@ CS-113: Computer Game Development<br>
 University of California, Irvine<br>
 Fall Quarter, 2014
 </h6>
+
 * * *
 
 ![Title Screen](data/screenshots/title_screen.png?raw=true "Title Screen")
@@ -36,6 +37,13 @@ This game runs best on a Windows 7 / 8 / 8.1 / 10 machine with Python 3.3.5 x86 
 
 * * *
 
+### Gameplay Videos on YouTube
+
+[![Gameplay Video 1](http://img.youtube.com/vi/qrvGw_h04nk/0.jpg "Gameplay Video 1")](http://www.youtube.com/watch?v=qrvGw_h04nk)
+[![Gameplay Video 2](http://img.youtube.com/vi/8V5ymucBucY/0.jpg "Gameplay Video 2")](http://www.youtube.com/watch?v=8V5ymucBucY)
+
+* * *
+
 ### Group Members
 Brian Chipman<br>
 Max Kim<br>
@@ -47,3 +55,5 @@ Jonathan Shokoor
 [2]: http://www.python.org/ftp/python/3.3.5/python-3.3.5.msi
 [3]: https://bitbucket.org/pygame/pygame/downloads
 [4]: https://bitbucket.org/pygame/pygame/downloads/pygame-1.9.2a0-hg_56e0eadfc267.win32-py3.3.msi
+[5]: https://youtu.be/qrvGw_h04nk
+[6]: https://youtu.be/8V5ymucBucY
